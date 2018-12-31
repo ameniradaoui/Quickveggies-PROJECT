@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns="http://www.springframework.org/schema/beans"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    
+  <bean id = "dynamicdataSource" 
+   class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+   <property name = "driverClassName" value = "org.postgresql.driver"/>
+   <property name = "url" value = "jdbc:postgresql://localhost:5432/qv"/>
+   <property name = "username" value = "root"/>
+   <property name = "password" value = "J2VgcQnEUNCjry88"/>
+</bean>
+      
+ 
+	<bean id="accountEntryLineBean" class="com.quickveggies.dao.AccountEntryLineDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="accountEntryPayementBean" class="com.quickveggies.dao.AccountEntryPaymentDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="auditBean" class="com.quickveggies.dao.AuditDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="boxSizesBean" class="com.quickveggies.dao.BoxSizesDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="buyerBean" class="com.quickveggies.dao.BuyerDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="companyBean" class="com.quickveggies.dao.CompanyDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="dSalesTableBean" class="com.quickveggies.dao.DSalesTableDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="expenditureBean" class="com.quickveggies.dao.ExpenditureDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="expenseBean" class="com.quickveggies.dao.ExpenseDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="ladaanBijakBean" class="com.quickveggies.dao.LadaanBijakDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="moneyPaidRecdBean" class="com.quickveggies.dao.MoneyPaidRecdDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="storageBuyerDealBean" class="com.quickveggies.dao.StorageBuyerDealDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="supplierBean" class="com.quickveggies.dao.SupplierDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="templateBean" class="com.quickveggies.dao.TemplateDao" p:dataSource-ref="dynamicdataSource"> </bean>
+	<bean id="userUtilsBean" class="com.quickveggies.dao.UserUtils" p:dataSource-ref="dynamicdataSource"> </bean>
+	
+		
+
+       
+
+</beans>
+
+
