@@ -90,7 +90,9 @@ public class AuditDao implements IAuditDao {
 	        }
 	        return list;
 	    }
+	@Autowired
 	 private static  UserUtils userUtils;
+	@Autowired
 	 private static AuditDao auditDao;
 	 
 	 public AuditDao() {

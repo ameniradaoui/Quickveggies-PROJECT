@@ -31,11 +31,11 @@ public class TemplateDao implements ITemplateDao {
 	 
 	 
 
-	
+	@Autowired
 	private DataSource dataSource;
-	
+	@Autowired
     private AuditDao auditDao;
-    
+	@Autowired
     private UserUtils userDao;
 
     /* (non-Javadoc)

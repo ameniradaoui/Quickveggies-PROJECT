@@ -34,6 +34,7 @@ import com.quickveggies.entities.Buyer;
 import com.quickveggies.entities.ExpenseInfo;
 import com.quickveggies.entities.PartyType;
 import com.quickveggies.entities.QualityType;
+import com.quickveggies.entities.Supplier;
 import com.quickveggies.impl.IBoxSizesDao;
 import com.quickveggies.impl.IBuyerDao;
 import com.quickveggies.impl.IChargesDao;
@@ -185,9 +186,9 @@ public class FreshEntryController implements Initializable {
     private static Stage chargesView;
     private ObservableList<Control> traversibleNodes = null;
     
-    private SessionDataController sessionDataController;
+   
 
-    private  SessionDataController sessionController ;
+    private  SessionDataController sessionController = SessionDataController.getInstance();
     
     
     
@@ -812,7 +813,7 @@ public class FreshEntryController implements Initializable {
         expenses.setOnMouseClicked((MouseEvent event) -> {
             try {
                 chargesView.showAndWait();
-                Map<String, ChargeTypeValueMap> charges1 = sessionDataController.getCharges();
+                Map<String, ChargeTypeValueMap> charges1 = sessionController.getCharges();
                 StringBuilder sb = new StringBuilder("* ");
                 for (String name : charges1.keySet()) {
                     sb.append(name + " rate:").append(charges1.get(name).totalValue.getText().toString()).append("\n * ");
@@ -1031,7 +1032,7 @@ public class FreshEntryController implements Initializable {
         
         for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
             try {
-                com.quickveggies.entities.Supplier supplier = supplierDao.getSupplierById(supp_id);
+                Supplier supplier = supplierDao.getSupplierById(supp_id);
                 result.add(supplier.getTitle());
             }
             catch (java.sql.SQLException e) {

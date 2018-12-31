@@ -68,8 +68,9 @@ public class BoxSizesDao implements IBoxSizesDao {
   
    
     
-
+    @Autowired
     private AuditDao auditDao ;
+    @Autowired
     private UserUtils userDao ; 
 	 /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IBoxSizesDao#addFruit(java.lang.String)

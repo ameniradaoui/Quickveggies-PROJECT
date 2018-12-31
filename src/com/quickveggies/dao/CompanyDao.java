@@ -27,18 +27,18 @@ import com.quickveggies.impl.IUserUtils;
 @Component
 public class CompanyDao implements ICompanyDao {
 
-	
+	@Autowired
 	private DataSource dataSource;
-	
+	@Autowired
 	private BuyerDao bd;
-	
+	@Autowired
 	private SupplierDao supplierDao;
-	
+	@Autowired
 	private DSalesTableDao dSalesDao;
-	
+	@Autowired
 	private AuditDao auditDao;
 
-	
+	@Autowired
 	private UserUtils userDao;
 
 	/*

@@ -36,8 +36,10 @@ public class BuyerDao implements IBuyerDao {
 	@Autowired
 	private  DataSource dataSource;
 
+	@Autowired
 	private AuditDao auditDao ;
 	
+	@Autowired
 	private UserUtils userUtils ;
 	
 	/* (non-Javadoc)

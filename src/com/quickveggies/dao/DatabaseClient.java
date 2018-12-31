@@ -27,13 +27,13 @@ public class DatabaseClient implements IDatabaseClient {
   
 	@Autowired
     private DataSource dataSource;
-	
+	@Autowired
     private SupplierDao supplierDao ;
-	
+	@Autowired
     private BuyerDao buyerDao;
-	
+	@Autowired
     private AuditDao auditDao;
-	
+	@Autowired
     private UserUtils userDao;
    
     private final static Map<String, String> TABLE_MAP = new LinkedHashMap<>();

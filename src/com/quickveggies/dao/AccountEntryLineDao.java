@@ -44,9 +44,9 @@ public class AccountEntryLineDao implements IAccountEntryLineDao {
 	private DataSource dataSource;
 
 	
-	
+	@Autowired
     private AuditDao auditDao ;
-	
+	@Autowired
     private UserUtils userDao; 
     /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IAccountEntryLineDao#getAccountEntryLines(java.lang.String)

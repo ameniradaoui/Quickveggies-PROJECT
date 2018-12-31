@@ -33,9 +33,11 @@ public class SupplierDao implements ISupplierDao {
 	
 	
 
-   
+	@Autowired
 	private AuditDao ad ;
+	@Autowired
 	private DatabaseClient db;
+	@Autowired
 	private UserUtils userUtils ;
 	
 	@Autowired

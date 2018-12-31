@@ -26,7 +26,7 @@ import com.quickveggies.impl.IChargesDao;
 @Component
 public class ChargesDao implements IChargesDao {
 
-	
+	@Autowired
 	private DataSource dataSource;
 	/* (non-Javadoc)
 	 * @see com.quickveggies.dao.IChargesDao#addDealCharges(java.util.Map, int)
