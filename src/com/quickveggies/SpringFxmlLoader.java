@@ -24,8 +24,7 @@ public class SpringFxmlLoader
     }
     
     
-    
- 
+
     public Object load(String url, Class<?> controllerClass) throws IOException
     {
         InputStream fxmlStream = null;

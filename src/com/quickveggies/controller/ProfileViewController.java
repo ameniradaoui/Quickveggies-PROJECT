@@ -250,8 +250,9 @@ public class ProfileViewController implements Initializable {
          
         dealAndPaysTable.getColumns().clear();
         balanceAmt.textProperty().bindBidirectional(allDealsAmt);
+     
 
-        // initialize buttons
+        // button view 
         if (partyType == EntityType.EXPENDITURE) {
             paneParty.setVisible(false);
             paneExpenditure.setVisible(true);
@@ -393,7 +394,7 @@ public class ProfileViewController implements Initializable {
                         }
                     });
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/buyeredit.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/buyeredit.fxml"));
                         EditBuyerController controller = new EditBuyerController(buyer.getTitle());
                         loader.setController(controller);
                         Parent parent = loader.load();
@@ -426,7 +427,7 @@ public class ProfileViewController implements Initializable {
                         }
                     });
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/supplieredit.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/supplieredit.fxml"));
                         EditSupplierController controller = new EditSupplierController(supplier.getTitle());
                         loader.setController(controller);
                         Parent parent = loader.load();

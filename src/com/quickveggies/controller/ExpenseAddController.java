@@ -4,6 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,10 +22,12 @@ import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.dao.ExpenditureDao;
 
 import com.quickveggies.dao.MoneyPaidRecdDao;
+import com.quickveggies.dao.SupplierDao;
 import com.quickveggies.dao.UserUtils;
 import com.quickveggies.entities.Expenditure;
 import com.quickveggies.entities.MoneyPaidRecd;
 import com.quickveggies.entities.PartyType;
+import com.quickveggies.entities.Supplier;
 import com.quickveggies.impl.IExpenditureDao;
 import com.quickveggies.impl.IMoneyPaidRecordDao;
 import com.quickveggies.misc.AutoCompleteTextField;
@@ -32,11 +36,15 @@ import com.quickveggies.misc.Utils;
 import com.quickveggies.model.DaoGeneratedKey;
 import com.quickveggies.model.EntityType;
 
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -45,9 +53,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class ExpenseAddController implements Initializable, DaoGeneratedKey {
+public class ExpenseAddController implements Initializable {
+	
+	
 
     @FXML
     private TextField amountField;
@@ -62,7 +73,7 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
     private SearchPartyButton payeeSearchButton;
 
     @FXML
-    private Button btnUpload;
+    private Button btnUploadImage;
 
     @FXML
     private ImageView imvExpense;
@@ -78,6 +89,8 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
 
     @FXML
     private TextField txtBankName;
+    @FXML
+    private Pane imagePanel;
     
     @FXML
     private Pane paneBankDetails;
@@ -96,8 +109,10 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
     private Integer generatedKey = null;
     
     private final PaymentMethodSource defPayMethodSource;
+    TreeSet<String> growersList = null;
     
-    
+    private static final String STR_ADD_NEW = "Add new...";
+    private SupplierDao supplierDao; 
     private  ExpenditureDao ed ;
     
     private  MoneyPaidRecdDao mpd;
@@ -106,35 +121,31 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
     
     private String defaultAmt, defPartyTitle, expenseType, payeeType, defDate,
             defComment, chequeNo, bankName;
+  
 
-    public ExpenseAddController(String defaultAmt, String defPartyTitle,
-            String expenseType, String payeeType, String defDate, String chequeNo,
-            String bankName, String defComment, PaymentMethodSource paymentMethod) {
-        this.defaultAmt = defaultAmt;
-        this.defPartyTitle = defPartyTitle;
-        this.expenseType = expenseType;
-        this.payeeType = payeeType;
-        this.defDate = defDate;
-        this.defComment = defComment;
-        this.chequeNo = chequeNo;
-        this.bankName = bankName;
-        this.defPayMethodSource = paymentMethod;
-    }
-    
-    public ExpenseAddController() {
-        this.defPayMethodSource = PaymentMethodSource.Cash;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	System.out.println("where are you?");
     	ed = BeanUtils.getBean(ExpenditureDao.class);
     	mpd = BeanUtils.getBean(MoneyPaidRecdDao.class);
     	dbc = BeanUtils.getBean(DatabaseClient.class);
-    	
+    	supplierDao = BeanUtils.getBean(SupplierDao.class);
         generatedKey = null;
-        imvExpense.setFitWidth(((Pane) imvExpense.getParent()).getPrefWidth() - 5);
-        imvExpense.setFitHeight(((Pane) imvExpense.getParent()).getPrefHeight() - 5);
-        //
+        
+        
+        
+        btnUploadImage.setOnAction(new EventHandler<ActionEvent>() {
+		
+		@Override
+		public void handle(ActionEvent event) {
+			System.out.println("I'm here");
+			uploadImage(event);
+			
+		}
+	});
+        
+  
         if (defPartyTitle != null && !defPartyTitle.trim().isEmpty()) {
             payeeField.setText(defPartyTitle);
             payeeField.setEditable(false);
@@ -202,24 +213,29 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
                 paneBankDetails.setDisable(true);
             }
         });
-        // Upload Image
-        btnUpload.setOnAction((ActionEvent event) -> {
-            FileChooser fc = new FileChooser();
-            ExtensionFilter ef = new ExtensionFilter("Pictures",
-                    new String[]{"*.png", "*.jpeg", "*.jpg", "*.bmp", "*.tif", "*.yuv", "*.psd"});
-            fc.setTitle("Select receipt picture");
-            fc.getExtensionFilters().add(ef);
-            imgFile = fc.showOpenDialog(btnUpload.getScene().getWindow());
-            if (imgFile == null) {
-                return;
-            }
-            try {
-                Image image = new Image(new BufferedInputStream(new FileInputStream(imgFile)));
-                imvExpense.setImage(image);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+        
+        
+        
+        growersList = updateGrowersList();
+        payeeField.setEntries(growersList);
+        // grower.setLinkedTextFields(new TextField[] { grNo });
+        payeeField.setLinkedFieldsReturnType(AutoCompleteTextField.ENTRY_IND);
+        payeeField.linkToWindow(ExpenseAddController.this, "/fxml/supplieradd.fxml", "Add new supplier", STR_ADD_NEW,
+                new AddSupplierController());
+        payeeField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue,
+                    Boolean newValue) {
+            	payeeField.getMenu().hide();
+                growersList = updateGrowersList();
+                payeeField.setEntries(growersList);
             }
         });
+        payeeSearchButton.setPartyType(PartyType.SUPPLIERS);
+        payeeSearchButton.setLinkedObject(payeeField);
+        
+        // Upload Image
+        
         TreeSet<String> entriesList = new TreeSet<>(ed.getExpenditureTypeList());
         searchExpenseType.setEntries(entriesList);
         amountField.focusedProperty().addListener((ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean aBoolean2) -> {
@@ -244,7 +260,45 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
             create.getScene().getWindow().hide();
         });
     }
+ 
+    private java.util.TreeSet<String> updateGrowersList() {
+        int rowsNum = dbc.getRowsNum("suppliers1");
+        java.util.TreeSet<String> result = new java.util.TreeSet<>();
+        
+        for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
+            try {
+                Supplier supplier = supplierDao.getSupplierById(supp_id);
+                if (supplier != null )
+                	result.add(supplier.getTitle());
+            }
+            catch (java.sql.SQLException e) {
+                System.out.print("sqlexception in populating suppliers list");
+            }
+        }
+        if (result.isEmpty()) {
+            result.add(STR_ADD_NEW);
+        }
+        return result;
+        }
+    
 
+    public ExpenseAddController(String defaultAmt, String defPartyTitle,
+            String expenseType, String payeeType, String defDate, String chequeNo,
+            String bankName, String defComment, PaymentMethodSource paymentMethod) {
+        this.defaultAmt = defaultAmt;
+        this.defPartyTitle = defPartyTitle;
+        this.expenseType = expenseType;
+        this.payeeType = payeeType;
+        this.defDate = defDate;
+        this.defComment = defComment;
+        this.chequeNo = chequeNo;
+        this.bankName = bankName;
+        this.defPayMethodSource = paymentMethod;
+    }
+    
+    public ExpenseAddController() {
+        this.defPayMethodSource = PaymentMethodSource.Cash;
+    }
     private void saveExpenditure() {
         generatedKey = null;
         Expenditure xpr = new Expenditure();
@@ -305,8 +359,30 @@ public class ExpenseAddController implements Initializable, DaoGeneratedKey {
         return result;
     }
 
-    @Override
-    public Integer getGeneratedKey() {
-        return generatedKey;
-    }
+   
+    public void uploadImage(final Event event) {
+    	System.out.println("image");;
+    	if (!(event.getSource() instanceof Node)) 
+    		throw new IllegalArgumentException("The source of the event should be instance of java FX node or any of its' subclass");
+ 		Window mainStage =  ((Node) event.getSource()).getScene().getWindow();
+ 		FileChooser fileChooser = new FileChooser();
+ 		 fileChooser.setTitle("Open Resource File");
+ 		 fileChooser.getExtensionFilters().addAll( new ExtensionFilter
+ 		         ("Image Files", "*.png", "*.jpg", "*.gif", "*.bmp"));
+ 		 File selectedFile = fileChooser.showOpenDialog(mainStage);
+ 		 if (selectedFile != null) {
+ 		    try (InputStream is = new FileInputStream(selectedFile)){
+ 		    	imgFile = selectedFile;
+ 		    	imvExpense.setImage(new Image(is));
+ 		    	imagePanel.setStyle("-fx-border-color: none;");
+ 			} catch (FileNotFoundException e) {
+ 				GeneralMethods.errorMsg("Cannot find specified file:" + selectedFile.getName());
+ 			} catch (IOException e1) {
+ 				e1.printStackTrace();
+ 			}
+ 		 }
+     	
+     }
+
+	
 }

@@ -110,7 +110,8 @@ public class CompanyDao implements ICompanyDao {
 				sql = UPDATE_NOLOGO_COMPANY_QRY;
 			}
 		}
-		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+		try ( Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setString(1, company.getName());
 			ps.setString(2, company.getAddress());
 			ps.setString(3, company.getWebsite());
@@ -127,6 +128,7 @@ public class CompanyDao implements ICompanyDao {
 				ps.setString(8, company.getName());
 			}
 			ps.executeUpdate();
+			connection.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

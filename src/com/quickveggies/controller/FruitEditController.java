@@ -62,7 +62,7 @@ public class FruitEditController implements Initializable {
 	private ObservableList<QualityType> qualTypes = FXCollections.observableArrayList();
 
 	private ObservableList<BoxSize> boxTypes = FXCollections.observableArrayList();
-	private SessionDataController session ;
+	private SessionDataController session = SessionDataController.getInstance();
 	
 	private BoxSizesDao boxDao ;
 	@Override

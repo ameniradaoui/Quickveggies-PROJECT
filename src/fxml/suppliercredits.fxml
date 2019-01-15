@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="dialog_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="dialog_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ScrollPane fx:id="scrPane" layoutX="23.0" layoutY="6.0" prefHeight="200.0" prefWidth="411">
+      <ScrollPane fx:id="scrPane" layoutX="23.0" layoutY="6.0" prefHeight="250.0" prefWidth="600">
         <content>
-          <AnchorPane fx:id="ancPane" minHeight="185.0" minWidth="400" prefHeight="200.0" prefWidth="421.0">
+          <AnchorPane fx:id="ancPane" minHeight="185.0" minWidth="400" prefHeight="200.0" prefWidth="51.0">
 		   <children>
-		      <TableView fx:id="tvCredits" layoutX="14.0" layoutY="14.0" prefHeight="185.0" prefWidth="407.0">
+		      <TableView fx:id="tvCredits" layoutX="30.0" layoutY="30.0" prefHeight="200.0" prefWidth="500.0">
 		        <columns>
 		        </columns>
 		      </TableView>

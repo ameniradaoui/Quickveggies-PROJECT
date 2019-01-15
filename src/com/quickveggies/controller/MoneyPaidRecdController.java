@@ -13,22 +13,18 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ai.util.dates.DateUtil;
 import com.quickveggies.BeanUtils;
 import com.quickveggies.GeneralMethods;
 import com.quickveggies.PaymentMethodSource;
 import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.DatabaseClient;
-
 import com.quickveggies.dao.MoneyPaidRecdDao;
 import com.quickveggies.dao.SupplierDao;
-import com.quickveggies.dao.UserUtils;
+import com.quickveggies.entities.Buyer;
 import com.quickveggies.entities.MoneyPaidRecd;
-import com.quickveggies.impl.IBuyerDao;
-import com.quickveggies.impl.IMoneyPaidRecordDao;
-import com.quickveggies.impl.ISupplierDao;
+import com.quickveggies.entities.PartyType;
+import com.quickveggies.entities.Supplier;
 import com.quickveggies.misc.AutoCompleteTextField;
 import com.quickveggies.misc.SearchPartyButton;
 import com.quickveggies.model.DaoGeneratedKey;
@@ -196,33 +192,33 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         lblPartyType.setText(partType.getValue().concat(" Title"));
         dpDate.setValue(date);
 
-        partyList = updatePartyList(partType);
-        txtParty.setEntries(partyList);
-        txtParty.setLinkedFieldsReturnType(AutoCompleteTextField.ENTRY_IND);
-        switch (partType) {
-            case BUYER:
-            case LADAAN:
-            case BIJAK:
-                txtParty.linkToWindow(this, "/buyeradd.fxml", "Add new Buyer",
-                        STR_ADD_NEW, new AddBuyerController());
-                break;
-            case SUPPLIER:
-                txtParty.linkToWindow(this, "/supplieradd.fxml", "Add new supplier",
-                        STR_ADD_NEW, new AddSupplierController());
-        }
-        txtParty.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue,
-                    Boolean newValue) {
-                if (txtParty.getMenu().isShowing()) {
-                    txtParty.getMenu().hide();
-                }
-                if (newValue) {
-                    partyList = updatePartyList(MoneyPaidRecdController.this.partType);
-                    txtParty.setEntries(partyList);
-                }
-            }
-        });
+//        partyList = updatePartyList(partType);
+//        txtParty.setEntries(partyList);
+//        txtParty.setLinkedFieldsReturnType(AutoCompleteTextField.ENTRY_IND);
+//        switch (partType) {
+//            case BUYER:
+//            case LADAAN:
+//            case BIJAK:
+//                txtParty.linkToWindow(this, "/fxml/buyeradd.fxml", "Add new Buyer",
+//                        STR_ADD_NEW, new AddBuyerController());
+//                break;
+//            case SUPPLIER:
+//                txtParty.linkToWindow(this, "/fxml/supplieradd.fxml", "Add new supplier",
+//                        STR_ADD_NEW, new AddSupplierController());
+//        }
+//        txtParty.focusedProperty().addListener(new ChangeListener<Boolean>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue,
+//                    Boolean newValue) {
+//                if (txtParty.getMenu().isShowing()) {
+//                    txtParty.getMenu().hide();
+//                }
+//                if (newValue) {
+//                    partyList = updatePartyList(MoneyPaidRecdController.this.partType);
+//                    txtParty.setEntries(partyList);
+//                }
+//            }
+//        });
         txtParty.setPromptText("Enter ".concat(this.partType.getValue()).concat(" here"));
         cboPaymentType.setItems(FXCollections.observableArrayList(PaymentMethodSource.getValueList()));
         cboPaymentType.setValue(PaymentMethodSource.Cash.toString());
@@ -372,6 +368,46 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
                 uploadImage();
             }
         });
+        
+      
+        
+        partyList = updateGrowersList();
+        txtParty.setEntries(partyList);
+        // grower.setLinkedTextFields(new TextField[] { grNo });
+        txtParty.setLinkedFieldsReturnType(AutoCompleteTextField.ENTRY_IND);
+        txtParty.linkToWindow(MoneyPaidRecdController.this, "/fxml/supplieradd.fxml", "Add new supplier", STR_ADD_NEW,
+                new AddSupplierController());
+        txtParty.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue,
+                    Boolean newValue) {
+            	txtParty.getMenu().hide();
+            	partyList = updateGrowersList();
+                txtParty.setEntries(partyList);
+            }
+        });
+        btnSearchParty.setPartyType(PartyType.SUPPLIERS);
+        btnSearchParty.setLinkedObject(txtParty);
+    }
+    
+    private TreeSet<String> updateGrowersList() {
+        int rowsNum = dbclient.getRowsNum("suppliers1");
+        java.util.TreeSet<String> result = new java.util.TreeSet<>();
+        
+        for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
+            try {
+                Supplier supplier = supplierDao.getSupplierById(supp_id);
+                if (supplier != null )
+                	result.add(supplier.getTitle());
+            }
+            catch (java.sql.SQLException e) {
+                System.out.print("sqlexception in populating suppliers list");
+            }
+        }
+        if (result.isEmpty()) {
+            result.add(STR_ADD_NEW);
+        }
+        return result;
     }
     
     @Override
@@ -404,21 +440,25 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         return true;
     }
 
-    private java.util.TreeSet<String> updatePartyList(EntityType pType) {
+    private TreeSet<String> updatePartyList(EntityType pType) {
        
         int rowsNum = dbclient.getRowsNum(pType.getTableName());
-        java.util.TreeSet<String> result = new java.util.TreeSet<String>();
+       TreeSet<String> result = new TreeSet<String>();
         for (int partyId = 1; partyId <= rowsNum; partyId++) {
             try {
                 String title = "";
                 switch (pType) {
                     case BIJAK:
                     case BUYER:
-                    case LADAAN:
-                        title = bd.getBuyerById(partyId).getTitle();
-                        break;
+                    	Buyer buyer = bd.getBuyerById(partyId);
+                    	 if (buyer != null )
+                    	 title = buyer.getTitle();
+                         break;
+                    case LADAAN:   
                     case SUPPLIER:
-                        title = supplierDao.getSupplierById(partyId).getTitle();
+                    	Supplier supplier = supplierDao.getSupplierById(partyId);
+                    	 if (supplier != null )
+                        title = supplier.getTitle();
                 }
                 result.add(title);
             } catch (java.sql.SQLException e) {

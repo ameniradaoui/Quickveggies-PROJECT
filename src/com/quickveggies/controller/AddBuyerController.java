@@ -114,6 +114,7 @@ public class AddBuyerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	System.out.println("here?");
     	
     	buyerDao = BeanUtils.getBean(BuyerDao.class);
     	

@@ -192,7 +192,7 @@ public class AutoCompleteTextField extends TextField {
      *
      * @param searchResult The set of matching strings.
      */
-    private void populatePopup(List<String> searchResult) {
+    public void populatePopup(List<String> searchResult) {
         List<CustomMenuItem> menuItems = new LinkedList<>();
         final String STR_ADD_NEW = "Add new...";
         boolean hasAddNewItem = false;
@@ -240,4 +240,6 @@ public class AutoCompleteTextField extends TextField {
     public void hidePopup() {
         entriesPopup.hide();
     }
+
+	
 }

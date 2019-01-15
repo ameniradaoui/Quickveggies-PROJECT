@@ -58,6 +58,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.rapidpm.modul/javafx-autocomplete-textfield -->
+		<dependency>
+			<groupId>org.rapidpm.modul</groupId>
+			<artifactId>javafx-autocomplete-textfield</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -116,12 +124,7 @@
 			<artifactId>poi-ooxml-schemas</artifactId>
 			<version>3.14</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
-		<dependency>
-			<groupId>postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.0-801.jdbc3</version>
-		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/sign -->
 		<dependency>
@@ -165,12 +168,7 @@
 			<version>7.0.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
+
 
 		<!-- spring-context which provides core functionality -->
 		<dependency>
@@ -219,7 +217,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.5</version>
+			<version>42.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -227,6 +225,25 @@
 			<version>1.2</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.example.dateutil/date-util -->
+
+
+		<dependency>
+			<groupId>com.ai.util.dates</groupId>
+			<artifactId>ai-custom-dates</artifactId>
+			<version>1.7</version>
+			<scope>system</scope>
+			<systemPath>
+			C:\Users\amani.radaoui\Documents\Quickveggies-PROJECT\lib\ai-custom-dates.jar
+			</systemPath>
+
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -257,6 +274,41 @@
 					<mainClass>com.quickveggies.Main</mainClass>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/libs
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>libs/</classpathPrefix>
+							<mainClass>com.quickveggies.Main</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

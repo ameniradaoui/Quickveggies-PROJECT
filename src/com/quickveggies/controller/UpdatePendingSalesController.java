@@ -90,7 +90,7 @@ public class UpdatePendingSalesController implements Initializable {
 
     private StorageBuyerDealDao storageDao ;
 
-    private SessionDataController sessionController;
+    private SessionDataController sessionController = SessionDataController.getInstance();
     public ObservableList<FreshEntryTableData.BuyerEntryTableLine> buyerLines = FXCollections.observableArrayList();
 
     private boolean shouldFireTabKey = false;

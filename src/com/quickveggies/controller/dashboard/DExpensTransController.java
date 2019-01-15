@@ -21,6 +21,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -164,35 +165,42 @@ public class DExpensTransController implements Initializable {
         btnPrint.setOnAction((event) -> TableUtil.printTable(table, "Expenditures", deleteCol));
 
         newExpense.setOnAction((ActionEvent event) -> {
-            final Stage addTransaction = new Stage();
-            addTransaction.centerOnScreen();
-            addTransaction.setTitle("Add Expense");
-            addTransaction.initModality(Modality.APPLICATION_MODAL);
-            addTransaction.setOnCloseRequest((WindowEvent event1) -> {
-                Main.getStage().getScene().getRoot().setEffect(null);
-            });
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/expenditureadd.fxml"));
-                ExpenseAddController controller = new ExpenseAddController();
-                loader.setController(controller);
-                Parent parent = loader.load();
-                Scene scene = new Scene(parent);
-                scene.setOnKeyPressed((KeyEvent event1) -> {
-                    if (event1.getCode() == KeyCode.ESCAPE) {
-                        Main.getStage().getScene().getRoot().setEffect(null);
-                        addTransaction.close();
-                    }
-                });
-                addTransaction.setScene(scene);
-                addTransaction.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        	showNewExpenseDialog();
+          
         });
         setupTotalAmountsTable(lines);
     }
     
-    private void setupTotalAmountsTable(final ObservableList<DExpensesTableLine> list) {
+    private void showNewExpenseDialog() {
+    	  final Stage addTransaction = new Stage();
+    	  addTransaction.centerOnScreen();
+    	  addTransaction.setTitle("Add new Transaction");
+    	  addTransaction.initModality(Modality.APPLICATION_MODAL);
+    	  addTransaction.setOnCloseRequest(new EventHandler<WindowEvent>() {
+              public void handle(WindowEvent event) {
+                  Main.getStage().getScene().getRoot().setEffect(null);
+              }
+          });
+          try {
+              Parent parent = FXMLLoader.load(ExpenseAddController.class.getResource("/fxml/expenditureadd.fxml"));
+              Scene scene = new Scene(parent, 700, 550);
+              scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                  public void handle(KeyEvent event) {
+                      if (event.getCode() == KeyCode.ESCAPE) {
+                          Main.getStage().getScene().getRoot().setEffect(null);
+                          addTransaction.close();
+                      }
+                  }
+              });
+              addTransaction.setScene(scene);
+              addTransaction.show();
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+		
+	}
+
+	private void setupTotalAmountsTable(final ObservableList<DExpensesTableLine> list) {
         //Setup total amounts table
         tableTotal.getColumns().clear();
         for (TableColumn column : table.getColumns()) {

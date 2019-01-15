@@ -5,12 +5,12 @@ import java.io.InputStream;
 public class MoneyPaidRecd {
 
     private int id;
-    private String title = "";
-    private String partyType = "";
-    private String date = "";
-    private String paid = "";
-    private String received = "";
-    private String paymentMode = "";
+    private String title ;
+    private String partyType ;
+    private String date ;
+    private String paid ;
+    private String received;
+    private String paymentMode ;
     private String bankName;
     private String chequeNo;
     private String depositDate;

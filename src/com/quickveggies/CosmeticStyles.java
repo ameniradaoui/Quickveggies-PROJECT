@@ -13,7 +13,7 @@ public class CosmeticStyles {
     }
 
     private static String getHoverDefaultButtonStyle() {
-        return "-fx-padding: 0 0 0 10; -fx-background-color: linear-gradient(to top, rgba(0, 0, 0, 0.24) 0%, rgba(255, 255, 255, 0.14) 100%);";
+        return "-fx-padding: 0 0 0 15; -fx-background-color: linear-gradient(to top, rgba(0, 0, 0, 0.24) 0%, rgba(255, 255, 255, 0.14) 100%);";
     }
 
     public static void addHoverEffect(final Button button) {

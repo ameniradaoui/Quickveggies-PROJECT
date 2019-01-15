@@ -2,11 +2,11 @@ package com.quickveggies.entities;
 
 public class DExpensesTableLine{
 	 private int id;
-	 private String date="";
-	 private String amount="";
-	 private String comment="";
-	 private String billto="";
-	 private String type="";
+	 private String date;
+	 private String amount;
+	 private String comment;
+	 private String billto;
+	 private String type;
 	 
 	 public DExpensesTableLine(int id,String date,String amount,String comment,String billto,String type){
 		 this.date=date;

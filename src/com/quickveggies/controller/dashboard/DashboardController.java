@@ -12,6 +12,7 @@ import com.quickveggies.Main;
 import com.quickveggies.controller.AbstractFreshEntryController;
 import com.quickveggies.controller.AuditLogController;
 import com.quickveggies.controller.FreshEntryController;
+import com.quickveggies.controller.LoginController;
 import com.quickveggies.controller.MoneyPaidRecdController;
 import com.quickveggies.controller.MoneyPaidRecdController.AmountType;
 import com.quickveggies.controller.SessionDataController;
@@ -35,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -70,6 +72,10 @@ public class DashboardController extends AbstractFreshEntryController implements
     private Button supplierCredit;
 
     @FXML
+    private Button productInformation;
+
+  
+    @FXML
     private Button suppliers;
 
     @FXML
@@ -98,7 +104,13 @@ public class DashboardController extends AbstractFreshEntryController implements
 
     @FXML
     private Button closePlusMenu;
+    
+    @FXML
+    private Button closePlusMenu2;
 
+    @FXML
+    private Button manageUser;
+    
     @FXML
     private Button reports;
 
@@ -114,7 +126,13 @@ public class DashboardController extends AbstractFreshEntryController implements
     private Button coldstore;
     @FXML
     private Button godown;
-
+    @FXML
+    private Button companyInfo;
+    
+    @FXML
+    private Button notification;
+    
+    
     @FXML
     private Button accounts;
 
@@ -134,10 +152,19 @@ public class DashboardController extends AbstractFreshEntryController implements
     private Pane entryMenu;
 
     @FXML
+    private Pane entryMenu2;
+    
+    
+    @FXML
     private AnchorPane leftAnchor;
 
     @FXML
     private Button settings;
+    
+    @FXML
+    private Button signout;
+    
+    
 
     @FXML
     private Label lblPendingLadaan;
@@ -151,11 +178,11 @@ public class DashboardController extends AbstractFreshEntryController implements
     public void initialize(URL location, ResourceBundle resources) {
     	
     	dbclient = BeanUtils.getBean(DatabaseClient.class);
-        CosmeticStyles.addHoverEffect(dashboard, buyer, suppliers, ladaan, transactions, reports, accounts,adminpanel);
-        CosmeticStyles.addHoverEffect(banking, sales, godown, coldstore, expenses, teeps);
+        CosmeticStyles.addHoverEffect(dashboard, buyer, suppliers, ladaan, transactions, reports, accounts);
+        CosmeticStyles.addHoverEffect( sales, godown, coldstore, expenses, teeps);
         // CosmeticStyles.addHoverEffect(freshEntry,expensesAdd);
         //Todo: Disable unused button
-        banking.setVisible(false);
+
         transSubmenu.setMaxHeight(transSubmenu.getPrefHeight() - 26);
 
         
@@ -199,10 +226,32 @@ public class DashboardController extends AbstractFreshEntryController implements
             }
         });
 
-        settings.setOnAction(new EventHandler<ActionEvent>() {
+        manageUser.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 try {
                     mainView.getChildren().setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/settings_dash.fxml")));
+                    setupDashboardAnchors();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        notification.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                try {
+                    mainView.getChildren().setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/smsTemplate.fxml")));
+                    setupDashboardAnchors();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        productInformation.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                try {
+                    mainView.getChildren().setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/fruitviewer.fxml")));
                     setupDashboardAnchors();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -281,6 +330,23 @@ public class DashboardController extends AbstractFreshEntryController implements
                 e.printStackTrace();
             }
         });
+        
+        
+        signout.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				
+				new Main().replaceSceneContent("/fxml/login.fxml");}
+		
+		});
+            
+        
+        
+ 
+      
+        
         ladaan.setOnAction((ActionEvent event) -> {
             try {
                 DBuyerController controller = new DBuyerController(DBuyerController.LADAAN_BIJAK);
@@ -343,38 +409,38 @@ public class DashboardController extends AbstractFreshEntryController implements
                 }
             }
         });
-        newGodown.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    closePlusMenu.fire();
-                    mainView.getChildren().clear();
-                    DPendingSalesController controller = new DPendingSalesController("GODOWN");
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/godowndash.fxml"));
-                    loader.setController(controller);
-                    mainView.getChildren().setAll((Node) loader.load());
-                    setupDashboardAnchors();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
-        newColdstore.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    closePlusMenu.fire();
-                    mainView.getChildren().clear();
-                    DPendingSalesController controller = new DPendingSalesController("COLDSTORE");
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/godowndash.fxml"));
-                    loader.setController(controller);
-                    mainView.getChildren().setAll((Node) loader.load());
-                    setupDashboardAnchors();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        });
+//        newGodown.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                try {
+//                    closePlusMenu.fire();
+//                    mainView.getChildren().clear();
+//                    DPendingSalesController controller = new DPendingSalesController("GODOWN");
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/godowndash.fxml"));
+//                    loader.setController(controller);
+//                    mainView.getChildren().setAll((Node) loader.load());
+//                    setupDashboardAnchors();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        });
+//        newColdstore.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                try {
+//                    closePlusMenu.fire();
+//                    mainView.getChildren().clear();
+//                    DPendingSalesController controller = new DPendingSalesController("COLDSTORE");
+//                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/godowndash.fxml"));
+//                    loader.setController(controller);
+//                    mainView.getChildren().setAll((Node) loader.load());
+//                    setupDashboardAnchors();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        });
         searchProfile.setPartyType(PartyType.BUYER_SUPPLIERS);
 
         createEntry.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -390,6 +456,46 @@ public class DashboardController extends AbstractFreshEntryController implements
                 switchVisible(entryMenu, splitView);
             }
         });
+        
+        
+        settings.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    entryMenu2.setVisible(false);
+                    splitView.setEffect(null);
+                }
+            }
+        });
+        settings.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                switchVisible(entryMenu2, splitView);
+            }
+        });
+        
+        closePlusMenu2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                switchVisible(entryMenu2, splitView);
+            }
+        });
+        
+        
+//        settings.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//            public void handle(KeyEvent event) {
+//                if (event.getCode() == KeyCode.ESCAPE) {
+//                	entryMenu2.setVisible(false);
+//                    splitView.setEffect(null);
+//                }
+//            }
+//        });
+//        settings.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                switchVisible(entryMenu2, splitView);
+//            }
+//        });
+        
+        
+        
+        
         transactions.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 double leyoutY;
@@ -463,16 +569,9 @@ public class DashboardController extends AbstractFreshEntryController implements
                 }
             }
         });
-        banking.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    mainView.getChildren().setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/bankdash.fxml")));
-                    setupDashboardAnchors();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        
+       
+       
         expenses.setText("Expenditure");
         expenses.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -490,7 +589,7 @@ public class DashboardController extends AbstractFreshEntryController implements
             public void handle(ActionEvent event) {
                 try {
                     mainView.getChildren()
-                            .setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/expendituredash.fxml")));
+                            .setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/buyerexpensesviewer.fxml")));
                     switchVisible(entryMenu, splitView);
                     setupDashboardAnchors();
                 } catch (IOException e) {
@@ -498,6 +597,20 @@ public class DashboardController extends AbstractFreshEntryController implements
                 }
             }
         });
+        
+        companyInfo.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                try {
+                    mainView.getChildren()
+                            .setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/companyviewer.fxml")));
+                    switchVisible(entryMenu, splitView);
+                    setupDashboardAnchors();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
         closePlusMenu.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 switchVisible(entryMenu, splitView);
@@ -513,14 +626,14 @@ public class DashboardController extends AbstractFreshEntryController implements
                 amountType = AmountType.PAID;
                 if (amountType != null) {
                     MoneyPaidRecdController controller = new MoneyPaidRecdController(partyType, amountType, true);
-                    showPopup("/moneypaid.fxml", title, controller);
+                    showPopup("/fxml/moneypaid.fxml", title, controller);
                 }
             }
         });
         supplierCredit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 SupplierCreditController controller = new SupplierCreditController();
-                showPopup("/suppliercredits.fxml", "Supplier Credit List", controller);
+                showPopup("/fxml/suppliercredits.fxml", "Supplier Credit List", controller);
             }
         });
     }
@@ -552,7 +665,6 @@ public class DashboardController extends AbstractFreshEntryController implements
                 FXMLLoader loader = new FXMLLoader(DashboardController.class.getResource(resource));
                 loader.setController(controller);
                 Scene scene = new Scene((Parent) loader.load());
-
                 scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
                     @Override
                     public void handle(KeyEvent event) {

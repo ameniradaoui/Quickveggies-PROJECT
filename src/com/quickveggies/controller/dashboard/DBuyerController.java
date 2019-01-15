@@ -43,10 +43,12 @@ import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.dao.LadaanBijakDao;
 import com.quickveggies.dao.MoneyPaidRecdDao;
+import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.Buyer;
 import com.quickveggies.entities.Buyer.CreditPeriodSourceEnum;
 import com.quickveggies.entities.DBuyerTableLine;
 import com.quickveggies.entities.DBuyerTableList;
+import com.quickveggies.entities.DSupplierTableLine;
 import com.quickveggies.entities.ExpenseInfo;
 import com.quickveggies.entities.LadaanBijakSaleDeal;
 import com.quickveggies.entities.MoneyPaidRecd;
@@ -245,6 +247,7 @@ public class DBuyerController implements Initializable {
 	    	bd = BeanUtils.getBean(BuyerDao.class);
 	    	md = BeanUtils.getBean(MoneyPaidRecdDao.class);
         setupBatchActions();
+        setupSearchAction();
         
         String tmpText = "Buyer (Kharedar)";
         if (tableMode == LADAAN_BIJAK) 
@@ -384,7 +387,7 @@ public class DBuyerController implements Initializable {
         TableColumn dealIdCol = new TableColumn("Invoice No");
         dealIdCol.setCellValueFactory(new PropertyValueFactory<>("dealID"));
         dealIdCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        dealIdCol.setEditable(false);
+        dealIdCol.setEditable(true);
         TableColumn buyerTitleCol = new TableColumn("Buyer");
         buyerTitleCol.setCellValueFactory(new PropertyValueFactory<>("buyerTitle"));
         buyerTitleCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -396,6 +399,12 @@ public class DBuyerController implements Initializable {
         TableColumn totalSumCol = new TableColumn("Net Amt");
         totalSumCol.setCellValueFactory(new PropertyValueFactory<>("amountedTotal"));
         totalSumCol.setCellFactory(TextFieldTableCell.forTableColumn(new NumberStringConverter()));
+        
+        
+        TableColumn date = new TableColumn("DateTest");
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        date.setCellFactory(TextFieldTableCell.forTableColumn());
+        date.setEditable(true);
 //        totalSumCol.setCellFactory(column -> {
 //            return new TableCell<DBuyerTableLine, String>() {
 //                @Override
@@ -575,7 +584,40 @@ public class DBuyerController implements Initializable {
         setupTotalAmountsTable(timelineViewBuyDeals);
     }
     
-    private void setupTotalAmountsTable(final ObservableList<DBuyerTableLine> list) {
+    private void setupSearchAction() {
+    	
+//    	    searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+//
+//    	    timelineViewBuyDeals.clear();
+//
+//    	    List<DBuyerTableLine> list = bd.getListByBuyerType(newValue);
+//
+//    	    timelineViewBuyDeals.addAll(list);
+//    	    buyerDealsTable.getItems().addAll(timelineViewBuyDeals);
+//
+//		});
+
+    	
+    	
+    	searchField.textProperty().addListener((observable, oldValue, newValue) ->{
+    		
+    		timelineViewBuyDeals.clear();
+    		
+    		List<DBuyerTableLine> list = bd.getListByBuyerType(newValue);
+    		timelineViewBuyDeals.addAll(list);
+    		buyerDealsTable.getItems().clear();
+    		buyerDealsTable.getItems().addAll(timelineViewBuyDeals);
+       
+    		
+    	  });
+    	
+    }
+       
+		
+	
+
+
+	private void setupTotalAmountsTable(final ObservableList<DBuyerTableLine> list) {
         //Setup total amounts table
         tableTotal.getColumns().clear();
         for (TableColumn column : buyerDealsTable.getColumns()) {
@@ -618,6 +660,8 @@ public class DBuyerController implements Initializable {
                 }
             }
         });
+        
+  
     }
 
     private EventHandler<MouseEvent> genericBtnHandler(final Pane pane) {
@@ -710,10 +754,11 @@ public class DBuyerController implements Initializable {
             defaultViewBuyDeals.clear();
             List<DBuyerTableLine> lines2 = bd.getBuyerDealEntries(null,
                     new String[] { COLD_STORE_BUYER_TITLE, GODOWN_BUYER_TITLE });
+            
             for (DBuyerTableLine line : lines2) {
                 line.setAmountedTotal(line.getAggregatedAmount());
                 String buyerType = bd.getBuyerByName(line.getBuyerTitle()).getBuyerType();
-                
+                System.out.println(line.getDate());
                 if ((tableMode == REGULAR && buyerType.equalsIgnoreCase("regular"))
                         || (tableMode == LADAAN_BIJAK && (!buyerType.equalsIgnoreCase("regular")))) {
                     timelineViewBuyDeals.add(line);

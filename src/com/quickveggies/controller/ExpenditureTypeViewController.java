@@ -66,7 +66,7 @@ public class ExpenditureTypeViewController implements Initializable {
 	
 	private ExpenditureDao ed ;
 	
-	private SessionDataController session ;
+	private SessionDataController session=  SessionDataController.getInstance() ;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -124,7 +124,7 @@ public class ExpenditureTypeViewController implements Initializable {
 		btnAddExpenditure.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				handleAddEditButton("/expendituretypeadd.fxml", "Add Expenditure Type");
+				handleAddEditButton("/fxml/expendituretypeadd.fxml", "Add Expenditure Type");
 			}
 		});
 

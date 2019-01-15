@@ -9,24 +9,24 @@ import java.util.logging.Logger;
 
 public class DSalesTableLine {
 
-    private String fruit = "";
-    private String saleNo = "";
-    private String date = "";
-    private String type = "";
-    private String challan = "";
-    private String supplier = "";
-    private String totalQuantity = "";
-    private String fullCase = "";
-    private String halfCase = "";
-    private String agent = "";
-    private String truck = "";
-    private String driver = "";
-    private String gross = "";
-    private String charges = "";
-    private String net = "";
-    private String remarks = "";
-    private String dealID = "";
-    private String amanat = "";
+    private String fruit ;
+    private String saleNo;
+    private String date ;
+    private String type ;
+    private String challan ;
+    private String supplier ;
+    private String totalQuantity ;
+    private String fullCase ;
+    private String halfCase ;
+    private String agent ;
+    private String truck ;
+    private String driver ;
+    private String gross ;
+    private String charges ;
+    private String net ;
+    private String remarks;
+    private String dealID ;
+    private String amanat;
 
     public DSalesTableLine() {
     }

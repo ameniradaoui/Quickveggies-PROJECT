@@ -46,17 +46,23 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	@Override
 	public AccountEntryPayment getAccountEntryPayment(int id) {
 	        String sql = "SELECT * FROM accountEntryPayments WHERE id=?";
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps =connection.prepareStatement(sql)) {
 	            ps.setInt(1, id);
 	            ResultSet rs = ps.executeQuery();
 	            if (rs.next()) {
+	               connection.close();
 	                return new AccountEntryPayment(rs.getInt("id"), rs.getInt("account_entry_id"),
 	                        rs.getString("payment_table"), rs.getInt("payment_id"));
+	                
+	               
 	            }
+	           
 	        }
 	        catch (Exception x) {
 	            x.printStackTrace();
 	        }
+	        
 	        return new AccountEntryPayment();
 	    }
 	    
@@ -66,11 +72,13 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	    @Override
 		public AccountEntryPayment getAccountEntryPayment(String paymentTable, int paymentId) {
 	        String sql = "SELECT * FROM accountEntryPayments WHERE payment_table=? AND payment_id=?";
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection.prepareStatement(sql)) {
 	            ps.setString(1, paymentTable);
 	            ps.setInt(2, paymentId);
 	            ResultSet rs = ps.executeQuery();
 	            if (rs.next()) {
+	            	 connection.close();
 	                return new AccountEntryPayment(rs.getInt("id"), rs.getInt("account_entry_id"),
 	                        rs.getString("payment_table"), rs.getInt("payment_id"));
 	            }
@@ -78,6 +86,7 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	        catch (Exception x) {
 	            x.printStackTrace();
 	        }
+	      
 	        return new AccountEntryPayment();
 	    }
 	    
@@ -88,10 +97,12 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 		public List<AccountEntryPayment> getAccountEntryPayments(int accountEntryId) {
 	        List<AccountEntryPayment> result = new ArrayList<>();
 	        String sql = "SELECT * FROM accountEntryPayments WHERE account_entry_id=?";
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
 	            ps.setInt(1, accountEntryId);
 	            ResultSet rs = ps.executeQuery();
 	            while (rs.next()) {
+	            	  connection.close();
 	                result.add(new AccountEntryPayment(rs.getInt("id"), rs.getInt("account_entry_id"),
 	                        rs.getString("payment_table"), rs.getInt("payment_id")));
 	            }
@@ -108,12 +119,14 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	    @Override
 		public Integer addAccountEntryPayment(AccountEntryPayment payment) {
 	        String sql = "INSERT INTO accountEntryPayments (account_entry_id, payment_table, payment_id)  VALUES (?, ?, ?)";
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = dataSource.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 	            ps.setInt(1, payment.getAccountEntryId());
 //	            ps.setInt(1, 0);
 	            ps.setString(2, payment.getPaymentTable());
 	            ps.setInt(3, payment.getPaymentId());
 	            ps.executeUpdate();
+	            connection.close();
 	            return getGeneratedKey(ps);
 	        }
 	        catch (SQLException ex) {
@@ -139,6 +152,7 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	        try (final PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
 	            ps.setInt(1, id);
 	            ps.executeUpdate();
+	            ps.close();
 	            return true;
 	        }
 	        catch (SQLException e) {
@@ -153,9 +167,11 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	    @Override
 		public boolean deleteAccountPaymentByEntryId(int accountEntryId) {
 	        String sql = "DELETE FROM accountEntryPayments WHERE account_entry_id=?";
-	        try (final PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		final PreparedStatement ps = connection.prepareStatement(sql)) {
 	            ps.setInt(1, accountEntryId);
 	            ps.executeUpdate();
+	            connection.close();
 	            return true;
 	        }
 	        catch (SQLException e) {
@@ -170,9 +186,11 @@ public class AccountEntryPaymentDao implements IAccountEntryPayementDao {
 	    @Override
 		public boolean deleteAccountEntryPaymentByEntryId(int entryId) {
 	        String sql = "DELETE FROM accountEntryPayments WHERE account_entry_id=?";
-	        try (final PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		final PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
 	            ps.setInt(1, entryId);
 	            ps.executeUpdate();
+	            connection.close();
 	            return true;
 	        }
 	        catch (SQLException e) {

@@ -2,15 +2,19 @@ package com.quickveggies.misc;
  
 import java.util.Random;
 
-
+import com.quickveggies.dao.UserUtils;
 import com.quickveggies.entities.User;
 import com.quickveggies.impl.IUserUtils;
  
 public class CryptDataHandler {
      
-    public static CryptDataHandler instance=null;
-    private static IUserUtils userDao ;
+   
+    private static UserUtils userDao ;
      
+    
+    
+    public static CryptDataHandler instance=null;
+    
     public static CryptDataHandler getInstance(){
         if(instance==null)return new CryptDataHandler();
         return instance;

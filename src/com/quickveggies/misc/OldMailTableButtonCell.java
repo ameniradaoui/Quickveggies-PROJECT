@@ -1,6 +1,8 @@
 package com.quickveggies.misc;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.dao.SupplierDao;
@@ -15,7 +17,7 @@ public class OldMailTableButtonCell<S,T> extends TableCell<S,T>{
 	
 	 private BuyerDao bd ;
 	 private SupplierDao supplierDao;
-	    
+	@Autowired    
 	private DatabaseClient dbclient;
 	private MailButton mailButton=null;
 	private String mailSender=null;

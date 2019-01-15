@@ -50,7 +50,7 @@
             <ImageView fx:id="imvExpense" fitHeight="160.0" fitWidth="174.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Button fx:id="btnUpload" layoutX="49.0" layoutY="400.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Upload Image" />
+      <Button fx:id="btnUploadPhoto" layoutX="49.0" layoutY="400.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Upload Image" />
       <Label id="label-text-on-light" layoutX="350.0" layoutY="192.0" prefHeight="20.0" prefWidth="174.0" text="Select Payment Type" />
       <ComboBox fx:id="cboPaymentType" layoutX="350.0" layoutY="214.0" prefHeight="32.0" prefWidth="230.0" />
       <Pane fx:id="paneBankDetails" disable="true" layoutX="251.0" layoutY="268.0" prefHeight="122.0" prefWidth="328.0">

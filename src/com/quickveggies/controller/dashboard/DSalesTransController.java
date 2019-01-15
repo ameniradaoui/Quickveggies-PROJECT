@@ -1,6 +1,9 @@
 package com.quickveggies.controller.dashboard;
 
 import java.net.URL;
+import java.lang.String;
+import java.util.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,16 +22,18 @@ import com.quickveggies.dao.ChargesDao;
 import com.quickveggies.dao.DSalesTableDao;
 import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.dao.SupplierDao;
+import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.Charge;
 import com.quickveggies.entities.DSalesTableLine;
 import com.quickveggies.entities.DSalesTableList;
 import com.quickveggies.entities.DSupplierTableLine;
-
+import com.quickveggies.impl.IDsalesTableDao;
 import com.quickveggies.misc.DeleteTableButtonCell;
 import com.quickveggies.misc.EditTableButtonCell;
 import com.quickveggies.misc.PrintTableButtonCell;
 import com.quickveggies.misc.Utils;
 
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,6 +74,9 @@ public class DSalesTransController implements Initializable {
 
     @FXML
     private ComboBox<?> batchActions;
+    
+    @FXML
+    private ComboBox<String> filterAction; 
 
     @FXML
     private TableView<DSalesTableLine> salesDashTable;
@@ -108,7 +116,7 @@ public class DSalesTransController implements Initializable {
   
     public static   ChargesDao chargesDao;
     
-    private static  DSalesTableDao dSalesTableDao;
+    private static   IDsalesTableDao dSalesTableDao;
 
     private ObservableList<DSalesTableLine> lines = FXCollections.observableArrayList(
             new DSalesTableLine("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
@@ -127,11 +135,17 @@ public class DSalesTransController implements Initializable {
     	    dSalesDao = BeanUtils.getBean(DSalesTableDao.class);
     	    supplierDao = BeanUtils.getBean(SupplierDao.class);
     	    chargesDao = BeanUtils.getBean(ChargesDao.class);
-    	    dSalesTableDao = BeanUtils.getBean(DSalesTableDao.class);
-    	    
+    	    dSalesTableDao = BeanUtils.getBean(IDsalesTableDao.class);
+    	   
+    	    setupFilterAction();
     	    
         final Pane pane = (Pane) btnColSettings.getParent().getParent();
         ListViewUtil.addColumnSettingsButtonHandler(salesDashTable, pane, btnColSettings);
+        
+        
+        String fruit = null;
+		Date date = null;
+		
         // update lines from sql database:
         try {
             lines.clear();
@@ -251,8 +265,34 @@ public class DSalesTransController implements Initializable {
         btnPrint.setOnAction((event) -> TableUtil.printTable(salesDashTable, "Arrival Transaction List", actionsCol));
         setupTotalAmountsTable(lines);
     }
-    
-    private void setupTotalAmountsTable(final ObservableList<DSalesTableLine> list) {
+  //test filter
+    private void setupFilterAction() {
+    	List<ArrivalSelectionFilter> selectionFiler = dSalesDao.getSelectionFiler();
+    	  List<String> list = new ArrayList<String>();
+    	for (ArrivalSelectionFilter arrivalSelectionFilter : selectionFiler) {
+			list.add(arrivalSelectionFilter.getFruit() + " FY " + arrivalSelectionFilter.getYear());
+		}
+         ObservableList obList = FXCollections.observableList(list);
+         filterAction.getItems().clear();
+         filterAction.setItems(obList);
+         
+         filterAction .valueProperty().addListener(new ChangeListener<String>() {
+             @Override public void changed(ObservableValue ov, String t, String t1) {
+            	 ArrivalSelectionFilter filter = ArrivalSelectionFilter.fromString(t1);
+            	 
+				lines.clear();
+				lines.addAll(dSalesDao.getFuitByTypeAndYear(filter));
+				 salesDashTable.getItems().clear();
+            	 salesDashTable.getItems().addAll(lines);
+            	
+             }    
+         });
+         
+	}
+
+   
+
+	private void setupTotalAmountsTable(final ObservableList<DSalesTableLine> list) {
         //Setup total amounts table
         tableTotal.getColumns().clear();
         for (TableColumn column : salesDashTable.getColumns()) {

@@ -56,6 +56,11 @@ public class TeepDetailController implements Initializable {
 
 	private static BuyerDao bd;
 
+	
+	public TeepDetailController() {
+		super();
+	}
+
 	public TeepDetailController(DBuyerTableLine buyerDeal, DSupplierTableLine supplierDeal, String supplierNetAmount) {
 		this.buyerDeal = buyerDeal;
 		this.supplierDeal = supplierDeal;

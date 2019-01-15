@@ -77,14 +77,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                         <Button fx:id="adminpanel" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="1.0" layoutY="450.0" minHeight="50.0" minWidth="158.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37)); -fx-text-fill: #f5f5f8; -fx-border-radius: 3px;" text="Admin Menu" textAlignment="RIGHT">
-                            <font>
-                                <Font name="Verdana Bold" size="13.0" />
-                            </font>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
+                         
                         <Label layoutX="2.0" layoutY="25.0" style="-fx-font-family: sans-serif;" text="Quick Veggies">
                             <font>
                                 <Font name="SansSerif Regular" size="22.0" />
@@ -107,9 +100,8 @@
                                 <Button fx:id="coldstore" graphicTextGap="1.0" layoutY="26.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 3px; -fx-text-fill: White;" text="Sales (Cold store)" />
                                 <Button fx:id="godown" graphicTextGap="1.0" layoutY="52.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 3px; -fx-text-fill: White;" text="Sales (Go Down)" />
                                 <Button fx:id="expenses" graphicTextGap="1.0" layoutY="78.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 3px; -fx-text-fill: White;" text="Expenses" />
-                                <Button fx:id="teeps" graphicTextGap="1.0" layoutY="104.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 3px; -fx-text-fill: White;" text="Teep" />
-                                <Button fx:id="banking" graphicTextGap="1.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 3px; -fx-text-fill: White;" text="Banking" />
-                            </children>
+                                <Button fx:id="teeps" graphicTextGap="1.0" layoutY="104.0"  mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 3px; -fx-text-fill: White;" text="Teep" />
+                                  </children>
                         </Pane>
                     </children>
                 </AnchorPane>
@@ -126,6 +118,8 @@
                                         <Font name="System Bold" size="25.0" />
                                     </font>
                                 </Button>
+                                
+                                
                                 <Button alignment="BASELINE_RIGHT" layoutX="525.0" layoutY="7.0" minWidth="68.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="85.0" style="-fx-background-image: url(icons/question.png); -fx-background-size: 50 50; -fx-background-repeat: stretch; -fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37));" text="Help" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.rightAnchor="0.0">
                                     <font>
                                         <Font name="Verdana" size="11.0" />
@@ -157,9 +151,9 @@
             </items>
         </SplitPane>
         <!--  <Region fx:id="blurRegion" prefHeight="609.0" prefWidth="768.0" style="-fx-background-color: black; -fx-opacity: 0.7;" visible="false" />-->
-        <Pane fx:id="entryMenu" layoutX="200.0" layoutY="50.0" prefHeight="225.0" prefWidth="536.0" style="-fx-background-color: #3d3d41;" visible="false">
+        <Pane fx:id="entryMenu" layoutX="200.0" layoutY="50.0" prefHeight="225.0" prefWidth="680.0" style="-fx-background-color: #3d3d41;" visible="false">
             <children>
-                <Button alignment="BASELINE_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" layoutX="130.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Buyer Modification">
+                <Button alignment="BASELINE_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" layoutX="130.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Modifications">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -167,30 +161,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="15.0" layoutY="145.0" mnemonicParsing="false" prefWidth="103.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Sale Proceed">
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <font>
-                        <Font name="Lucida Sans Regular" size="11.0" />
-                    </font>
-                </Button>
-                <Button fx:id="newGodown" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefWidth="103.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Godown Entry">
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <font>
-                        <Font name="Lucida Sans Regular" size="11.0" />
-                    </font>
-                </Button>
-                <Button fx:id="newColdstore" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="95.0" mnemonicParsing="false" prefWidth="103.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="ColdStore Entry">
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <font>
-                        <Font name="Lucida Sans Regular" size="11.0" />
-                    </font>
-                </Button>
+              
                 <Button fx:id="freshEntry" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="70.0" mnemonicParsing="false" prefWidth="103.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Fresh Entry">
                     <opaqueInsets>
                         <Insets />
@@ -199,7 +170,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Buyer Purcha">
+                 <Button fx:id="productInformation" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="95.0" mnemonicParsing="false" prefWidth="103.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Journal Entry">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -207,7 +178,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Buyer Summary">
+                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Paid (Dr)">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -215,7 +186,15 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="145.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Bijak\Ladaan">
+                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Recieved (cr)">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="145.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Invoice">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -231,7 +210,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button fx:id="supplierCredit" alignment="BASELINE_LEFT" layoutX="260.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Supplier Credit">
+                <Button fx:id="supplierCredit" alignment="BASELINE_LEFT" layoutX="260.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Paid (Dr)">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -239,7 +218,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="390.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Bank Deposit">
+                 <Button fx:id="" alignment="BASELINE_LEFT" layoutX="260.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Received (Cr)">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -247,7 +226,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button fx:id="expensesAdd" alignment="BASELINE_LEFT" layoutX="390.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Expenses">
+                 <Button fx:id="" alignment="BASELINE_LEFT" layoutX="260.0" layoutY="145" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Modifications">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -255,7 +234,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="390.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Recieved">
+                 <Button fx:id="" alignment="BASELINE_LEFT" layoutX="260.0" layoutY="170" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Invoice">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -263,24 +242,77 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Label layoutX="15.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="GR ENTRY">
+                <Button alignment="BASELINE_LEFT" layoutX="390.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Paid (Dr)">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
                     <font>
-                        <Font name="Arial Bold" size="16.0" />
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="expensesAdd" alignment="BASELINE_LEFT" layoutX="520.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Expenses">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                 <Button fx:id="" alignment="BASELINE_LEFT" layoutX="520.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Borrowings">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                 <Button fx:id="" alignment="BASELINE_LEFT" layoutX="390.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Received (Cr)">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button alignment="BASELINE_LEFT" layoutX="390.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Rates Recieved">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                 <Button alignment="BASELINE_LEFT" layoutX="390.0" layoutY="145.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Modifications">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Label layoutX="15.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="ENTRY">
+                    <font>
+                        <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
                 <Label layoutX="130.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="BUYER">
                     <font>
-                        <Font name="Arial Bold" size="16.0" />
+                        <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
                 <Label layoutX="260.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="SUPPLIER">
                     <font>
-                        <Font name="Arial Bold" size="16.0" />
+                        <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
-                <Label layoutX="390.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="OTHER">
+                <Label layoutX="390.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="LAADAAN/BIJAK">
                     <font>
-                        <Font name="Arial Bold" size="16.0" />
+                        <Font name="Arial Bold" size="14.0" />
+                    </font>
+                </Label>
+                 <Label layoutX="530.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="OTHERS">
+                    <font>
+                        <Font name="Arial Bold" size="14.0" />
                     </font>
                 </Label>
                 <Button fx:id="closePlusMenu" layoutX="510.0" mnemonicParsing="false" style="-fx-background-color: #3d3d41; -fx-border-width: 1px; -fx-border-color: gray;" text="X" textFill="WHITE" textOverrun="CLIP">
@@ -290,5 +322,163 @@
                 </Button>
             </children>
         </Pane>
+        
+        
+                <Pane fx:id="entryMenu2" layoutX="200.0" layoutY="50.0" prefHeight="225.0" prefWidth="570.0" style="-fx-background-color: #3d3d41;" visible="false">
+            <children>
+                <Button alignment="BASELINE_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" layoutX="160.0" layoutY="70.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Recurring Transactions">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button alignment="BASELINE_LEFT" layoutX="15.0" layoutY="145.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Chart of Accounts">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Custom Invoices">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="manageUser" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="95.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Manage Users">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="companyInfo" alignment="BASELINE_LEFT" graphicTextGap="0.0" layoutX="15.0" layoutY="70.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Account and Settings">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                 <Button  fx:id="notification" alignment="BASELINE_LEFT" layoutX="15.0" layoutY="170.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Notifications">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button  alignment="BASELINE_LEFT" layoutX="160.0" layoutY="95.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="File Manager">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+               
+                
+                <Button fx:id="" alignment="BASELINE_LEFT" layoutX="304.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Import Data">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button fx:id="" alignment="BASELINE_LEFT" layoutX="304.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Milestones">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                 <Button alignment="BASELINE_LEFT" layoutX="304.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Audit Log">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+
+
+               <Button alignment="BASELINE_LEFT" layoutX="304.0" layoutY="145.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Tulsi labes">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button alignment="BASELINE_LEFT" layoutX="435.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="User Profile">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button  alignment="BASELINE_LEFT" layoutX="435.0" layoutY="95.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Feedback">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Button alignment="BASELINE_LEFT" layoutX="435.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Privacy">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                  <Button fx:id="signout" alignment="BASELINE_LEFT" layoutX="435.0" layoutY="145.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Sign Out">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <font>
+                        <Font name="Lucida Sans Regular" size="11.0" />
+                    </font>
+                </Button>
+                <Label layoutX="18.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="Your Company">
+                    <font>
+                        <Font name="Arial Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Label layoutX="197.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="Buyer">
+                    <font>
+                        <Font name="Arial Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Label layoutX="336.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="Tools">
+                    <font>
+                        <Font name="Arial Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Label layoutX="460.0" layoutY="45.0" style="-fx-text-fill: #f5f5f8;" text="Profile">
+                    <font>
+                        <Font name="Arial Bold" size="16.0" />
+                    </font>
+                </Label>
+                <Button fx:id="closePlusMenu2" layoutX="530.0" mnemonicParsing="false" style="-fx-background-color: #3d3d41; -fx-border-width: 1px; -fx-border-color: gray;" text="X" textFill="WHITE" textOverrun="CLIP">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+        
+        
+        
     </children>
 </AnchorPane>

@@ -59,7 +59,7 @@ public class FruitAddController implements Initializable {
 	@FXML
 	private Button btnSave;
 	
-	private SessionDataController session ;
+	private SessionDataController session = SessionDataController.getInstance();
 
 	private ObservableList<QualityType> qualTypes = FXCollections.observableArrayList();
 

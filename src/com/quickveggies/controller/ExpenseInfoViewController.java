@@ -79,7 +79,7 @@ public class ExpenseInfoViewController implements Initializable {
 	private ExpenseDao ed ;
 	
 
-	private SessionDataController session ;
+	private SessionDataController session = SessionDataController.getInstance();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

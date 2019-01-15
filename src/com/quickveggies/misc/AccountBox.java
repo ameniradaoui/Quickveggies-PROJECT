@@ -3,6 +3,8 @@ package com.quickveggies.misc;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.entities.Account;
 
@@ -18,6 +20,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+
 
 public class AccountBox implements Initializable {
 
@@ -53,6 +56,8 @@ public class AccountBox implements Initializable {
     private double balance;
     private double inSoftware;
 
+    
+    @Autowired
     private DatabaseClient dbclient;
 
     public AccountBox(double layoutX) {

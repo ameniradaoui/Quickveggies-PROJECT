@@ -30,7 +30,7 @@ public class DeleteTableButtonCell<S, T> extends TableCell<S, T> {
     private String multiDeleteKeyword = null;
     private String[] multiDeleteTableNames = null;
     
-    private IExpenditureDao expenditureDao ;
+    private ExpenditureDao expenditureDao ;
 
     public DeleteTableButtonCell(final String tablename, final String keyword) {
         this(tablename, keyword, null);

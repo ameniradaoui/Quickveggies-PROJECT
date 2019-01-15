@@ -57,10 +57,12 @@ public class ExpenditureDao implements IExpenditureDao {
 	@Override
 	public void deleteExpenditureType(String name) {
         final String sql = "DELETE FROM expenditureType WHERE name = ?";
-        try (final PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+        try ( Connection connection = dataSource.getConnection();
+        		final PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "DELETED expenditure type:".concat(name), null, 0));
+            connection.close();       
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,11 +79,13 @@ public class ExpenditureDao implements IExpenditureDao {
 	 */
 	@Override
 	public void addExpenditureType(String name) {
-        try (final PreparedStatement ps = dataSource.getConnection().prepareStatement(INSERT_EXPENDITURE_TYPE_QRY)) {
+        try ( Connection connection = dataSource.getConnection();
+        		final PreparedStatement ps = connection.prepareStatement(INSERT_EXPENDITURE_TYPE_QRY)) {
             ps.setString(1, name);
             ps.setString(2, name);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "ADDED expenditure type:".concat(name), null, 0));
+            connection.close();       
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,6 +106,7 @@ public class ExpenditureDao implements IExpenditureDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         return list;
     }
     private static final String INSERT_EXPENDITURE_QRY = "INSERT INTO expenditures  ("
@@ -113,7 +118,8 @@ public class ExpenditureDao implements IExpenditureDao {
     @Override
 	public boolean addExpenditure(Expenditure xpr) {
         String sql = INSERT_EXPENDITURE_QRY;
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, xpr.getAmount());
             ps.setString(2, xpr.getDate());
             ps.setString(3, xpr.getComment());
@@ -124,6 +130,7 @@ public class ExpenditureDao implements IExpenditureDao {
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
                     "Expenditure entry recorded in system",
                     "expenditures", db.getGeneratedKey(ps)));
+            connection.close(); 
             return true;
         }
         catch (Exception ex) {
@@ -169,7 +176,8 @@ public class ExpenditureDao implements IExpenditureDao {
     @Override
 	public Expenditure getExpenditureById(int id) {
         String sql = "SELECT * FROM expenditures WHERE id=?;";
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps =connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -180,10 +188,12 @@ public class ExpenditureDao implements IExpenditureDao {
                 xpr.setId(rs.getInt("id"));
                 xpr.setPayee(rs.getString("billto"));
                 Blob blob = rs.getBlob("receipt");
+                ps.close(); 
                 if (blob != null) {
                     xpr.setReceipt(blob.getBinaryStream());
                 }
                 xpr.setType(rs.getString("type"));
+                connection.close();
                 return xpr;
             }
         }
@@ -229,7 +239,8 @@ public class ExpenditureDao implements IExpenditureDao {
                 return;
             }
             deleteCommand = "delete from " + tableName + " where id=?;";
-            PreparedStatement statement = dataSource.getConnection().prepareStatement(deleteCommand);
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(deleteCommand);
             statement.setInt(1, id);
             statement.execute();
             if (writeAuditLog) {
@@ -249,6 +260,7 @@ public class ExpenditureDao implements IExpenditureDao {
                                     }
                                     setAmount(Double.parseDouble(expenditure.getAmount()));
                                 }});
+                connection.close();
             }
         }
         catch (SQLException e) {

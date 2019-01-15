@@ -54,12 +54,16 @@ public class FruitViewController implements Initializable {
 	private Button btnEdit;
 
 	@FXML
+	private Button btnAddFruit;
+	
+	
+	@FXML
 	private Button btnDelete;
 
 	
 	private BoxSizesDao boxDao;
 	
-	private SessionDataController session ;
+	private SessionDataController session  = SessionDataController.getInstance();
 
 
 	private FruitViewController fruitViewControllerInstance;
@@ -74,6 +78,9 @@ public class FruitViewController implements Initializable {
 		fruitViewControllerInstance = this;
 		parentPane.setStyle("-fx-background-color: #f2f6ff;");
 		parentPane.setDisable(false);
+		
+		
+		
 		final List<String> fruitList = boxDao.getAllFruitTypes();
 		if (!fruitList.isEmpty()) {
 			String fruit = null;
@@ -100,6 +107,8 @@ public class FruitViewController implements Initializable {
 				}
 			}
 		});
+		
+		
 		/*
 		 * if (fruit == null || fruit.isEmpty()) {
 		 * cboFruitTypes.setVisible(true); txtFruitType.setVisible(false); }
@@ -119,7 +128,7 @@ public class FruitViewController implements Initializable {
 				}
 				Pane settingsScrollingPane = session.getSettingPagePane();
 				session.setNewFruitName(fruitName);
-				new FruitButtonEventHandler("/fruitEdit.fxml", "Edit Fruit Settings", settingsScrollingPane)
+				new FruitButtonEventHandler("/fxml/fruitEdit.fxml", "Edit Fruit Settings", settingsScrollingPane)
 						.handle(event);
 			}
 		});

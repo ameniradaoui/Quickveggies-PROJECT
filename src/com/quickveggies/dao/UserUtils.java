@@ -128,8 +128,8 @@ public class UserUtils implements IUserUtils {
         String password = user.getPassword();
         int role = user.getRole();
         String userType = user.getUsertype();
- 
-        PreparedStatement prepStmnt = dataSource.getConnection()
+        Connection connection = dataSource.getConnection();
+        PreparedStatement prepStmnt = connection
                                       .prepareStatement("insert into users (name,pass,email,role,usertype,bool_activestatus) " + "values(?,?,?,?,?,?)");
         prepStmnt.setString(1, name);
         prepStmnt.setString(2, password);
@@ -139,7 +139,7 @@ public class UserUtils implements IUserUtils {
         prepStmnt.setBoolean(6, true);
         
         prepStmnt.executeUpdate();
-        
+        connection.close();
         System.out.println("Database: user " + name + " successfully created.");
     }
     

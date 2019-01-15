@@ -12,20 +12,20 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 public class DSupplierTableLine {
 
-    private String supplierTitle = "";
-    private String saleNo = "";
-    private String date = "";
-    private String proprietor = "";
-    private String cases = "";
-    private String supplierRate = "";
-    private String net = "";
-    private String agent = "";
-    private String dealID = "";
-    private String amanat = "";
+    private String supplierTitle ;
+    private String saleNo ;
+    private String date ;
+    private String proprietor;
+    private String cases ;
+    private String supplierRate ;
+    private String net ;
+    private String agent ;
+    private String dealID ;
+    private String amanat ;
 
-    private String amountReceived = "";
+    private String amountReceived ;
 
-    private String orchard = "";
+    private String orchard ;
 
     private String qualityType;
     private String boxSizeType;

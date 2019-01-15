@@ -66,7 +66,8 @@ public class ChargesDao implements IChargesDao {
 	public List<Charge> getDealCharges(int dealID) {
         List<Charge> list = new ArrayList<>();
         String dealChargeQuery = "select * from charges where id in (select chargeID from dealCharges where dealID = ?);";
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(dealChargeQuery)) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection.prepareStatement(dealChargeQuery)) {
             ps.setInt(1, dealID);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -77,10 +78,12 @@ public class ChargesDao implements IChargesDao {
                 chg.setType(rs.getString("chargeType"));
                 chg.setRate(rs.getString("chargeRate"));
                 list.add(chg);
+                connection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         return list;
     }
 

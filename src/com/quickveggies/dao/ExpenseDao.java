@@ -56,6 +56,7 @@ public class ExpenseDao implements IExpenseDao {
             comment = set.getString("comment");
             billto = set.getString("billto");
             type = set.getString("type");
+            set.close();
             return new String[]{"" + id, amount, date, comment, billto, type};
         } else {
             throw new NoSuchElementException();
@@ -80,6 +81,7 @@ public class ExpenseDao implements IExpenseDao {
 	@Override
 	public String getLastExpenseType(int id) throws SQLException, NoSuchElementException {
         ResultSet set = getResult("select * from last_expenses where id='" + id + "';");
+        set.close();
         if (set.next()) {
             return set.getString("type");
         } else {
@@ -94,6 +96,7 @@ public class ExpenseDao implements IExpenseDao {
 	public String getLastExpense(int id) throws SQLException, NoSuchElementException {
         ResultSet set = getResult("select * from last_expenses where id='" + id + "';");
         if (set.next()) {
+        	set.close();
             return set.getString("category");
         } else {
             throw new NoSuchElementException();
@@ -105,14 +108,15 @@ public class ExpenseDao implements IExpenseDao {
     @Override
 	public void updateExpenseInfo(String name, String type, String defaultAmount) {
 
-        try (PreparedStatement ps = dataSource.getConnection()
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection
                 .prepareStatement("UPDATE expenseInfo SET type=?,  defaultAmount=?  WHERE name = ?")) {
             ps.setString(1, type);
             ps.setString(2, defaultAmount);
             ps.setString(3, name);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "UPDATED exepense info :".concat(name), null, 0));
-
+            connection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -125,13 +129,15 @@ public class ExpenseDao implements IExpenseDao {
     @Override
 	public void updateBuyerExpenseInfo(String name, String type, String defaultAmount) {
 
-        try (PreparedStatement ps = dataSource.getConnection()
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps =connection
                 .prepareStatement("UPDATE buyerExpenseInfo SET type=?,  defaultAmount=?  WHERE name = ?")) {
             ps.setString(1, type);
             ps.setString(2, defaultAmount);
             ps.setString(3, name);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "UPDATED buyer exepense info :".concat(name), null, 0));
+            connection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -145,14 +151,15 @@ public class ExpenseDao implements IExpenseDao {
 	 */
     @Override
 	public void addExpenseInfo(String name, String type, String defaultAmount) {
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(INSERT_EXPENSE_INFO_QRY)) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection.prepareStatement(INSERT_EXPENSE_INFO_QRY)) {
             ps.setString(1, name);
             ps.setString(2, name);
             ps.setString(3, type);
             ps.setString(4, defaultAmount);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "ADDED exepense info :".concat(name), null, 0));
-
+            connection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -172,13 +179,15 @@ public class ExpenseDao implements IExpenseDao {
 	 */
     @Override
 	public void addBuyerExpenseInfo(String name, String type, String defaultAmount) {
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(INSERT_BUYER_EXPENSE_INFO_QRY)) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection.prepareStatement(INSERT_BUYER_EXPENSE_INFO_QRY)) {
             ps.setString(1, name);
             ps.setString(2, name);
             ps.setString(3, type);
             ps.setString(4, defaultAmount);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "ADDED buyerExpenseInfo info :".concat(name), null, 0));
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -190,8 +199,8 @@ public class ExpenseDao implements IExpenseDao {
     @Override
 	public ExpenseInfo getExpenseInfoFor(String name) {
         ExpenseInfo ei = new ExpenseInfo();
-        try {
-            PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * FROM expenseInfo  WHERE name = ?");
+        try { Connection connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement("Select * FROM expenseInfo  WHERE name = ?");
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -200,6 +209,7 @@ public class ExpenseDao implements IExpenseDao {
                 ei.setType(rs.getString("type"));
                 ei.setDefaultAmount(rs.getString("defaultAmount"));
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -212,8 +222,8 @@ public class ExpenseDao implements IExpenseDao {
     @Override
 	public ExpenseInfo getBuyerExpenseInfoFor(String name) {
         ExpenseInfo ei = new ExpenseInfo();
-        try {
-            PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * FROM buyerExpenseInfo  WHERE name = ?");
+        try { Connection connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement("Select * FROM buyerExpenseInfo  WHERE name = ?");
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -221,10 +231,13 @@ public class ExpenseDao implements IExpenseDao {
                 ei.setName(rs.getString("name"));
                 ei.setType(rs.getString("type"));
                 ei.setDefaultAmount(rs.getString("defaultAmount"));
+                
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         return ei;
     }
 
@@ -247,6 +260,7 @@ public class ExpenseDao implements IExpenseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
         return list;
     }
 
@@ -277,10 +291,12 @@ public class ExpenseDao implements IExpenseDao {
 	 */
     @Override
 	public void deleteExpenseInfo(String name) {
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement("DELETE FROM expenseInfo WHERE name = ?")) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection.prepareStatement("DELETE FROM expenseInfo WHERE name = ?")) {
             ps.setString(1, name);
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "DELETED exepense info :".concat(name), null, 0));
+            connection.close();      
         } catch (Exception ex) {
             ex.printStackTrace();
         }

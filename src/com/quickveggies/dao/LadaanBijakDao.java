@@ -36,15 +36,18 @@ public class LadaanBijakDao implements ILadaanBijakDao {
 	public LadaanBijakSaleDeal getLadBijSaleDeal(int dealId) {
 	        String sql = "select * from ladaanBijakSaleDeals where dealId=?;";
 	        LadaanBijakSaleDeal deal = null;
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection.prepareStatement(sql)) {
 	            ps.setInt(1, dealId);
 	            ResultSet rs = ps.executeQuery();
 	            if (rs.next()) {
 	                deal = prepareLadBijObjFromRs(rs);
 	            }
+	            connection.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	       
 	        return deal;
 	    }
 
@@ -61,13 +64,15 @@ public class LadaanBijakDao implements ILadaanBijakDao {
 	        String sql = "select * from  ladaanBijakSaleDeals where dealID in (select dealID from buyerDeals where buyerTitle = ?);";
 	        List<LadaanBijakSaleDeal> list = new ArrayList<>();
 	        LadaanBijakSaleDeal deal = null;
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection.prepareStatement(sql)) {
 	            ps.setString(1, buyerTitle);
 	            ResultSet rs = ps.executeQuery();
 	            while (rs.next()) {
 	                deal = prepareLadBijObjFromRs(rs);
 	                list.add(deal);
 	            }
+	            connection.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -129,10 +134,11 @@ public class LadaanBijakDao implements ILadaanBijakDao {
 	                ladaanCount = ladanRs.getInt(1);
 	            }
 	            count = buyerDealIds.size() - ladaanCount;
-
+             rs.close();
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
+	        
 	        return count;
 	    }
 

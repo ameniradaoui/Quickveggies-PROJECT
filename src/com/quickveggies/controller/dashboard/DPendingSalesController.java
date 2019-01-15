@@ -406,6 +406,7 @@ public class DPendingSalesController implements Initializable {
             values = supplierDao.getSupplierDealEntryLines(null);
         } catch (SQLException ex) {
             Logger.getLogger(DPendingSalesController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
         for (String[] value : values) {
             DSupplierTableLine line = new DSupplierTableLine(value);

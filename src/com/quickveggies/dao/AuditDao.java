@@ -115,7 +115,8 @@ public class AuditDao implements IAuditDao {
 	        String sql = "INSERT INTO auditLog (userId, eventDetail, eventObject, "
 	                + " eventObjectId, oldValues, newValues, name, date, amount) "
 	                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql);) {
+		try ( Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
 	            ps.setString(1, log.getUserId());
 	            ps.setString(2, log.getEventDetail());
 	            ps.setString(3, log.getEventObject());
@@ -128,6 +129,7 @@ public class AuditDao implements IAuditDao {
 	            ps.setDouble(9, log.getAmount() == null ? 0.0 : log.getAmount());
 	            //ps.executeUpdate();
 	            ps.execute();
+	            connection.close();
 
 	        } catch (SQLException ex) {
 	            ex.printStackTrace();

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.quickveggies.entities.DBuyerTableLine;
 import com.quickveggies.entities.DSupplierTableLine;
 import com.quickveggies.entities.Supplier;
 
@@ -18,5 +19,9 @@ public interface ISupplierDao {
 	void saveSupplier(Supplier supplier) throws SQLException;
 
 	Supplier getSupplierById(int id) throws SQLException, NoSuchElementException;
+
+	List<DSupplierTableLine> getListBySupplierType(String title);
+
+	List<Supplier> getListBySupplierTitle(String name);
 
 }

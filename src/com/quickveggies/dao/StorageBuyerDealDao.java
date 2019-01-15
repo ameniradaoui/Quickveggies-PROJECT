@@ -38,11 +38,13 @@ public class StorageBuyerDealDao implements IStorageBuyerDealDao {
 	 */
 	@Override
 	public void addStorageBuyerDealInfo(Integer buyerDealLineId, Integer strorageDealLineId) {
-		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(
+		try ( Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(
 				"INSERT INTO storageBuyerDeals (" + "buyerDealLineId,   strorageDealLineId)  VALUES (?, ?)")) {
 			ps.setInt(1, buyerDealLineId);
 			ps.setInt(2, strorageDealLineId);
 			ps.executeUpdate();
+			connection.close();
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -55,11 +57,13 @@ public class StorageBuyerDealDao implements IStorageBuyerDealDao {
 	@Override
 	public List<StorageBuyerDeal> getStorageBuyerDeals() {
 		List<StorageBuyerDeal> list = new ArrayList<>();
-		try (PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * from storageBuyerDeals;")) {
+		try ( Connection connection = dataSource.getConnection();
+				PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * from storageBuyerDeals;")) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				StorageBuyerDeal deal = new StorageBuyerDeal(rs.getInt(1), rs.getInt(2));
 				list.add(deal);
+				connection.close();
 			}
 		} catch (SQLException x) {
 			x.printStackTrace();
@@ -72,11 +76,14 @@ public class StorageBuyerDealDao implements IStorageBuyerDealDao {
 	 */
 	@Override
 	public StorageBuyerDeal getStorageBuyerDeal(Integer id) throws SQLException {
-		PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * from storageBuyerDeals;");
+		 Connection connection = dataSource.getConnection();
+		PreparedStatement ps = connection.prepareStatement("Select * from storageBuyerDeals;");
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
 			StorageBuyerDeal deal = new StorageBuyerDeal(rs.getInt(1), rs.getInt(2));
+			connection.close();
 			return deal;
+			
 		}
 		throw new RuntimeException("no such element");
 
@@ -89,12 +96,16 @@ public class StorageBuyerDealDao implements IStorageBuyerDealDao {
 	public int getStorageDealsCount(String storeType) {
 		String sql = "select sum(CAST (boxes AS bigint)) from buyerDeals group by buyerTitle having buyerTitle=?;";
 		int result = 0;
-		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+		try ( Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setString(1, storeType);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
+				
 				result = rs.getInt(1);
+				rs.close();
 			}
+			connection.close();
 		} catch (Exception x) {
 			x.printStackTrace();
 		}

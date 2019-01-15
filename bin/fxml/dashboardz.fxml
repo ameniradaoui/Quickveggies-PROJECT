@@ -45,6 +45,14 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
+                         <Button fx:id="adminpanel" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="1.0" layoutY="400.0" minHeight="50.0" minWidth="158.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37)); -fx-text-fill: #f5f5f8; -fx-border-radius: 3px;" text="Admin Menu" textAlignment="RIGHT">
+                            <font>
+                                <Font name="Verdana Bold" size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </Button>
                         <Button fx:id="accounts" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="1.0" layoutY="395.0" minHeight="50.0" minWidth="158.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37)); -fx-text-fill: #f5f5f8; -fx-border-radius: 3px;" text="Bank Accounts" textAlignment="RIGHT">
                             <font>
                                 <Font name="Verdana Bold" size="13.0" />
@@ -61,7 +69,8 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                        <Button fx:id="transactions" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="1.0" layoutY="295.0" minHeight="50.0" minWidth="158.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37)); -fx-text-fill: #f5f5f8; -fx-border-radius: 3px;" text="Transactions        &gt;" textAlignment="RIGHT">
+                        
+                        <Button fx:id="transactions" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="1.0" layoutY="295.0" minHeight="50.0" minWidth="158.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37)); -fx-text-fill: #f5f5f8; -fx-border-radius: 3px;" text="Transactions&gt;" textAlignment="RIGHT">
                             <font>
                                 <Font name="Verdana Bold" size="13.0" />
                             </font>
@@ -77,14 +86,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </Button>
-                         <Button fx:id="adminpanel" alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="1.0" layoutY="450.0" minHeight="50.0" minWidth="158.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37)); -fx-text-fill: #f5f5f8; -fx-border-radius: 3px;" text="Admin Menu" textAlignment="RIGHT">
-                            <font>
-                                <Font name="Verdana Bold" size="13.0" />
-                            </font>
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </Button>
+                        
                         <Label layoutX="2.0" layoutY="25.0" style="-fx-font-family: sans-serif;" text="Quick Veggies">
                             <font>
                                 <Font name="SansSerif Regular" size="22.0" />
@@ -131,7 +133,8 @@
                                         <Font name="Verdana" size="11.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="settings" alignment="BASELINE_RIGHT" layoutX="436.0" layoutY="7.0" minWidth="68.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" style="-fx-background-image: url(icons/gear.png); -fx-background-size: 40 40; -fx-background-repeat: stretch; -fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37));" text="Settings" textOverrun="CLIP" AnchorPane.rightAnchor="86.0">
+                                 <!-- settings -->
+                                <Button fx:id="settings" defaultButton="true" alignment="BASELINE_RIGHT" layoutX="436.0" layoutY="7.0" minWidth="68.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" style="-fx-background-image: url(icons/gear.png); -fx-background-size: 40 40; -fx-background-repeat: stretch; -fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.37));" text="Settings" textOverrun="CLIP" AnchorPane.rightAnchor="86.0">
                                     <font>
                                         <Font name="Verdana" size="11.0" />
                                     </font>
@@ -157,6 +160,11 @@
             </items>
         </SplitPane>
         <!--  <Region fx:id="blurRegion" prefHeight="609.0" prefWidth="768.0" style="-fx-background-color: black; -fx-opacity: 0.7;" visible="false" />-->
+      
+        
+      
+      
+       <!-- plus button -->
         <Pane fx:id="entryMenu" layoutX="200.0" layoutY="50.0" prefHeight="225.0" prefWidth="536.0" style="-fx-background-color: #3d3d41;" visible="false">
             <children>
                 <Button alignment="BASELINE_LEFT" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" layoutX="130.0" layoutY="70.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Buyer Modification">

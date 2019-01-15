@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Vector;
 
 import com.quickveggies.entities.Buyer;
+import com.quickveggies.entities.BuyerSelectionFilter;
 import com.quickveggies.entities.DBuyerTableLine;
 import com.quickveggies.entities.ExpenseInfo;
 
@@ -33,5 +34,17 @@ public interface IBuyerDao {
 	int getRowsNum(String tablename);
 
 	Vector<Vector<Object>> getAllBuyers() throws SQLException;
+
+	List<DBuyerTableLine> getListByBuyerType(String title);
+
+	
+
+	List<BuyerSelectionFilter> getSelectionFiler();
+
+	
+
+	List<Buyer> getBuyerByDate(BuyerSelectionFilter filter);
+
+	List<Buyer> getListByBuyerTitle(String name);
 
 }

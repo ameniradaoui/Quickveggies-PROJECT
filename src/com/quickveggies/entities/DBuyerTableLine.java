@@ -9,6 +9,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.activation.DataSource;
+
 import com.quickveggies.BeanUtils;
 import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.DatabaseClient;
@@ -26,21 +28,22 @@ public class DBuyerTableLine {
     private final ReadOnlyObjectWrapper<Integer> casesProperty;
     
     //Todo: add buyer Id from database
-    private String buyerTitle = "";
-    private String date = "";
-    private String saleNo = "";
-    private String buyerRate = "0";
-    private String aggregatedAmount = "0";
-    private String dealID = "";
+    private String buyerTitle ;
+    private String date ;
+    private String saleNo ;
+    private String buyerRate ;
+    private String aggregatedAmount ;
+    private String dealID ;
     private String buyerType;
     private String qualityType;
     private String boxSizeType;
     private String fruit;
+    private String amountReceived ;
     
     private BuyerDao bd = BeanUtils.getBean(BuyerDao.class) ;
     private LadaanBijakDao ladaanBijakDao =  BeanUtils.getBean(LadaanBijakDao.class) ;;
 
-    private String amountReceived = "0";
+    
 
     private BooleanProperty isSelected = new SimpleBooleanProperty(false);
 
@@ -113,6 +116,7 @@ public class DBuyerTableLine {
     }
 
     public void set(String fieldToEdit, String newValue) {
+    	
         switch (fieldToEdit) {
             case "buyerTitle":
                 setBuyerTitle(newValue);

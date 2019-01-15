@@ -43,11 +43,13 @@ public class TemplateDao implements ITemplateDao {
 	 */
     @Override
 	public Template getTemplate(String accountName) throws SQLException, NoSuchElementException {
-        PreparedStatement query = dataSource.getConnection().prepareStatement(""
+    	 Connection connection = dataSource.getConnection();
+        PreparedStatement query = connection.prepareStatement(""
                 + "select * from templates where accountName=?;");
         query.setString(1, accountName);
         ResultSet set = query.executeQuery();
         if (set.next()) {
+        	
             return new Template(set.getString("accountName"), set.getInt("transIdCol"), set.getInt("dateCol"),
                     set.getInt("chqnoCol"), set.getInt("descriptionCol"), set.getInt("withdrawalCol"),
                     set.getInt("depositCol"), set.getInt("balanceCol"));
@@ -79,7 +81,8 @@ public class TemplateDao implements ITemplateDao {
         String query = "Select  * from templates  where accountName=?";
         String sql = "Insert into templates (accountName,dateCol, chqnoCol ,descriptionCol ,withdrawalCol ,depositCol ,balanceCol, transIdCol) VALUES (?,?,?,?,?,?,?,?) ";
         Template t = template;
-        try (PreparedStatement queryPs = dataSource.getConnection().prepareStatement(query);
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement queryPs = dataSource.getConnection().prepareStatement(query);
                 PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
             queryPs.setString(1, t.getAccountName());
             ResultSet rs = queryPs.executeQuery();
@@ -99,6 +102,7 @@ public class TemplateDao implements ITemplateDao {
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
                     "ADDED Template for account:".concat(template.getAccountName()), null, 0));
+           connection.close();
             //System.out.println("ADDED a new template");
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -118,7 +122,8 @@ public class TemplateDao implements ITemplateDao {
 	public void updateTemplate(Template template) {
         String sql = "UPDATE templates set dateCol= ? , chqnoCol= ?  ,descriptionCol = ? ,withdrawalCol = ? ,depositCol = ? ,balanceCol= ? WHERE accountName = ?";
         Template t = template;
-        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+        try ( Connection connection = dataSource.getConnection();
+        		PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, t.getDateCol());
             ps.setInt(2, t.getChqnoCol());
             ps.setInt(3, t.getDescriptionCol());
@@ -129,6 +134,7 @@ public class TemplateDao implements ITemplateDao {
             ps.executeUpdate();
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
                     "UPDATED Template for account:".concat(template.getAccountName()), null, 0));
+            connection.close();
 
             System.out.println("Template updated");
         } catch (SQLException ex) {

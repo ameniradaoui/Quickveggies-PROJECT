@@ -1,5 +1,6 @@
 package com.quickveggies.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,12 +68,14 @@ public class DatabaseClient implements IDatabaseClient {
     @Override
 	public int countSpecificRows(String tablename, String columnName, String value) throws SQLException {
         int result = 0;
-        PreparedStatement statement = dataSource.getConnection()
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection
                 .prepareStatement("SELECT * FROM " + tablename + " WHERE " + columnName + "='" + value + "';");
         ResultSet set = statement.executeQuery();
         while (set.next()) {
             result++;
         }
+        connection.close();
         return result;
     }
 
@@ -143,15 +146,20 @@ public class DatabaseClient implements IDatabaseClient {
         sqlCommand += ")";
         System.out.println(sqlCommand);
         try {
-            PreparedStatement statement = dataSource.getConnection().prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS);
+        	 Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS);
             statement.executeUpdate();
             generatedId = getGeneratedKey(statement);
             String baseMsg = "ADDED Entry for %s (Entry No: %d )";
             auditDao.auditEntry(baseMsg, tableName, values, generatedId);
+            
+            
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.print("sql exception in saveEntryToSql");
         }
+       
         return generatedId;
     }
 
@@ -166,8 +174,10 @@ public class DatabaseClient implements IDatabaseClient {
 	public boolean checkIfTitleExists(String tableName, String title) throws SQLException {
         ResultSet set = getResult("select * from " + tableName + " where title='" + title + "';");
         if (set.next()) {
+        	set.close();
             return true;
         } else {
+        	set.close();
             return false;
         }
     }
@@ -260,6 +270,7 @@ public class DatabaseClient implements IDatabaseClient {
                     auditDao.insertAuditRecord(new AuditLog(0,userDao.getCurrentUser(), null,
                             auditLogMsg, tableName, lineId));
                 }
+                statement.close();
                 return;
             }
             auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,

@@ -362,7 +362,7 @@ public class DTeepController implements Initializable {
                                                 .get(findSupplierDealKeyFrom(buyerDeal));
                                         TeepDetailController controller = new TeepDetailController(buyerDeal,
                                                 suppDeal, getSupplierCharge(buyerDeal));
-                                        DashboardController.showPopup("/teepdetails.fxml", "Teep Difference Detail",
+                                        DashboardController.showPopup("/fxml/teepdetails.fxml", "Teep Difference Detail",
                                                 controller);
                                     }
                                 });

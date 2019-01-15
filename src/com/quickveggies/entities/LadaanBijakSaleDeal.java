@@ -1,17 +1,17 @@
 package com.quickveggies.entities;
 
 public class LadaanBijakSaleDeal {
-	private String date = "";
-	private String amountedTotal = "0";
-	private String freight = "0";
-	private String comission = "0";
-	private String cases = "";
-	private String saleNo = "";
-	private String buyerRate = "0";
-	private String aggregatedAmount = "0";
-	private String initialSaleDate = "";
+	private String date ;
+	private String amountedTotal ;
+	private String freight ;
+	private String comission ;
+	private String cases ;
+	private String saleNo ;
+	private String buyerRate ;
+	private String aggregatedAmount;
+	private String initialSaleDate ;
 	
-	private String dealId = "";
+	private String dealId ;
 	private String buyerType;
 
 	public String getDate() {

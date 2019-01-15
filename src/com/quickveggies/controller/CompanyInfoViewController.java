@@ -80,7 +80,7 @@ public class CompanyInfoViewController implements Initializable {
 	
 	private CompanyDao cd ;
 
-	private SessionDataController session ;
+	private SessionDataController session =  SessionDataController.getInstance() ;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -125,7 +125,7 @@ public class CompanyInfoViewController implements Initializable {
 					return;
 				}
 				System.out.println(c.getLogo());
-				handleAddEditButton("/companyedit.fxml", "Edit Company Info", true, c);;
+				handleAddEditButton("/fxml/companyedit.fxml", "Edit Company Info", true, c);;
 			}
 		});
 		
@@ -134,7 +134,7 @@ public class CompanyInfoViewController implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				handleAddEditButton("/companyadd.fxml", "Add Company Info", false, null);;
+				handleAddEditButton("/fxml/companyadd.fxml", "Add Company Info", false, null);;
 			}
 		});
 		

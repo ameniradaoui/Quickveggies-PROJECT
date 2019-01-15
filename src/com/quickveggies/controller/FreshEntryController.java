@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.poi.ss.formula.eval.BoolEval;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quickveggies.BeanUtils;
@@ -51,6 +53,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -204,7 +207,7 @@ public class FreshEntryController implements Initializable {
     public static int REGULAR = 0, STORAGE = 1;
     private final String[] freshEntryTypes = new String[] { "Regular", "Storage" };
 
-    private int dealID = 0;
+    private int dealID;
     private int freshEntryType;
     private int currentTraversedNodeIdx;
 
@@ -240,8 +243,8 @@ public class FreshEntryController implements Initializable {
     // .observableArrayList(data.getBuyerEntryTableLine("", "0", "0", ""));
 
   
-    java.util.TreeSet<String> growersList = null;
-    java.util.TreeSet<String> buyersList = null;
+  TreeSet<String> growersList = null;
+  TreeSet<String> buyersList = null;
 
     private int totalLotQty = 0;
 
@@ -251,15 +254,182 @@ public class FreshEntryController implements Initializable {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void initialize(final URL location, final ResourceBundle resources) {
-    	  
- 
-
+    	
+  
+    	
         bd = BeanUtils.getBean(BuyerDao.class);
         cd = BeanUtils.getBean(ChargesDao.class);
     	supplierDao= BeanUtils.getBean(SupplierDao.class);
     	client = BeanUtils.getBean(DatabaseClient.class);
     	boxDao = BeanUtils.getBean(BoxSizesDao.class);
     	
+    	//show SAVE when everything is allotted.
+    	grNo.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	          
+	          
+	        }
+	    });
+    	
+    
+    	 
+    	fullCase.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	           
+	        }});
+    	charges.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	           
+	        }});
+    	net.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	           
+	        }});
+	        
+    	halfCase.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	        }
+	    });
+    	remarks.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	            else {
+					saveButton.setVisible(true);
+				}
+	           
+	        }
+	    });
+    	gross.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	            
+	        }
+	    });
+    	totalQty2.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	        
+	        }
+	    });
+    	
+    	expenses.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	           
+	        }
+	    });
+    	grower.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	         
+	        }
+	    });
+    	truckNo.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	        }
+	    });
+    	driverNoField.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	            
+	        }
+	    });
+    	chlNo.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	         
+	        }
+	    });
+    	fwAgent.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	        }
+	    });
+    	totalQty.setOnKeyReleased(new EventHandler<KeyEvent>() {
+	        public void handle(KeyEvent ke) {
+	            System.out.println("Key Released: " + ke.getText());
+	            
+	            if (ke.getText().isEmpty()){
+	            	saveButton.setVisible(false);
+	            }
+	        }
+	    });
+    	
+//    	if ((grNo.getText().isEmpty() || grNo.getText().trim().isEmpty())||(expenses.getText().isEmpty()  || expenses.getText().trim().isEmpty())||(grower.getText().isEmpty()|| grower.getText().trim().isEmpty())
+//    	    	||(truckNo.getText().isEmpty()|| truckNo.getText().trim().isEmpty())|| (driverNoField.getText().isEmpty() ||driverNoField.getText().trim().isEmpty())|| (chlNo.getText().isEmpty() || chlNo.getText().trim().isEmpty())
+//    	    	
+//    				|| (fwAgent.getText().isEmpty() || fwAgent.getText().trim().isEmpty())
+//    				|| (totalQty2.getText().isEmpty()|| totalQty2.getText().trim().isEmpty())
+//    				|| (halfCase.getText().isEmpty() || halfCase.getText().trim().isEmpty())|| (remarks.getText().isEmpty() || remarks.getText().trim().isEmpty() )
+//    	    	){
+//
+//    	    		saveButton.setVisible(false);
+//    	    	}
+//    	    	  else 
+//    	          	saveButton.setVisible(true);
+//    	    	System.out.println(grNo.getText());
+//    	
 
         try {
             if (!Toolkit.getDefaultToolkit().getLockingKeyState(VK_CAPS_LOCK)) {
@@ -507,7 +677,7 @@ public class FreshEntryController implements Initializable {
          * quantity column in the edit mode state, so this key event handler is being added.
          */
         addLots.setOnKeyReleased((KeyEvent event) -> {
-            if (event.getCode() == KeyCode.ENTER) {
+        if (event.getCode() == KeyCode.ENTER) {
                 TablePosition<FreshEntryTableData.AddLotTableLine, String> focusedCell = addLots.getFocusModel()
                         .getFocusedCell();
                 if (focusedCell != null) {
@@ -830,9 +1000,16 @@ public class FreshEntryController implements Initializable {
                 alert.showAndWait();
             }
         });
+        
+       
 
+        
+        
         // DEFINITION FOR FINAL SAVE ENTRY BUTTON
         saveButton.setOnMousePressed((Event event) -> {
+        	
+        	
+        	
             if (checkQuantities() == 0) {
                 // ARRIVAL(SALES) PART:
                 dealID = Integer.valueOf(grNo.getText());
@@ -844,7 +1021,7 @@ public class FreshEntryController implements Initializable {
                         new String[]{date.getValue().toString(), fruitSelection.getValue(),
                             chlNo.getText(), grower.getText(), totalQty2.getText(), fullCase.getText(),
                             halfCase.getText(), fwAgent.getText(), truckNo.getText(), driverNoField.getText(),
-                            gross.getText(), charges.getText(), net.getText(), remarks.getText(), dealID + "",
+                            gross.getText(), charges.getText(), net.getText(), remarks.getText(), dealID + "" ,
                             freshEntryTypes[freshEntryType], amanat});
                 // BUYER DEALS PART:
                 //Clean deals first
@@ -880,6 +1057,18 @@ public class FreshEntryController implements Initializable {
         });
     }// END OF INITIALIZE
 
+   public void keyReleasedProperty(){
+	   boolean isDisabled = (grNo.getText().isEmpty() || grNo.getText().trim().isEmpty())||(expenses.getText().isEmpty()  || expenses.getText().trim().isEmpty())||(grower.getText().isEmpty()|| grower.getText().trim().isEmpty())
+	        	||(truckNo.getText().isEmpty()|| truckNo.getText().trim().isEmpty())|| (driverNoField.getText().isEmpty() ||driverNoField.getText().trim().isEmpty())|| (chlNo.getText().isEmpty() || chlNo.getText().trim().isEmpty())
+	        	
+	    			|| (fwAgent.getText().isEmpty() || fwAgent.getText().trim().isEmpty())
+	    			|| (totalQty2.getText().isEmpty()|| totalQty2.getText().trim().isEmpty())
+	    			|| (halfCase.getText().isEmpty() || halfCase.getText().trim().isEmpty())|| (remarks.getText().isEmpty() || remarks.getText().trim().isEmpty() );
+	        	
+	        		saveButton.setDisable(isDisabled);
+	
+	       
+   }
     public static Stage getChargesView() {
         return chargesView;
     }
@@ -1033,7 +1222,8 @@ public class FreshEntryController implements Initializable {
         for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
             try {
                 Supplier supplier = supplierDao.getSupplierById(supp_id);
-                result.add(supplier.getTitle());
+                if (supplier != null )
+                	result.add(supplier.getTitle());
             }
             catch (java.sql.SQLException e) {
                 System.out.print("sqlexception in populating suppliers list");
@@ -1152,12 +1342,18 @@ public class FreshEntryController implements Initializable {
      *
      * @param strGrNo - the Grower No string
      * @return boolean - indicating the successful operation
+     * 
+     * 
      */
+    
+   
     private boolean handleGrNoKeyPressed(String strGrNo) {
+    	
         boolean isValidNo = true;
         int intValue = -1;
         try {
             intValue = Integer.valueOf(strGrNo);
+
         } catch (NumberFormatException nfe) {
             isValidNo = false;
             GeneralMethods.errorMsg("Invalid number, please enter a valid number");

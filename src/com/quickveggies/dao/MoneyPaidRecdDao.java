@@ -69,13 +69,15 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	        List<MoneyPaidRecd> list = new ArrayList<>();
 	        String query = QRY_PAID_RECD_MONEY_FOR_PARTY
 	                + (partyTitle == null ? "" : QRY_PAID_RECD_MONEY_FOR_TITLE) + ";";
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(query)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection.prepareStatement(query)) {
 	            ps.setString(1, pType.getValue().trim().toLowerCase());
 	            if (partyTitle != null) {
 	                ps.setString(2, partyTitle.toLowerCase().trim());
 	            }
 	            ResultSet rs = ps.executeQuery();
 	            addMprRsToList(rs, list);
+	            connection.close();
 	        } catch (SQLException sqle) {
 	            sqle.printStackTrace();
 	        }
@@ -88,10 +90,15 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	    @Override
 		public List<MoneyPaidRecd> getAllMoneyPaidRecdList(EntityType pType) {
 	        List<MoneyPaidRecd> list = new ArrayList<>();
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(QRY_PAID_RECD_MONEY_FOR_PARTY)) {
+	     
+	        try {
+	        Connection connection = dataSource.getConnection();
+			PreparedStatement ps = connection.prepareStatement(QRY_PAID_RECD_MONEY_FOR_PARTY) ;
+	        	
 	            ps.setString(1, pType.getValue().trim().toLowerCase());
 	            ResultSet rs = ps.executeQuery();
 	            addMprRsToList(rs, list);
+	            connection.close();
 	        } catch (SQLException sqle) {
 	            sqle.printStackTrace();
 	        }
@@ -131,11 +138,13 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	    @Override
 		public List<MoneyPaidRecd> getAdvanceMoneyPaidList(EntityType pType) {
 	        List<MoneyPaidRecd> list = new ArrayList<>();
-	        try (PreparedStatement ps = dataSource.getConnection()
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection
 	                .prepareStatement("Select * from partyMoney where PartyType=? and isAdvanced='true' ")) {
 	            ps.setString(1, pType.getValue().trim().toLowerCase());
 	            ResultSet rs = ps.executeQuery();
 	            addMprRsToList(rs, list);
+	            connection.close();
 	        } catch (SQLException sqle) {
 	            sqle.printStackTrace();
 	        }
@@ -148,7 +157,8 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	    @Override
 		public MoneyPaidRecd getMoneyPaidRecd(int id) {
 	        MoneyPaidRecd value = new MoneyPaidRecd();
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection.prepareStatement(
 	                "Select * from partyMoney where id=?")) {
 	            ps.setString(1, id + "");
 	            ResultSet rs = ps.executeQuery();
@@ -172,6 +182,7 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	            else {
 	                throw new NoSuchElementException("No selected Id in partyMoney table");
 	            }
+	            connection.close();
 	        }
 	        catch (SQLException sqle) {
 	            sqle.printStackTrace();
@@ -185,10 +196,12 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	    @Override
 		public boolean deleteMoneyPaidRecd(int id) {
 	        String sql = "DELETE FROM partyMoney WHERE id=?";
-	        try (final PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		final PreparedStatement ps = connection.prepareStatement(sql)) {
 	            ps.setInt(1, id);
 	            ps.executeUpdate();
 	            auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "DELETED paid/received entry:" + id, null, 0));
+	             connection.close();
 	            return true;
 	        }
 	        catch (SQLException e) {
@@ -213,7 +226,8 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	    @Override
 		public Integer addMoneyPaidRecdInfo(MoneyPaidRecd mpr, String auditLogMsg) {
 	        String sql = INSERT_PARTY_MONEY_QRY;
-	        try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+	        try ( Connection connection = dataSource.getConnection();
+	        		PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 	            ps.setString(1, mpr.getTitle());
 	            ps.setString(2, mpr.getPartyType());
 	            ps.setString(3, mpr.getDate());
@@ -239,6 +253,7 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	            }
 	            int key = databaseClient.getGeneratedKey(ps);
 	            auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, auditMsg, "partyMoney", key));
+	            connection.close();
 	            return key;
 	        }
 	        catch (Exception ex) {

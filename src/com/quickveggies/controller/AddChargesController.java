@@ -66,7 +66,7 @@ public class AddChargesController implements Initializable {
 
 	private String[] chargeTypes = new String[] { "%", "@" };
 	
-	private SessionDataController sessionController;
+	private SessionDataController sessionController = SessionDataController.getInstance();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
