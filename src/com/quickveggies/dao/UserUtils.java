@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,8 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.quickveggies.controller.SessionDataController;
+import com.quickveggies.entities.AuditLog;
+import com.quickveggies.entities.StorageBuyerDeal;
 import com.quickveggies.entities.User;
 import com.quickveggies.impl.IUserUtils;
+
+import javafx.collections.ObservableList;
 
 
 @Component
@@ -144,10 +150,52 @@ public class UserUtils implements IUserUtils {
     }
     
    
+    
+    @Override
+	public List<User> geUser() {
+		List<User> list = new ArrayList<>();
+		try ( Connection connection = dataSource.getConnection();
+				PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * from users;")) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				User deal = new User(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getBoolean(6),rs.getString(7));
+
+				list.add(deal);
+				
+				System.out.println(list);
+				
+				
+			}
+		} catch (SQLException x) {
+			x.printStackTrace();
+		}
+		return list;
+	}
 	
 
+    @Override
+	public boolean deleteUser(int id) {
+        String sql = "DELETE FROM users WHERE id=?";
+        try ( Connection connection = dataSource.getConnection();
+        		final PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            
+             connection.close();
+            return true;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+        
+    }
+	@Override
+	public boolean deleteUser(String name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
-   
 
     	
     

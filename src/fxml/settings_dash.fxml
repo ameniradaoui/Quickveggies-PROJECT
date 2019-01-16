@@ -5,20 +5,33 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
 
 
-<AnchorPane fx:id="settingsPane"  stylesheets="@table.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quickveggies.controller.SettingsController">
+
+<AnchorPane  fx:id="settingsPane"  xmlns="http://javafx.com/javafx/8.0.65" stylesheets="@css/table.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quickveggies.controller.SettingsController">
+   
     <children>
-    <TableView fx:id="table" layoutX="14.0" layoutY="14.0" prefHeight="368.0" prefWidth="575.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+    <Pane  layoutX="30.0" layoutY="20.0" prefHeight="100.0" prefWidth="575.0" style="-fx-background-color: rgb(255, 255, 255) transparent;">
+    <children>
+    <Button fx:id="btnAddUser" layoutX="14.0" layoutY="27.0" text="Add New User " />
+    </children>
+    </Pane>
+   
+     
+    <TableView fx:id="table" layoutX="30.0" layoutY="100.0" prefHeight="368.0" prefWidth="575.0">
      <columns>
                   <TableColumn  fx:id="name"  prefWidth="143.0" text="Name" />
-                 <TableColumn fx:id="email" prefWidth="85.0" text="Email" />
-                  <TableColumn fx:id="type" prefWidth="360.0" text="User Type" /> 
+                  <TableColumn fx:id="email" prefWidth="85.0" text="Email" />
+                  <TableColumn fx:id="usertype" prefWidth="360.0" text="User Type" /> 
+                 
                   
      </columns>
     </TableView>
+   
+     
    </children>
-   <padding>
-      <insets bottom="10.0" left="30.0" right="10.0" top="10.0"/>
-   <padding>
+  
 </AnchorPane> 

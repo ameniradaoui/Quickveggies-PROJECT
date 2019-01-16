@@ -37,11 +37,32 @@ public class User
         this.email = email;
         this.role = role;
     }
-
     
-    public User(String name, String password, String email, int role, boolean bool_status, String usertype) {
+    public User(String name, String email, String usertype) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.usertype = usertype;
+	}
+
+	public User(String name, String password, String email, int role, boolean bool_status, String usertype) {
 		super();
 		//this.id = id;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.bool_status = bool_status;
+		this.usertype = usertype;
+	}
+	
+	
+
+	
+
+	public User(int id, String name, String password, String email, int role, boolean bool_status, String usertype) {
+		super();
+		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.email = email;

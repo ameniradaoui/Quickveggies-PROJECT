@@ -2,6 +2,7 @@ package com.quickveggies.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.quickveggies.entities.User;
@@ -21,5 +22,11 @@ public interface IUserUtils {
 	//## changed by ss on 21-Dec-2017
 
 	void saveUser(User user) throws SQLException;
+
+	List<User> geUser();
+
+	boolean deleteUser(int id);
+
+	boolean deleteUser(String name);
 
 }
