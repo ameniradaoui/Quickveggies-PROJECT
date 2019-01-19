@@ -419,6 +419,10 @@ public class DBuyerController implements Initializable {
 //                }
 //            };
 //        });
+        
+    
+        
+        
         totalSumCol.setEditable(false);
         TableColumn casesCol = new TableColumn(CASES);
         casesCol.setCellValueFactory(new PropertyValueFactory<>("cases"));

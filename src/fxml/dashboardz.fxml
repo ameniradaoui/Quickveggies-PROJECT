@@ -186,7 +186,7 @@
                         <Font name="Lucida Sans Regular" size="11.0" />
                     </font>
                 </Button>
-                <Button alignment="BASELINE_LEFT" layoutX="130.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Recieved (cr)">
+                <Button fx:id="test" alignment="BASELINE_LEFT" layoutX="130.0" layoutY="120.0" mnemonicParsing="false" prefWidth="120.0" style="-fx-background-color: linear-gradient(to top, rgba(0,0,0,.27), rgba(255,255,255,.47)); -fx-border-radius: 2px; -fx-text-fill: white;" text="Money Recieved (cr)">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>

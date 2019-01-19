@@ -155,7 +155,7 @@ public class UserUtils implements IUserUtils {
 	public List<User> geUser() {
 		List<User> list = new ArrayList<>();
 		try ( Connection connection = dataSource.getConnection();
-				PreparedStatement ps = dataSource.getConnection().prepareStatement("Select * from users;")) {
+				PreparedStatement ps = dataSource.getConnection().prepareStatement("select * from  users where usertype != 'Admin';")) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				User deal = new User(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getBoolean(6),rs.getString(7));

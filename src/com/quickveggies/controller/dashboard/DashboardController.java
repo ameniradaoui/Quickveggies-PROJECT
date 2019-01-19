@@ -128,6 +128,9 @@ public class DashboardController extends AbstractFreshEntryController implements
     private Button godown;
     @FXML
     private Button companyInfo;
+    @FXML
+    private Button test;
+    
     
     @FXML
     private Button notification;
@@ -342,7 +345,7 @@ public class DashboardController extends AbstractFreshEntryController implements
 		
 		});
             
-        
+         
         
  
       

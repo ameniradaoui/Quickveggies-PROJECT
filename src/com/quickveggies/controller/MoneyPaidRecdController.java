@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.TreeSet;
 import com.ai.util.dates.DateUtil;
 import com.quickveggies.BeanUtils;
 import com.quickveggies.GeneralMethods;
+import com.quickveggies.Main;
 import com.quickveggies.PaymentMethodSource;
 import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.DatabaseClient;
@@ -38,17 +40,27 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
@@ -77,6 +89,9 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
 
     @FXML
     private Button btnSave;
+    
+    @FXML
+    private Button glTag;
 
     @FXML
     private SearchPartyButton btnSearchParty;
@@ -104,6 +119,9 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     @FXML
     private TextField txtBankName;
 
+    @FXML
+    public static TextField txtgl;
+    
     @FXML
     private Button btnAddSnapshot;
 
@@ -163,11 +181,23 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     
-        
+    	
         bd = BeanUtils.getBean(BuyerDao.class);
         supplierDao = BeanUtils.getBean(SupplierDao.class);
         mpd = BeanUtils.getBean(MoneyPaidRecdDao.class);
         dbclient = BeanUtils.getBean(DatabaseClient.class);
+        
+        
+        BackgroundImage backgroundImage = new BackgroundImage(
+                new Image(getClass().getResource("/icons/search_icon.png").toExternalForm(), 30, 30, true, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+    
+        glTag.setBackground(background);
+        
+       
+        
         
         generatedKey = null;
         LocalDate date = LocalDate.now();
@@ -181,6 +211,7 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
             throw new IllegalStateException("Amount type must be set before calling this method");
         }
         switch (amountType) {
+        
             case PAID:
                 lblTitle.setText("Money Paid");
                 break;
@@ -368,8 +399,31 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
                 uploadImage();
             }
         });
-        
-      
+       
+		
+        glTag.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	new Main().replaceSceneContent("/fxml/glCodes.fxml");
+            	
+            	
+//				try {
+//					 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/glCodes.fxml"));
+//	                 Parent root1;
+//					 root1 = (Parent) fxmlLoader.load();
+//					 Stage stage = new Stage();
+//	                 stage.setScene(new Scene(root1));  
+//	                 stage.show();
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//                 
+            }    
+                    
+    		});
+            
+       
         
         partyList = updateGrowersList();
         txtParty.setEntries(partyList);
