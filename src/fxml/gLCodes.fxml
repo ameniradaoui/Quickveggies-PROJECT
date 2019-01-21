@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+
+
+
+<AnchorPane  fx:id="settingsPane"  prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.65"   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quickveggies.controller.GLController">
+   
+    <children>
+    
+    
+  
+    <TableView fx:id="table" layoutX="0" layoutY="0" prefHeight="800" prefWidth="800">
+     <columns>
+                  <TableColumn  fx:id="gLCode"  prefWidth="143.0" text="GL Code" />
+                  <TableColumn fx:id="nameOfLedger" prefWidth="85.0" text="Name of Ledger" />
+                  <TableColumn fx:id="accountCode" prefWidth="360.0" text="Account Code" /> 
+                  <TableColumn  fx:id="accountType"  prefWidth="143.0" text="Account Type" />
+                  <TableColumn fx:id="description" prefWidth="360.0" text="Description Box Detail" /> 
+                 
+                  
+     </columns>
+    </TableView>
+   
+     
+   </children>
+  
+</AnchorPane> 

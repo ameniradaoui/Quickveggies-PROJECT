@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.SpringTransactionAnnotationParser;
 
+import com.quickveggies.entities.ArrivalSelectionBar;
 import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.DSalesTableLine;
 import com.quickveggies.impl.IDsalesTableDao;
@@ -42,6 +43,18 @@ public class DSalesTableDao implements IDsalesTableDao {
 			ArrivalSelectionFilter ret = new ArrivalSelectionFilter();
 			ret.setYear(rs.getInt(2));
 			ret.setFruit(rs.getString(1));
+			return ret;
+		}
+
+	};
+	
+	private static RowMapper<ArrivalSelectionBar> selectionFilerMapperBar = new RowMapper<ArrivalSelectionBar>() {
+
+		@Override
+		public ArrivalSelectionBar mapRow(ResultSet rs, int rowNum) throws SQLException {
+			ArrivalSelectionBar ret = new ArrivalSelectionBar();
+			ret.setYear(rs.getInt(1));
+			ret.setSommenet(rs.getString(2));
 			return ret;
 		}
 
@@ -223,6 +236,14 @@ public class DSalesTableDao implements IDsalesTableDao {
 		return template.query(
 				"select DISTINCT fruit, extract('year' from date) as year from arrival group by fruit , year;",
 				selectionFilerMapper);
+	}
+	
+	@Override
+	public List<ArrivalSelectionBar> getSelectionBarchart() {
+		initTemplate();
+		return template.query(
+				"select  sum(cast(net as int)) as sommenet, extract('year' from date) as year from arrival group by year;",
+				selectionFilerMapperBar);
 	}
 
 	private void initTemplate() {

@@ -24,6 +24,7 @@ import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.dao.MoneyPaidRecdDao;
 import com.quickveggies.dao.SupplierDao;
 import com.quickveggies.entities.Buyer;
+import com.quickveggies.entities.GLCode;
 import com.quickveggies.entities.MoneyPaidRecd;
 import com.quickveggies.entities.PartyType;
 import com.quickveggies.entities.Supplier;
@@ -66,9 +67,17 @@ import javafx.stage.Stage;
 
 public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
 
-    public enum AmountType {
+    public MoneyPaidRecdController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public enum AmountType {
         PAID, RECEIVED;
     }
+	
+	
+	private static GLCode glcodeSelected = new GLCode();
 
     private static final String STR_ADD_NEW = "Add new...";
 
@@ -120,9 +129,13 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     private TextField txtBankName;
 
     @FXML
-    public static TextField txtgl;
+    private  TextField txtgl;
     
-    @FXML
+  
+    private static String name ="";
+	
+
+	@FXML
     private Button btnAddSnapshot;
 
     @FXML
@@ -151,6 +164,8 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     private PaymentMethodSource defPayMethodSource;
     private String defaultAmt, defPartyTitle, defDate, chequeNo, bankName;
 
+	private String nameOfLedger = "default";
+
     public MoneyPaidRecdController(EntityType partyType, AmountType amountType) {
         this.partType = partyType;
         this.amountType = amountType;
@@ -177,6 +192,14 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         this.chequeNo = chequeNo;
         this.bankName = bankName;
     }
+    
+    
+    @SuppressWarnings("restriction")
+	public void initData (String name){
+    	this.name  = name;
+    }
+    
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -186,7 +209,7 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         supplierDao = BeanUtils.getBean(SupplierDao.class);
         mpd = BeanUtils.getBean(MoneyPaidRecdDao.class);
         dbclient = BeanUtils.getBean(DatabaseClient.class);
-        
+       
         
         BackgroundImage backgroundImage = new BackgroundImage(
                 new Image(getClass().getResource("/icons/search_icon.png").toExternalForm(), 30, 30, true, true),
@@ -222,7 +245,8 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         }
         lblPartyType.setText(partType.getValue().concat(" Title"));
         dpDate.setValue(date);
-
+        if  (glcodeSelected.getNameOfLedger() != null)
+        	txtgl.setText(glcodeSelected.getNameOfLedger());
 //        partyList = updatePartyList(partType);
 //        txtParty.setEntries(partyList);
 //        txtParty.setLinkedFieldsReturnType(AutoCompleteTextField.ENTRY_IND);
@@ -404,21 +428,23 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         glTag.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	new Main().replaceSceneContent("/fxml/glCodes.fxml");
+            	//new Main().replaceSceneContent("/fxml/glCodes.fxml");
             	
             	
-//				try {
-//					 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/glCodes.fxml"));
-//	                 Parent root1;
-//					 root1 = (Parent) fxmlLoader.load();
-//					 Stage stage = new Stage();
-//	                 stage.setScene(new Scene(root1));  
-//	                 stage.show();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//                 
+				try {
+					 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/glCodes.fxml"));
+	                 Parent root1;
+					 root1 = (Parent) fxmlLoader.load();
+					 Stage stage = new Stage();
+	                 stage.setScene(new Scene(root1));  
+	                 stage.show();
+	                 
+	                stage.setOnHiding( e -> { txtgl.setText(MoneyPaidRecdController.name); } );
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                 
             }    
                     
     		});
@@ -442,6 +468,18 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
         });
         btnSearchParty.setPartyType(PartyType.SUPPLIERS);
         btnSearchParty.setLinkedObject(txtParty);
+       
+
+        
+    }
+    
+    private void focusState(boolean value) {
+        if (value) {
+            System.out.println("Focus Gained");
+        }
+        else {
+            System.out.println("Focus Lost");
+        }
     }
     
     private TreeSet<String> updateGrowersList() {
@@ -563,6 +601,7 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
                 amtPaid = "0";
         }
         MoneyPaidRecd mpr = new MoneyPaidRecd();
+        mpr.setTag(txtgl.getText());
         mpr.setDate(dpDate.getValue().toString());
         if (cboPaymentType.getValue().equalsIgnoreCase("bank")) {
             mpr.setBankName(txtBankName.getText());
@@ -633,4 +672,6 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     private static boolean ignoreMoneyCash(String value) {
         return (value == null || value.trim().isEmpty() || value.trim().equals("0"));
     }
+
+	
 }

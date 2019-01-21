@@ -125,6 +125,7 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	            mpr.setBankName(rs.getString("bankName"));
 	            mpr.setChequeNo(rs.getString("chequeNo"));
 	            mpr.setDepositDate(rs.getString("depositDate"));
+	            mpr.setTag(rs.getString("tag"));
 	            Blob blob = rs.getBlob("receipt");
 	            if (blob != null) {
 	                mpr.setReceipt(blob.getBinaryStream());
@@ -172,6 +173,7 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	                value.setDescription(rs.getString("description"));
 	                value.setPaymentMode(rs.getString("paymentMode"));
 	                value.setBankName(rs.getString("bankName"));
+	                value.setTag(rs.getString("tag"));
 	                value.setChequeNo(rs.getString("chequeNo"));
 	                value.setDepositDate(rs.getString("depositDate"));
 	                Blob blob = rs.getBlob("receipt");
@@ -217,7 +219,7 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 			this.dataSource = dataSource;
 		}
 		private static final String INSERT_PARTY_MONEY_QRY = "INSERT INTO partyMoney ("
-	            + "title , partyType , date , paymentMode , paid , received, bankName , chequeNo , depositDate , isAdvanced , receipt, description ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+	            + "title , partyType , date , paymentMode , paid , received, bankName , chequeNo , depositDate , isAdvanced , receipt, description, tag ) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)";
 
 	   
 	    /* (non-Javadoc)
@@ -240,6 +242,8 @@ public class MoneyPaidRecdDao implements IMoneyPaidRecordDao {
 	            ps.setString(10, mpr.getIsAdvanced());
 	            ps.setBlob(11, mpr.getReceipt());
 	            ps.setString(12, mpr.getDescription());
+	            ps.setString(13, mpr.getTag());
+	            
 	            ps.executeUpdate();
 	            String auditMsg;
 	            if (auditLogMsg != null && !auditLogMsg.isEmpty()) {

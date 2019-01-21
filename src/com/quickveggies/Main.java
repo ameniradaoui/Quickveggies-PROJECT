@@ -53,9 +53,9 @@ public class Main extends Application {
         }
         scene.getStylesheets().add("/css/style.css");
         stage.setScene(scene);
-        stage.setResizable(false);
+   //     stage.setResizable(false);
         stage.setTitle("Quick Veggies");
-        stage.setFullScreen(true);
+     //   stage.setFullScreen(true);
         stage.show();
        // stage.centerOnScreen();
        
@@ -93,7 +93,7 @@ public class Main extends Application {
         stage.setMinWidth(stage.getScene().getWidth());
         stage.setMinHeight(stage.getScene().getHeight());
         //## added by ss
-        stage.setFullScreen(true);
+     //   stage.setFullScreen(true);
         stage.show();
     }
 }

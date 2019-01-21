@@ -5,6 +5,7 @@ import java.io.InputStream;
 public class MoneyPaidRecd {
 
     private int id;
+    private String tag;
     private String title ;
     private String partyType ;
     private String date ;
@@ -123,5 +124,13 @@ public class MoneyPaidRecd {
     public void setDescription(String description) {
         this.description = description;
     }
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 
 }

@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.poi.ss.formula.functions.XYNumericFunction;
+
 import com.ai_int.utils.ExcelExportUtil;
 import com.ai_int.utils.FileUtil;
 import com.ai_int.utils.javafx.ListViewUtil;
@@ -22,6 +24,7 @@ import com.quickveggies.dao.ChargesDao;
 import com.quickveggies.dao.DSalesTableDao;
 import com.quickveggies.dao.DatabaseClient;
 import com.quickveggies.dao.SupplierDao;
+import com.quickveggies.entities.ArrivalSelectionBar;
 import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.Charge;
 import com.quickveggies.entities.DSalesTableLine;
@@ -45,6 +48,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -54,6 +59,10 @@ import javafx.scene.layout.Pane;
 
 public class DSalesTransController implements Initializable {
 
+	
+	@FXML
+	private BarChart<String , Integer> barChart;
+	
     @FXML
     private Label Title;
 
@@ -131,6 +140,9 @@ public class DSalesTransController implements Initializable {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void initialize(URL location, ResourceBundle resources) {
     	
+    	
+    	
+    	
     	    dbclient = BeanUtils.getBean(DatabaseClient.class);
     	    dSalesDao = BeanUtils.getBean(DSalesTableDao.class);
     	    supplierDao = BeanUtils.getBean(SupplierDao.class);
@@ -138,11 +150,12 @@ public class DSalesTransController implements Initializable {
     	    dSalesTableDao = BeanUtils.getBean(IDsalesTableDao.class);
     	   
     	    setupFilterAction();
+    	    setupBarChart();
     	    
         final Pane pane = (Pane) btnColSettings.getParent().getParent();
         ListViewUtil.addColumnSettingsButtonHandler(salesDashTable, pane, btnColSettings);
         
-        
+     
         String fruit = null;
 		Date date = null;
 		
@@ -264,6 +277,25 @@ public class DSalesTransController implements Initializable {
         });
         btnPrint.setOnAction((event) -> TableUtil.printTable(salesDashTable, "Arrival Transaction List", actionsCol));
         setupTotalAmountsTable(lines);
+    }
+    
+    
+    private void setupBarChart(){
+    	
+    	   XYChart.Series<String , Integer> series = new XYChart.Series<String , Integer>();
+           
+           
+           
+    	List<ArrivalSelectionBar> selectionFiler = dSalesDao.getSelectionBarchart();
+  	  //List<String> list = new ArrayList<String>();
+  	for (ArrivalSelectionBar arrivalSelectionFilter : selectionFiler) {
+			//list.add(arrivalSelectionFilter.getYear() + arrivalSelectionFilter.getNet());
+			
+			series.getData().add(new XYChart.Data<>( arrivalSelectionFilter.getSommenet(), arrivalSelectionFilter.getYear()  ) );
+		}
+      
+      
+       barChart.getData().add(series);
     }
   //test filter
     private void setupFilterAction() {

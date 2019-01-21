@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.quickveggies.entities.ArrivalSelectionBar;
 import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.DSalesTableLine;
 
@@ -22,6 +23,8 @@ public interface IDsalesTableDao {
 	
 	
 	List<ArrivalSelectionFilter> getSelectionFiler();
+
+	List<ArrivalSelectionBar> getSelectionBarchart();
 	
 	
 
