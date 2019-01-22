@@ -1,6 +1,8 @@
 package com.quickveggies.controller.dashboard;
 
+
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -11,14 +13,19 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.quickveggies.BeanUtils;
+import com.quickveggies.controller.MoneyPaidRecdController;
 import com.quickveggies.controller.SessionDataController;
 import com.quickveggies.dao.CompanyDao;
 import com.quickveggies.entities.Company;
 
+
+import javafx.scene.control.ProgressBar;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Control;
@@ -26,16 +33,30 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class IntroDashController implements Initializable {
 
+	
+	@FXML
+	private ProgressBar progressbar1;
+	
+	@FXML
+	private Button buttoncompany;
     @FXML
     private Label lblPendingLadaan;
 
@@ -114,17 +135,59 @@ public class IntroDashController implements Initializable {
                 }
             });
         }
-        if (company.getLogo() != null) {
-            Image companyImage = new Image(company.getLogo());
-            imgCompanyLogo.setImage(companyImage);
-        }
-        if (company.getName() != null) {
-            lblCompanyName.setText(company.getName());
-        }
+//        if (company.getLogo() != null) {
+//            Image companyImage = new Image(company.getLogo());
+//            imgCompanyLogo.setImage(companyImage);
+//        }
+//        if (company.getName() != null) {
+//            lblCompanyName.setText(company.getName());
+//        }
         lblPendingLadaan.setTooltip(new Tooltip("Click to open Ladaan/Bijak Dashboard"));
         session.resetPendingLadaanEntries();
         session.resetPendingColdStoreEntries();
         session.resetPendingGodownEntries();
+        
+        BackgroundImage backgroundImage = new BackgroundImage(
+                new Image(getClass().getResource("/icons/add.png").toExternalForm(), 50, 50, true, true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+    
+        buttoncompany.setBackground(background);
+        
+        
+        buttoncompany.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	//new Main().replaceSceneContent("/fxml/glCodes.fxml");
+            	
+            	
+				try {
+					 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/companyadd.fxml"));
+	                 Parent root1;
+					 root1 = (Parent) fxmlLoader.load();
+					 Stage stage = new Stage();
+	                 stage.setScene(new Scene(root1));  
+	                 stage.show();
+	                 
+	               
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                 
+            }    
+                    
+    		});
+        
+        
+        //here we will create the formulaire 
+        progressbar1.setProgress(0.9);
+    
+       
+        
+            
+        
     }
 
     public IntroDashController(DashboardController dashboard) {

@@ -127,7 +127,7 @@ public class DashboardController extends AbstractFreshEntryController implements
     @FXML
     private Button godown;
     @FXML
-    private Button companyInfo;
+    private Button btnAccount;
     @FXML
     private Button test;
     
@@ -601,18 +601,33 @@ public class DashboardController extends AbstractFreshEntryController implements
             }
         });
         
-        companyInfo.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                try {
-                    mainView.getChildren()
-                            .setAll((Node) FXMLLoader.load(getClass().getResource("/fxml/companyviewer.fxml")));
-                    switchVisible(entryMenu, splitView);
-                    setupDashboardAnchors();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        btnAccount.setOnAction(new EventHandler<ActionEvent>() {
+           
+            	@Override
+                public void handle(ActionEvent event) {
+                	
+                	
+                	
+    				try {
+    					 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/addAccount.fxml"));
+    	                 Parent root1;
+    					 root1 = (Parent) fxmlLoader.load();
+    					 Stage stage = new Stage();
+    	                 stage.setScene(new Scene(root1));  
+    	                 stage.show();
+    	                 
+    	              
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+                     
+                   
+               
             }
         });
+        
+        
         
         closePlusMenu.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {

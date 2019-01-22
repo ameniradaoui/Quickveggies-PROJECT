@@ -11,7 +11,7 @@ public class Account {
     private String bankName;
     private String phone;
     private String description;
-    private int lastupdated;
+    private  static int lastupdated = 10;
 
    
 
