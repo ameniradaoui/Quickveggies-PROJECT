@@ -8,11 +8,11 @@ import com.quickveggies.entities.ExpenseInfo;
 
 public interface IExpenseDao {
 
-	String[] getExpenseEntryLineFromSql(int id) throws SQLException, NoSuchElementException;
+	String[] getExpenseEntryLineFromSql(Long id) throws SQLException, NoSuchElementException;
 
-	String getLastExpenseType(int id) throws SQLException, NoSuchElementException;
+	String getLastExpenseType(Long id) throws SQLException, NoSuchElementException;
 
-	String getLastExpense(int id) throws SQLException, NoSuchElementException;
+	String getLastExpense(Long id) throws SQLException, NoSuchElementException;
 
 	void updateExpenseInfo(String name, String type, String defaultAmount);
 
@@ -31,5 +31,7 @@ public interface IExpenseDao {
 	List<ExpenseInfo> getBuyerExpenseInfoList();
 
 	void deleteExpenseInfo(String name);
+
+	
 
 }

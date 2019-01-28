@@ -12,12 +12,14 @@ public interface IExpenditureDao {
 
 	List<String> getExpenditureTypeList();
 
-	boolean addExpenditure(Expenditure xpr);
+	Long addExpenditure(Expenditure xpr);
 
 	List<Expenditure> getExpenditureList();
 
-	Expenditure getExpenditureById(int id);
+	Expenditure getExpenditureById(Long id);
 
-	void deleteExpenditureEntry(int id, boolean writeAuditLog);
+	
+
+	void deleteExpenditureEntry(Long id, boolean writeAuditLog);
 
 }

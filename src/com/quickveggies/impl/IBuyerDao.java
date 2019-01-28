@@ -14,26 +14,25 @@ public interface IBuyerDao {
 
 	void deleteBuyerExpenseInfo(String name);
 
-	String[] getBuyerDealEntryLineFromSql(int id) throws SQLException, NoSuchElementException;
+	DBuyerTableLine getBuyerDealEntryLineFromSql(int id) throws SQLException, NoSuchElementException;
 
-	DBuyerTableLine getBuyerDealEntry(int id) throws SQLException, NoSuchElementException;
-
+	
 	List<DBuyerTableLine> getBuyerDealEntries(String buyerTitle, String[] skipBuyers)
 			throws SQLException, NoSuchElementException;
 
 	List<ExpenseInfo> getBuyerExpenseInfoList();
 
-	void saveBuyer(Buyer buyer) throws SQLException;
+	Long saveBuyer(Buyer buyer) throws SQLException;
 
 	Buyer getBuyerByName(String name) throws SQLException, NoSuchElementException;
 
-	Buyer getBuyerById(int id) throws SQLException, NoSuchElementException;
+	Buyer getBuyerById(Long id) throws SQLException, NoSuchElementException;
 
 	List<Buyer> getBuyers() throws SQLException;
 
-	int getRowsNum(String tablename);
+	Long getRowsNum(String tablename);
 
-	Vector<Vector<Object>> getAllBuyers() throws SQLException;
+	//Vector<Vector<Object>> getAllBuyers() throws SQLException;
 
 	List<DBuyerTableLine> getListByBuyerType(String title);
 
@@ -46,5 +45,9 @@ public interface IBuyerDao {
 	List<Buyer> getBuyerByDate(BuyerSelectionFilter filter);
 
 	List<Buyer> getListByBuyerTitle(String name);
+
+	DBuyerTableLine getBuyerDealEntry(Long id) throws SQLException, NoSuchElementException;
+
+	
 
 }

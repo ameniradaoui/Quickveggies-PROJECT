@@ -127,7 +127,7 @@ public class AddAccountController implements Initializable {
             if (description.getText() == null) {
                 description.setText("");
             }
-            Account account = new Account(0, acNo.getText(), accountType,
+            Account account = new Account(0l, acNo.getText(), accountType,
                     Double.parseDouble(balance.getText()), Double.parseDouble(balance.getText()), accName.getText(), bankName.getText(), phone.getText(), description.getText(),
                     (int) (System.currentTimeMillis() / (1000 * 3600 * 24)));
             try {
@@ -136,11 +136,13 @@ public class AddAccountController implements Initializable {
                 	accountEntryDao.saveAccount(account);
                 }
                 else {
-                    dbclient.updateTableEntry("accounts", oldAccount.getId(),
-                            new String[]{"acc_name", "acc_type", "acc_number", "bank_name", "balance", "initBalance", "phone", "description", "lastupdated"},
-                            new String[]{accName.getText(), accountType + "", acNo.getText(), bankName.getText(), balance.getText(), balance.getText(), phone.getText(), description.getText(),
-                                (int) (System.currentTimeMillis() / (1000 * 3600 * 24)) + ""},
-                            false);
+                	
+               	accountEntryDao.updateAccount(account);
+//                    dbclient.updateTableEntry("accounts", oldAccount.getId(),
+//                            new String[]{"acc_name", "acc_type", "acc_number", "bank_name", "balance", "initBalance", "phone", "description", "lastupdated"},
+//                            new String[]{accName.getText(), accountType + "", acNo.getText(), bankName.getText(), balance.getText(), balance.getText(), phone.getText(), description.getText(),
+//                                (int) (System.currentTimeMillis() / (1000 * 3600 * 24)) + ""},
+//                            false);
                 }
                 save.getScene().getWindow().hide();
             }

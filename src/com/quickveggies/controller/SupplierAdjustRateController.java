@@ -113,8 +113,8 @@ public class SupplierAdjustRateController implements Initializable{
 
 					String columns[] = new String[] {"gross", "net","charges"};
 					String values[] = new String[] {newGross.toString(), newNet.toString(), newCharges.toString()};
-					dbClient.updateTableEntry("arrival", Utils.toInt(salesLine.getSaleNo()), columns, values, false);
-					dbClient.updateTableEntry("supplierDeals", Utils.toInt(inProcessSupplierDeal.getSaleNo()), new String[]{"supplierRate", "net"}, new String[]{newRate.toString(), newNet.toString()}, false);
+					dbClient.updateTableEntry("arrival", Utils.toLong(salesLine.getSaleNo()), columns, values, false);
+					dbClient.updateTableEntry("supplierDeals", Utils.toLong(inProcessSupplierDeal.getSaleNo()), new String[]{"supplierRate", "net"}, new String[]{newRate.toString(), newNet.toString()}, false);
 					GeneralMethods.msg("Supplier rates have been updated. Please check logs for any errors");
 					btnSave.getScene().getWindow().hide();
 				}

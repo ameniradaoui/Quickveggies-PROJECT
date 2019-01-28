@@ -2,9 +2,13 @@ package com.quickveggies.entities;
 
 public class AccountEntryLine {
 
-    public static final int DEFAULT = 0, INSOFTWARE = 1, EXCLUDED = 2;
+  
 
-    private Integer id;
+	
+
+	public static final int DEFAULT = 0, INSOFTWARE = 1, EXCLUDED = 2;
+
+    private Long id;
     private String accountName;
     private String dateCol, descriptionCol;
     private double withdrawalCol, depositCol, balanceCol;
@@ -14,14 +18,35 @@ public class AccountEntryLine {
     private String expense;
     private String comment;
     private String transIdCol;
-    private Integer parentId;
-    private Integer paymentId;
+    private Long parentId;
+    private Long paymentId;
 
     private String payeeType;
+    
+    public AccountEntryLine(Long id, String accountName, String dateCol, String descriptionCol, double withdrawalCol,
+			double depositCol, double balanceCol, String chqnoCol, Integer status, String payee, String expense,
+			String comment, String transIdCol, Long parentId) {
+		super();
+		this.id = id;
+		this.accountName = accountName;
+		this.dateCol = dateCol;
+		this.descriptionCol = descriptionCol;
+		this.withdrawalCol = withdrawalCol;
+		this.depositCol = depositCol;
+		this.balanceCol = balanceCol;
+		this.chqnoCol = chqnoCol;
+		this.status = status;
+		this.payee = payee;
+		this.expense = expense;
+		this.comment = comment;
+		this.transIdCol = transIdCol;
+		this.parentId = parentId;
+		
+	}
 
     public AccountEntryLine(String accountName, String transIdCol, String dateCol, String chqnoCol,
             String descriptionCol, double withdrawalCol, double depositCol, double balanceCol, int status, String payee,
-            String expense, String comment, Integer parentId) {
+            String expense, String comment, Long parentId) {
         setAccountName(accountName);
         setDateCol(dateCol);
         setChqnoCol(chqnoCol);
@@ -44,7 +69,11 @@ public class AccountEntryLine {
                 depositCol, balanceCol, status, payee, expense, comment, null);
     }
 
-    public String getComment() {
+    public AccountEntryLine() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getComment() {
         return comment;
     }
 
@@ -132,11 +161,11 @@ public class AccountEntryLine {
         this.status = status;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -156,19 +185,19 @@ public class AccountEntryLine {
         this.transIdCol = transIdCol;
     }
 
-    public Integer getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-    public Integer getPaymentId() {
+    public Long getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(Integer paymentId) {
+    public void setPaymentId(Long paymentId) {
         this.paymentId = paymentId;
     }
 

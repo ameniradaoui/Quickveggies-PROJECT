@@ -251,7 +251,7 @@ public class DTeepController implements Initializable {
     private void fillSaleDeals() {
         for (DBuyerTableLine buyerLine : buyerDeals) {
             try {
-                DSalesTableLine dstl = dSalesDao.getSalesEntryLineByDealId(Integer.valueOf(buyerLine.getDealID()));
+                DSalesTableLine dstl = dSalesDao.getSalesEntryLineByDealId(Long.valueOf(buyerLine.getDealID()));
                 salesDeals.add(dstl);
                 saleDealMap.put(dstl.getDealID(), dstl);
             } catch (NumberFormatException | NoSuchElementException | SQLException e) {

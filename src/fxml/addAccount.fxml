@@ -44,7 +44,7 @@
        <TextField id="label-text-on-light" fx:id="txtbalance" layoutX="350.0" layoutY="330" prefHeight="32.0" prefWidth="90" />
       
         <Label id="label-text-on-light" layoutX="460" layoutY="310" text="as of" />
-       <DatePicker id="label-text-on-light" fx:id="txtbalance" layoutX="460" layoutY="330" prefHeight="32.0" prefWidth="90" />
+       <DatePicker id="label-text-on-light" fx:id="date" layoutX="460" layoutY="330" prefHeight="32.0" prefWidth="90" />
        
       <TextField id="label-text-on-light" fx:id="description" layoutX="350.0" layoutY="153.0" prefHeight="32.0" prefWidth="201.0" />
       

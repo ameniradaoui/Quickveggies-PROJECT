@@ -18,6 +18,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 import com.itextpdf.text.log.Logger;
@@ -38,9 +41,40 @@ public class GLCodeDao implements iGLCodeDao {
 		return dataSource;
 	}
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+
+	
+	private static RowMapper<GLCode> mapper = new RowMapper<GLCode>() {
+		@Override
+		public GLCode mapRow(ResultSet data, int index) throws SQLException {
+			GLCode item = new GLCode();
+			item.setAccountCode(data.getString("accountcode"));
+			item.setNameOfLedger(data.getString("nameofledger"));
+			item.setGLCode(data.getString("glcode"));
+			item.setAccountType(data.getString("accounttype"));
+			item.setDescription(data.getString("description"));
+					
+			return item;
+		}
+	};
+	  private JdbcTemplate template;
+		
+		
+		private void initTemplate() {
+			if (template == null) {
+				template = new JdbcTemplate(dataSource);
+				
+			}
+		}
+		
+		
+		
+		
+		
+		public void setDataSource(DataSource dataSource) {
+			template = new JdbcTemplate(dataSource);
+		
+			
+		}
 
 	@Override
 	public ResultSet getResult(String query) throws SQLException {
@@ -51,23 +85,28 @@ public class GLCodeDao implements iGLCodeDao {
 	
 	 @Override
 		public List<GLCode> getGLCode() {
-			List<GLCode> list = new ArrayList<>();
-			try ( Connection connection = dataSource.getConnection();
-					PreparedStatement ps = dataSource.getConnection().prepareStatement("select * from GLCode;")) {
-				ResultSet rs = ps.executeQuery();
-				while (rs.next()) {
-					GLCode deal = new GLCode( rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
-
-					list.add(deal);
-					
-					
-					
-					
-				}
-			} catch (SQLException x) {
-				x.printStackTrace();
-			}
-			return list;
+		 
+		 initTemplate();
+		 return template.query("select * from GLCode;", mapper);
+//			List<GLCode> list = new ArrayList<>();
+//			try ( Connection connection = dataSource.getConnection();
+//					PreparedStatement ps = dataSource.getConnection().prepareStatement("select * from GLCode;")) {
+//				ResultSet rs = ps.executeQuery();
+//				while (rs.next()) {
+//					GLCode deal = new GLCode( rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+//
+//					list.add(deal);
+//					
+//					
+//					
+//					
+//				}
+//				ps.close();
+//				connection.close();
+//			} catch (SQLException x) {
+//				x.printStackTrace();
+//			}
+//			return list;
 		}
 		
 	  @Override
@@ -94,6 +133,8 @@ public class GLCodeDao implements iGLCodeDao {
 		         prepStmnt.execute();
 		    	 
 		     }
+		     prepStmnt.close();
+		     connection.close();
 	       
 	       } catch (SQLException | FileNotFoundException e) {
 			e.printStackTrace();

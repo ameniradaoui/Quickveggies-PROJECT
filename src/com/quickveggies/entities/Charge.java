@@ -2,7 +2,7 @@ package com.quickveggies.entities;
 
 public class Charge {
 
-	private int id;
+	private Long id;
 
 	private String name;
 
@@ -20,11 +20,11 @@ public class Charge {
 		this.amount = amount;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

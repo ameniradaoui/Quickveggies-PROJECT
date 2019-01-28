@@ -2,7 +2,7 @@ package com.quickveggies.entities;
 
 public class Account {
 
-    private int id;
+    private Long id;
     private String accountNumber;
     private int accountType;
     private double balance;
@@ -15,7 +15,7 @@ public class Account {
 
    
 
-	public Account(int id, String number, int accountType,double balance,double initBalance,String accountName,
+	public Account(Long id, String number, int accountType,double balance,double initBalance,String accountName,
     		String bankName,String phone,String description,int lastupdated) {
         this.setId(id);
         this.accountNumber = number;
@@ -29,11 +29,15 @@ public class Account {
         this.setInitBalance(initBalance);
     }
 
-	 public int getId() {
+	 public Account() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getId() {
 		return id;
 		}
 	 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 		}
 	

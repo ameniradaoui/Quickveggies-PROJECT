@@ -6,18 +6,22 @@ import com.quickveggies.entities.AccountEntryPayment;
 
 public interface IAccountEntryPayementDao {
 
-	AccountEntryPayment getAccountEntryPayment(int id);
+	AccountEntryPayment getAccountEntryPayment(Long id);
 
-	AccountEntryPayment getAccountEntryPayment(String paymentTable, int paymentId);
+	AccountEntryPayment getAccountEntryPayment(String paymentTable, Long paymentId);
 
-	List<AccountEntryPayment> getAccountEntryPayments(int accountEntryId);
+	
 
-	Integer addAccountEntryPayment(AccountEntryPayment payment);
+	Long addAccountEntryPayment(AccountEntryPayment payment);
 
-	boolean deleteAccountPayment(int id);
+	boolean deleteAccountPayment(Long id);
 
-	boolean deleteAccountPaymentByEntryId(int accountEntryId);
 
-	boolean deleteAccountEntryPaymentByEntryId(int entryId);
+
+	boolean deleteAccountEntryPaymentByEntryId(Long entryId);
+
+	List<AccountEntryPayment> getAccountEntryPayments(Long accountEntryId);
+
+	boolean deleteAccountPaymentByEntryId(Long accountEntryId);
 
 }

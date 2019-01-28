@@ -445,4 +445,6 @@ public class DSalesTransController implements Initializable {
         }
         return invArr;
     }
+    
+   // newTrans
 }

@@ -104,7 +104,7 @@ public class SplitEntryController implements Initializable {
 
     private ArrayList<AccountEntryLine> entryLines = new ArrayList<AccountEntryLine>();
 
-    private Set<Integer> applyedLines = new HashSet<>();
+    private Set<Long> applyedLines = new HashSet<>();
     
     private final int WITHDRAWAL = 1, DEPOSIT = 2;
 
@@ -461,7 +461,7 @@ public class SplitEntryController implements Initializable {
 //                    return;
                     continue;
                 }
-                Integer generatedKey = DBankAccountsController.getGeneratedKey();
+                Long generatedKey = DBankAccountsController.getGeneratedKey();
                 if (generatedKey != null) {
                     applyedLines.add(generatedKey);
 //                    entry.setPaymentId(generatedKey);

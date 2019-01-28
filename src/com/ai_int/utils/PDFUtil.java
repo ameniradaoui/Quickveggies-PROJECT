@@ -140,7 +140,7 @@ public class PDFUtil {
         String newFileName = fileName + File.separator + line.getTitle()
                 + "_" + (new Date()).getTime() + ".pdf";
         File pdfFile = new File(newFileName);
-        Integer partyCode = 0;
+        Long partyCode = 0l;
         String partyName = "";
         try {
             if ("buyer".equalsIgnoreCase(line.getPartyType())) {
@@ -213,7 +213,7 @@ public class PDFUtil {
         String newFileName = fileName + File.separator + line.getId()
                 + "_" + (new Date()).getTime() + ".pdf";
         File pdfFile = new File(newFileName);
-        Integer partyCode = 0;
+        Long partyCode = 0l;
         String partyName = "";
         String partyType = "";
         try {

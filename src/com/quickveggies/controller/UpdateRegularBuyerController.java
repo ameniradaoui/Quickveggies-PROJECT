@@ -42,7 +42,7 @@ public class UpdateRegularBuyerController implements Initializable {
  
     private DatabaseClient dbclient ;
 
-    private int lineId;
+    private Long lineId;
     private String tableName = null;
     private String[] colNamesList = null;
     private String[] oldValuesList = null;
@@ -54,7 +54,7 @@ public class UpdateRegularBuyerController implements Initializable {
     private String tableLineType = null;
 
     public UpdateRegularBuyerController(String tableLineType, String lineId, String[] valuesList) {
-        this.lineId = Integer.parseInt(lineId);
+        this.lineId = Long.parseLong(lineId);
         this.oldValuesList = valuesList;
         this.tableLineType = tableLineType;
         colNamesList = new String[]{"Date", INVOICE_NO, "Buyer Rate", CASES, TOTAL_SUM};
@@ -126,7 +126,7 @@ public class UpdateRegularBuyerController implements Initializable {
         });
     }
 
-    private String[] getValuesFromTableLine(TableView<DBuyerTableLine> table, int lineId, String tableLineType) {
+    private String[] getValuesFromTableLine(TableView<DBuyerTableLine> table, Long lineId, String tableLineType) {
         String[] result = null;
         DBuyerTableLine line = table.getItems().get(0);
         result = new String[]{line.getSaleNo(), line.getDate(), line.getDealID(),

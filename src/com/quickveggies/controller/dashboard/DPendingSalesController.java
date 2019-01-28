@@ -273,7 +273,7 @@ public class DPendingSalesController implements Initializable {
                                             DSalesTableLine saleLine = saleDealMap
                                                     .get(currDeal.getDealID());
                                             dbClient.updateTableEntry("arrival",
-                                                    Utils.toInt(saleLine.getSaleNo()), "type",
+                                                    Utils.toLong(saleLine.getSaleNo()), "type",
                                                     "Regular", null);
                                         }
                                     }

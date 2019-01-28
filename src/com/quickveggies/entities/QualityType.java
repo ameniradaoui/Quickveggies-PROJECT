@@ -2,7 +2,7 @@ package com.quickveggies.entities;
 
 public class QualityType {
 
-	private int id;
+	private Long id;
 
 	private String name;
 	
@@ -12,7 +12,7 @@ public class QualityType {
 		this.name = name;
 	}
 	
-	public QualityType(int id, String name) {
+	public QualityType(Long id, String name) {
 		this.name = name;
 		this.id = id;
 	}
@@ -25,11 +25,11 @@ public class QualityType {
 		this.name = name;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

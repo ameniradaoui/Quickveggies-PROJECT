@@ -204,7 +204,7 @@ public class SessionDataController {
     public Property<String> pendingColdStoreEntriesProp = new SimpleStringProperty("");
 
     public void resetPendingLadaanEntries() {
-        int count = lbd.getNonEditedLadaanEntries();
+        Long count = lbd.getNonEditedLadaanEntries();
         pendingLadaanEntriesProp.setValue(String.valueOf(count));
     }
 

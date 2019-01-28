@@ -51,7 +51,7 @@ public class UpdateSupplierEntryController implements Initializable {
     private DatabaseClient dbclient ;
     
 
-    private final int lineId;
+    private final Long lineId;
     private String tableName = null;
     private String[] colNamesList = null;
     private String[] oldValuesList = null;
@@ -65,7 +65,7 @@ public class UpdateSupplierEntryController implements Initializable {
     private String tableLineType = null;
 
     public UpdateSupplierEntryController(String tableLineType, String lineId, String[] valuesList) {
-        this.lineId = Integer.parseInt(lineId);
+        this.lineId = Long.parseLong(lineId);
         this.oldValuesList = valuesList;
         this.colNamesList = new String[] { DATE, TITLE, PROPRIETOR, CASES, RATE, NET, "Agent" };
         cellValuesFactoryList = new String[]{"date", "supplierTitle", "proprietor", "cases", "supplierRate", "net",
@@ -134,7 +134,7 @@ public class UpdateSupplierEntryController implements Initializable {
         });
     }
 
-    private String[] getValuesFromTableLine(TableView<?> table, int lineId, String tableLineType) {
+    private String[] getValuesFromTableLine(TableView<?> table, Long lineId, String tableLineType) {
         Object line = table.getItems().get(0);
         String[] result = (((DSupplierTableLine) line).getAll());
         return result;
@@ -152,7 +152,7 @@ public class UpdateSupplierEntryController implements Initializable {
       
         DSalesTableLine salesline = null;
         try {
-            salesline = dSalesDao.getSalesEntryLineByDealId(Integer.parseInt(dealId));
+            salesline = dSalesDao.getSalesEntryLineByDealId(Long.parseLong(dealId));
         } catch (SQLException e) {
             System.out.print("sqlexception in getSupplierCharges");
         }

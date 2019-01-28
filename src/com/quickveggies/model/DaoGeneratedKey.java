@@ -11,5 +11,5 @@ package com.quickveggies.model;
  */
 public interface DaoGeneratedKey {
     
-    Integer getGeneratedKey();
+    Long getGeneratedKey();
 }

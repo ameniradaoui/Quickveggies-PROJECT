@@ -7,7 +7,7 @@ import com.quickveggies.model.EntityType;
 
 public interface IMoneyPaidRecordDao {
 
-	Integer addMoneyPaidRecdInfo(MoneyPaidRecd mpr);
+	Long addMoneyPaidRecdInfo(MoneyPaidRecd mpr);
 
 	List<MoneyPaidRecd> getMoneyPaidRecdList(String partyTitle, EntityType pType);
 
@@ -15,10 +15,12 @@ public interface IMoneyPaidRecordDao {
 
 	List<MoneyPaidRecd> getAdvanceMoneyPaidList(EntityType pType);
 
-	MoneyPaidRecd getMoneyPaidRecd(int id);
+	
 
-	boolean deleteMoneyPaidRecd(int id);
+	boolean deleteMoneyPaidRecd(Long id);
 
-	Integer addMoneyPaidRecdInfo(MoneyPaidRecd mpr, String auditLogMsg);
+	Long addMoneyPaidRecdInfo(MoneyPaidRecd mpr, String auditLogMsg);
+
+	MoneyPaidRecd getMoneyPaidRecd(Long id);
 
 }

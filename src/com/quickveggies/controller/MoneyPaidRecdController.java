@@ -144,7 +144,7 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     private InputStream receiptImageStream;
 
     private boolean isAdvanced = false;
-    private Integer generatedKey = null;
+    private Long generatedKey = null;
     
     
     private BuyerDao bd ;
@@ -484,9 +484,10 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     
     private TreeSet<String> updateGrowersList() {
         int rowsNum = dbclient.getRowsNum("suppliers1");
+        long rows = rowsNum;
         java.util.TreeSet<String> result = new java.util.TreeSet<>();
         
-        for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
+        for (long supp_id = 1; supp_id <= rowsNum; supp_id++) {
             try {
                 Supplier supplier = supplierDao.getSupplierById(supp_id);
                 if (supplier != null )
@@ -503,7 +504,7 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     }
     
     @Override
-    public Integer getGeneratedKey() {
+    public Long getGeneratedKey() {
         return generatedKey;
     }
 
@@ -535,8 +536,9 @@ public class MoneyPaidRecdController implements Initializable, DaoGeneratedKey {
     private TreeSet<String> updatePartyList(EntityType pType) {
        
         int rowsNum = dbclient.getRowsNum(pType.getTableName());
+        long rows = rowsNum;
        TreeSet<String> result = new TreeSet<String>();
-        for (int partyId = 1; partyId <= rowsNum; partyId++) {
+        for (long partyId = 1; partyId <= rows; partyId++) {
             try {
                 String title = "";
                 switch (pType) {

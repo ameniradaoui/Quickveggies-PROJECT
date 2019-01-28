@@ -359,7 +359,7 @@ public class UploadAccountActivityController implements Initializable {
         String[] result = new String[accountsNum];
         try {
             for (int i = 0; i < accountsNum; i++) {
-                Account acc =  accountEntryDao.getAccountById(i + 1);
+                Account acc =  accountEntryDao.getAccountById(i + 1l);
                 result[i] = acc.getAccountName();
             }
         } catch (SQLException e) {

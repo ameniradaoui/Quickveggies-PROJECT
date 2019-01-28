@@ -62,8 +62,8 @@ public class UpdateLadaanEntryController implements Initializable {
     @FXML
     private Label lblResult;
 
-    private int buyDealLineId;
-    private int ladBijDealLineId;
+    private Long buyDealLineId;
+    private Long ladBijDealLineId;
     private String tableName = null;
     private String[] colNamesList = null;
     private String[] oldValuesList = null;
@@ -88,7 +88,7 @@ public class UpdateLadaanEntryController implements Initializable {
     private String strResult = "";
 
     public UpdateLadaanEntryController(String tableLineType, String lineId, String[] valuesList) {
-        this.buyDealLineId = Integer.parseInt(lineId);
+        this.buyDealLineId = Long.parseLong(lineId);
         this.oldValuesList = valuesList;
         this.tableLineType = tableLineType;
         colNamesList = new String[]{"Date", "Invoice No", "Buyer Rate", "Cases", "Total Sum"};
@@ -109,7 +109,7 @@ public class UpdateLadaanEntryController implements Initializable {
         strResult = lblResult.getText() == null ? "" : lblResult.getText().trim();
         buyDealLine = new DBuyerTableLine(oldValuesList);
         sqlNames = SessionDataController.dBuyerTableSqlColNames;
-        ladBijDeal = lbd.getLadBijSaleDeal(Integer.valueOf(buyDealLine.getDealID()));
+        ladBijDeal = lbd.getLadBijSaleDeal(Long.valueOf(buyDealLine.getDealID()));
         if (ladBijDeal == null) {
             ladBijDeal = new LadaanBijakSaleDeal();
             ladBijDeal.setSaleNo(-1); // -1 Indicates no record in DB, after
@@ -125,7 +125,7 @@ public class UpdateLadaanEntryController implements Initializable {
             ladBijDeal.setDealId(buyDealLine.getDealID());
         }
         //System.out.println(ladBijDeal.getDate());
-        this.ladBijDealLineId = Integer.valueOf(ladBijDeal.getSaleNo());
+        this.ladBijDealLineId = Long.valueOf(ladBijDeal.getSaleNo());
         txtFreight.setText(ladBijDeal.getFreight());
         txtComission.setText(ladBijDeal.getComission());
         buyerDealLineWrapper = FXCollections.observableArrayList(buyDealLine);
@@ -251,7 +251,7 @@ public class UpdateLadaanEntryController implements Initializable {
         ladaanBijakEntryTable.setFixedCellSize(50.0);
     }
 
-    private String[] getBuyerDealValsTableLine(TableView<DBuyerTableLine> table, int lineId, String tableLineType) {
+    private String[] getBuyerDealValsTableLine(TableView<DBuyerTableLine> table, Long buyDealLineId, String tableLineType) {
         String[] result = null;
         DBuyerTableLine line = table.getItems().get(0);
         result = new String[]{line.getSaleNo(), line.getDate(), line.getDealID(), line.getBuyerRate(),
@@ -259,7 +259,7 @@ public class UpdateLadaanEntryController implements Initializable {
         return result;
     }
 
-    private String[] getLadaanDealValsTableLine(TableView<LadaanBijakSaleDeal> table, int lineId,
+    private String[] getLadaanDealValsTableLine(TableView<LadaanBijakSaleDeal> table, Long lineId,
             String tableLineType) {
         String[] result = null;
         LadaanBijakSaleDeal line = table.getItems().get(0);

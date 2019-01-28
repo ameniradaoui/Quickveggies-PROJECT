@@ -400,8 +400,9 @@ public class SearchPartyController implements Initializable {
 	private ArrayList<Supplier> getDatabaseSuppliersList(String keyword) {
 
 		int rowsNum = dbclient.getRowsNum("suppliers1");
+		long rows = rowsNum;
 		ArrayList<Supplier> result = new ArrayList<>();
-		for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
+		for (long supp_id = 1; supp_id <= rows; supp_id++) {
 			try {
 				if (keyword == null) {
 					result.add(supplierDao.getSupplierById(supp_id));
@@ -439,8 +440,9 @@ public class SearchPartyController implements Initializable {
 	private ArrayList<Buyer> getDatabaseBuyersList(String keyword, String subtype) {
 
 		int rowsNum = dbclient.getRowsNum("buyers1");
+		long rows = rowsNum;
 		ArrayList<Buyer> result = new ArrayList<>();
-		for (int buyer_id = 1; buyer_id <= rowsNum; buyer_id++) {
+		for (long buyer_id = 1; buyer_id <= rows; buyer_id++) {
 			try {
 				Buyer buyer = bd.getBuyerById(buyer_id);
 				String title = buyer.getTitle().toLowerCase();

@@ -179,19 +179,19 @@ public class UpdatePendingSalesController implements Initializable {
                 boughtAmt += Utils.toInt(aggregateAmt);
                 boughtQty += Utils.toInt(qty);
 
-                int newBuyerDealId = dbclient.saveEntryToSql("buyerDeals",
+                Long newBuyerDealId = dbclient.saveEntryToSql("buyerDeals",
                         new String[]{"buyerTitle", "dealDate", "buyerRate", "buyerPay", "boxes",
                             "aggregatedAmount", "dealID", "boxSizeType", "qualityType", "fruit"},
                         new String[]{buyerSqlLine[0], getDealDate(), bRate, buyerSqlLine[6],
                             qty, aggregateAmt, saleDeal.getDealID(), buyerSqlLine[4], buyerSqlLine[3], buyerSqlLine[7]});
-                storageDao.addStorageBuyerDealInfo(newBuyerDealId, Utils.toInt(existingBuyerDealList.get(0).getSaleNo()));
+                storageDao.addStorageBuyerDealInfo(newBuyerDealId, Utils.toLong(existingBuyerDealList.get(0).getSaleNo()));
             }
             DBuyerTableLine be = existingBuyerDealList.get(0);
             int existingAmount = Utils.toInt(be.getAggregatedAmount());
             int existingQty = be.getCases();
             int newAmount = existingAmount - boughtAmt;
             int newQty = existingQty - boughtQty;
-            dbclient.updateTableEntry("buyerDeals", Integer.valueOf(be.getSaleNo()), new String[]{"boxes", "aggregatedAmount"}, new String[]{String.valueOf(newQty), String.valueOf(newAmount)}, false);
+            dbclient.updateTableEntry("buyerDeals", Long.valueOf(be.getSaleNo()), new String[]{"boxes", "aggregatedAmount"}, new String[]{String.valueOf(newQty), String.valueOf(newAmount)}, false);
             GeneralMethods.msg("Successfully updated the entries");
             commitButton.getScene().getWindow().hide();
         });
@@ -622,8 +622,9 @@ public class UpdatePendingSalesController implements Initializable {
 
     private java.util.TreeSet<String> updateBuyersList() {
         int rowsNum = dbclient.getRowsNum("buyers1");
+        long rowsNumber=rowsNum;
         java.util.TreeSet<String> result = new java.util.TreeSet<String>();
-        for (int buyr_id = 1; buyr_id <= rowsNum; buyr_id++) {
+        for (long buyr_id = 1; buyr_id <= rowsNumber; buyr_id++) {
             try {
                 com.quickveggies.entities.Buyer buyer = bd.getBuyerById(buyr_id);
                 result.add(buyer.getTitle());

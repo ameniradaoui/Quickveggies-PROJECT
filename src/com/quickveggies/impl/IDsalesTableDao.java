@@ -11,11 +11,11 @@ import com.quickveggies.entities.DSalesTableLine;
 
 public interface IDsalesTableDao {
 
-	DSalesTableLine getSalesEntryLineFromSql(int id) throws SQLException, NoSuchElementException;
+	
 
 	List<DSalesTableLine> getSalesEntries() throws SQLException, NoSuchElementException;
 
-	DSalesTableLine getSalesEntryLineByDealId(int dealid) throws SQLException, NoSuchElementException;
+	DSalesTableLine getSalesEntryLineByDealId(Long dealid) throws SQLException, NoSuchElementException;
 
 	List<DSalesTableLine> getSalesEntryLineBySupplierName(String supplier) throws SQLException, NoSuchElementException;
 
@@ -25,6 +25,10 @@ public interface IDsalesTableDao {
 	List<ArrivalSelectionFilter> getSelectionFiler();
 
 	List<ArrivalSelectionBar> getSelectionBarchart();
+
+	DSalesTableLine getSalesEntryLineFromSql(Long id) throws SQLException, NoSuchElementException;
+
+	Long getNextTransIdForFreshEntry() throws SQLException;
 	
 	
 

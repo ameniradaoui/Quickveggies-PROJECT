@@ -12,16 +12,13 @@ public interface IDatabaseClient {
 
 	int getIntEntryFromSQL(String tablename, String[] searchwords, String[] values, String targetword);
 
-	int saveEntryToSql(String tableName, String[] colNames, String[] values);
+	Long saveEntryToSql(String tableName, String[] colNames, String[] values);
 
 	boolean checkIfTitleExists(String tableName, String title) throws SQLException;
 
-	void updateTableEntry(String tableName, int lineId, String[] cols, String[] values, boolean skipFirst,
-			String auditLogMsg);
 
-	void updateTableEntry(String tableName, int lineId, String[] cols, String[] values, boolean skipFirst);
 
-	void updateTableEntry(String tableName, int lineId, String col, String value, String auditLogMsg);
+	
 
 	int getRowsNum(String tablename);
 
@@ -42,6 +39,13 @@ public interface IDatabaseClient {
 	 * @return the highest id value, or 0 if there are no rows in the table
 	 * @throws SQLException
 	 */
-	int getNextTransIdForFreshEntry() throws SQLException;
+
+
+	void updateTableEntry(String tableName, Long lineId, String[] cols, String[] values, boolean skipFirst,
+			String auditLogMsg);
+
+	void updateTableEntry(String tableName, Long lineId, String[] cols, String[] values, boolean skipFirst);
+
+	void updateTableEntry(String tableName, Long lineId, String col, String value, String auditLogMsg);
 
 }

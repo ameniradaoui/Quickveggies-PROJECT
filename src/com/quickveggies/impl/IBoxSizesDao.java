@@ -1,5 +1,7 @@
 package com.quickveggies.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,5 +46,7 @@ public interface IBoxSizesDao {
 	void deleteFruitDetails(String fruitName);
 
 	void deleteFruit(String fruitName);
+
+	ResultSet getResult(String query) throws SQLException;
 
 }

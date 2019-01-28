@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 public class Supplier{
     
-	private int id;
+	private Long id;
     private String title;
     private String firstName;
     private String lastName;
@@ -33,7 +33,7 @@ public class Supplier{
     public Supplier() {
     }
 
-    public Supplier(int id,String title, String firstName, String lastName,
+    public Supplier(Long id,String title, String firstName, String lastName,
                     String company, String proprietor, String mobile,
                     String mobile2, String email, String village,
                     String po, String tehsil, String ac,
@@ -169,11 +169,11 @@ public class Supplier{
         this.ifsc = ifsc;
     }
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -181,7 +181,7 @@ public class Supplier{
 		return imageStream;
 	}
 
-	public void setImageStream(InputStream imageStream) {
+	public  void setImageStream(InputStream imageStream) {
 		this.imageStream = imageStream;
 	}
 

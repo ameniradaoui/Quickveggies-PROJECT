@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class AuditLog {
 
-    private Integer id;
+    private Long id;
     private String userId;
     private Date eventTime;
     private String eventDetail;
 
     private String eventObject;
-    private Integer eventObjectId;
+    private Long eventObjectId;
     
     private String oldValues;
     private String newValues;
@@ -21,7 +21,7 @@ public class AuditLog {
     //For internal purpose
     private Object entryObject;
     
-    public AuditLog(String userId, Date eventTime,String eventDetail, String eventObject, Integer eventObjectId) 
+    public AuditLog(String userId, Date eventTime,String eventDetail, String eventObject,Long eventObjectId) 
     {
         super();
         this.userId = userId;
@@ -31,7 +31,7 @@ public class AuditLog {
         this.eventObjectId = eventObjectId;
     }
 
-    public AuditLog(Integer id, String userId, Date eventTime,String eventDetail, String eventObject, Integer eventObjectId) 
+    public AuditLog(Long id, String userId, Date eventTime,String eventDetail, String eventObject, Long eventObjectId) 
     {
         super();
         this.id = id;
@@ -42,11 +42,11 @@ public class AuditLog {
         this.eventObjectId = eventObjectId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -74,11 +74,11 @@ public class AuditLog {
         this.eventObject = eventObject;
     }
 
-    public Integer getEventObjectId() {
+    public Long getEventObjectId() {
         return eventObjectId;
     }
 
-    public void setEventObjectId(Integer eventObjectId) {
+    public void setEventObjectId(Long eventObjectId) {
         this.eventObjectId = eventObjectId;
     }
 

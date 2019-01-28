@@ -168,7 +168,7 @@ public class AddBuyerController implements Initializable {
             		}
             		System.out.println("INFO:The payment type in combo box is not associated with any of the predefined payment types, using default type!");
             	}
-                Buyer buyer = new Buyer(0, "", firstName.getText(), lastName.getText(),
+                Buyer buyer = new Buyer(0l, "", firstName.getText(), lastName.getText(),
                         company.getText(), proprietor.getText(), mobile.getText(),
                         mobile2.getText(), email.getText(), shop.getText(), city.getText(),
                         email2.getText(),

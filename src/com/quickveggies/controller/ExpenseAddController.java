@@ -106,7 +106,7 @@ public class ExpenseAddController implements Initializable {
 
     private File imgFile;
     
-    private Integer generatedKey = null;
+    private Long generatedKey = null;
     
     private final PaymentMethodSource defPayMethodSource;
     TreeSet<String> growersList = null;
@@ -263,9 +263,10 @@ public class ExpenseAddController implements Initializable {
  
     private java.util.TreeSet<String> updateGrowersList() {
         int rowsNum = dbc.getRowsNum("suppliers1");
+        long rows = rowsNum;
         java.util.TreeSet<String> result = new java.util.TreeSet<>();
         
-        for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
+        for (long supp_id = 1; supp_id <= rows; supp_id++) {
             try {
                 Supplier supplier = supplierDao.getSupplierById(supp_id);
                 if (supplier != null )
@@ -335,7 +336,7 @@ public class ExpenseAddController implements Initializable {
         }
         mpr.setPaymentMode(cboPaymentType.getValue());
         // save transaction
-        if (ed.addExpenditure(xpr)) {
+        if (ed.addExpenditure(xpr) != null) {
             generatedKey = mpd.addMoneyPaidRecdInfo(mpr, title);
         }
     }

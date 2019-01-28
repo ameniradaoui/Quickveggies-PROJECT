@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -14,12 +15,17 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 import com.quickveggies.GeneralMethods;
 import com.quickveggies.entities.AuditLog;
 import com.quickveggies.entities.BoxSize;
 import com.quickveggies.entities.QualityType;
+import com.quickveggies.entities.User;
 import com.quickveggies.impl.IAuditDao;
 import com.quickveggies.impl.IBoxSizesDao;
 
@@ -35,14 +41,50 @@ public class BoxSizesDao implements IBoxSizesDao {
 		return dataSource;
 	}
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
+	private JdbcTemplate template;
+
+	private void initTemplate() {
+		if (template == null) {
+			template = new JdbcTemplate(dataSource);
+
+		}
 	}
+
+	private SimpleJdbcInsert insert;
+
+	private void initInsert() {
+		if (insert == null) {
+			createInsert();
+
+		}
+	}
+
+	private void createInsert() {
+		insert = new SimpleJdbcInsert(dataSource).withTableName("users").usingGeneratedKeyColumns("id");
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		template = new JdbcTemplate(dataSource);
+		createInsert();
+
+	}
+
+	private static RowMapper<BoxSize> mapper = new RowMapper<BoxSize>() {
+		@Override
+		public BoxSize mapRow(ResultSet data, int index) throws SQLException {
+			BoxSize item = new BoxSize();
+			item.setId(data.getLong("id"));
+			item.setName(data.getString("name"));
+			
+
+			return item;
+		}
+	};
 
 	// private static final String INSERT_QUALITY_QRY = "IF NOT EXISTS (SELECT *
 	// FROM qualities WHERE name = ? COLLATE SQL_Latin1_General_CP1_CI_AS)
 	// INSERT INTO qualities (name) VALUES (?)";
-	private static final String INSERT_QUALITY_QRY = "select case when (count(name)=0) then (select qualities_enter(?)) end from qualities where name =?";
+	private static final String INSERT_QUALITY_QRY = "select case when (count(name)=0) then (select qualities_enter(?)) end  from qualities where name =?";
 
 	// private static final String INSERT_BOX_SIZE_QRY = "IF NOT TRUE (SELECT *
 	// FROM boxSizes WHERE name = ?) INSERT INTO boxSizes (name) VALUES (?)";
@@ -68,7 +110,38 @@ public class BoxSizesDao implements IBoxSizesDao {
 	private AuditDao auditDao;
 	@Autowired
 	private UserUtils userDao;
-
+	
+	
+	
+	@Override
+	public List<String> getAllFruitTypes() {
+		initTemplate();
+		List<String> fNames = new ArrayList<>();
+		String sql = "Select name from fruits";
+		
+		fNames = template.query(sql, SingleColumnRowMapper.newInstance(String.class));
+		if (fNames.isEmpty()){
+	    	   return null ;
+	       } else {
+	    	   return fNames;
+	       }
+		
+//		try {
+//			ResultSet rs = getResult(sql);
+//			while (rs.next()) {
+//				fNames.add(rs.getString(1));
+//			}
+//			rs.close();
+//
+//		} catch (Exception ex) {
+//			GeneralMethods.errorMsg("Error getting fruit details from DB:" + ex.getMessage());
+//		}
+//
+	//	return fNames;
+	}
+	
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,25 +153,28 @@ public class BoxSizesDao implements IBoxSizesDao {
 		Boolean autoCommit = null;
 		try {
 			Connection connection = dataSource.getConnection();
-			PreparedStatement ps = connection.prepareStatement(INSERT_FRUIT_QRY);
+			PreparedStatement ps = connection.prepareStatement(
+					"select case when (count(name)=0) then (select fruit_entry(?)) end from fruits where name=?");
 			autoCommit = dataSource.getConnection().getAutoCommit();
 			dataSource.getConnection().setAutoCommit(true);
-			if (fruit != null ) {
-				
-			ps.setString(1, fruit);
-			ps.setString(2, fruit);
-			// ps.executeUpdate();
-			ps.execute();
-			auditDao.insertAuditRecord(new AuditLog(userDao.getCurrentUser(), new Date(),
-					"ADDED Entry for fruit:".concat(fruit), null, 0));
+			if (fruit != null) {
 
-			ps = connection.prepareStatement("Select id from fruits where name=?");
-			ps.setString(1, fruit);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				id = rs.getInt(1);
+				ps.setString(1, fruit);
+				ps.setString(2, fruit);
+				// ps.executeUpdate();
+				ps.execute();
+				auditDao.insertAuditRecord(new AuditLog(userDao.getCurrentUser(), new Date(),
+						"ADDED Entry for fruit:".concat(fruit), null, 0l));
+
+				ps = connection.prepareStatement("Select id from fruits where name=?");
+				ps.setString(1, fruit);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					id = rs.getInt(1);
+				}
+				ps.close();
+				connection.close();
 			}
-			connection.close();}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -133,11 +209,19 @@ public class BoxSizesDao implements IBoxSizesDao {
 
 			// ps.executeBatch();
 			ps.execute();
-			
+			ps.close();
+			connection.close();
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	@Override
+	public ResultSet getResult(String query) throws SQLException {
+		Statement statement = dataSource.getConnection().createStatement();
+		ResultSet resultSet = statement.executeQuery(query);
+		return resultSet;
 	}
 
 	/*
@@ -145,23 +229,7 @@ public class BoxSizesDao implements IBoxSizesDao {
 	 * 
 	 * @see com.quickveggies.dao.IBoxSizesDao#getAllFruitTypes()
 	 */
-	@Override
-	public List<String> getAllFruitTypes() {
-		List<String> fNames = new ArrayList<>();
-		String sql = "Select name from fruits;";
-		try {
-			ResultSet rs = userDao.getResult(sql);
-			while (rs.next()) {
-				fNames.add(rs.getString(1));
-			}
-			rs.close();
-
-		} catch (Exception ex) {
-			GeneralMethods.errorMsg("Error getting fruit details from DB:" + ex.getMessage());
-		}
-
-		return fNames;
-	}
+	
 
 	// ## changed by ss
 	/*
@@ -194,17 +262,18 @@ public class BoxSizesDao implements IBoxSizesDao {
 			StringBuilder sb = new StringBuilder();
 			for (QualityType qt : combinedQualityList) {
 				ps.setInt(1, fruitId);
-				ps.setInt(2, qt.getId());
+				ps.setLong(2, qt.getId());
 				ps.setInt(3, fruitId);
-				ps.setInt(4, qt.getId());
+				ps.setLong(4, qt.getId());
 				ps.addBatch();
 				sb.append(qt.getName() + " , ");
 
 			}
 			// ps.executeBatch();
 			ps.execute();
-			auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
-					"ADDED Fruit Qualities :".concat(sb.toString()), null, 0));
+			auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null,
+					"ADDED Fruit Qualities :".concat(sb.toString()), null, 0l));
+			ps.close();
 			connection.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -237,13 +306,14 @@ public class BoxSizesDao implements IBoxSizesDao {
 		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(INSERT_FRUIT_BOX_QRY)) {
 			for (BoxSize bs : combinedBoxSizeList) {
 				ps.setInt(1, fruitId);
-				ps.setInt(2, bs.getId());
+				ps.setLong(2, bs.getId());
 				ps.setInt(3, fruitId);
-				ps.setInt(4, bs.getId());
+				ps.setLong(4, bs.getId());
 				// ps.addBatch();
 				ps.execute();
 			}
 			ps.executeBatch();
+			ps.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -265,6 +335,7 @@ public class BoxSizesDao implements IBoxSizesDao {
 				ps.execute();
 			}
 			ps.executeBatch();
+			ps.close();
 			connection.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -281,25 +352,27 @@ public class BoxSizesDao implements IBoxSizesDao {
 	public Map<String, BoxSize> getDetailForBoxSize(List<String> inBoxSizes) {
 		Map<String, BoxSize> map = new LinkedHashMap<>();
 		StringBuilder selectQry = new StringBuilder("Select * from boxSizes where name in (");
-		if (inBoxSizes != null ) {
-			
-		for (String bs : inBoxSizes) {
-			if (bs == null || bs.trim().isEmpty()) {
-				continue;
+		if (inBoxSizes != null) {
+
+			for (String bs : inBoxSizes) {
+				if (bs == null || bs.trim().isEmpty()) {
+					continue;
+				}
+				selectQry.append("'").append(bs.trim().toLowerCase()).append("'").append(",");
 			}
-			selectQry.append("'").append(bs.trim().toLowerCase()).append("'").append(",");
+			selectQry.deleteCharAt(selectQry.lastIndexOf(","));
+			selectQry.append(")");
 		}
-		selectQry.deleteCharAt(selectQry.lastIndexOf(","));
-		selectQry.append(")");}
 		try {
-			ResultSet rs = userDao.getResult(selectQry.toString());
+			ResultSet rs = getResult(selectQry.toString());
 			while (rs.next()) {
 				BoxSize box = new BoxSize();
-				box.setId(rs.getInt("id"));
+				box.setId(rs.getLong("id"));
 				box.setName(rs.getString("name"));
 				map.put(box.getName(), box);
 			}
-			
+			rs.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -328,16 +401,18 @@ public class BoxSizesDao implements IBoxSizesDao {
 		selectQry.deleteCharAt(selectQry.lastIndexOf(","));
 		selectQry.append(")");
 		try {
-			ResultSet rs = userDao.getResult(selectQry.toString());
+			ResultSet rs = getResult(selectQry.toString());
 			while (rs.next()) {
 				QualityType quality = new QualityType();
-				quality.setId(rs.getInt("id"));
+				quality.setId(rs.getLong("id"));
 				quality.setName(rs.getString("name"));
 				map.put(quality.getName(), quality);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 		return map;
 	}
 
@@ -357,11 +432,13 @@ public class BoxSizesDao implements IBoxSizesDao {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				BoxSize bs = new BoxSize();
-				bs.setId(rs.getInt("id"));
+				bs.setId(rs.getLong("id"));
 				bs.setName(rs.getString("name"));
 				boxSizes.add(bs);
-				
+
 			}
+			ps.close();
+			connection.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -384,11 +461,13 @@ public class BoxSizesDao implements IBoxSizesDao {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				QualityType qt = new QualityType();
-				qt.setId(rs.getInt("id"));
+				qt.setId(rs.getLong("id"));
 				qt.setName(rs.getString("name"));
 				qualityTypes.add(qt);
-				
+
 			}
+			connection.close();
+			ps.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -412,8 +491,11 @@ public class BoxSizesDao implements IBoxSizesDao {
 				PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, fruitName);
 				ps.executeUpdate();
+				ps.close();
+
 				connection.close();
 			}
+
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -432,8 +514,9 @@ public class BoxSizesDao implements IBoxSizesDao {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, fruitName);
 			ps.executeUpdate();
-			auditDao.insertAuditRecord(
-					new AuditLog(0, userDao.getCurrentUser(), null, "DELETED fruit entry:".concat(fruitName), null, 0));
+			auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null,
+					"DELETED fruit entry:".concat(fruitName), null, 0l));
+			ps.close();
 			connection.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

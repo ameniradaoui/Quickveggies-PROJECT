@@ -75,6 +75,7 @@ public class DatabaseClient implements IDatabaseClient {
         while (set.next()) {
             result++;
         }
+        statement.close();
         connection.close();
         return result;
     }
@@ -89,6 +90,7 @@ public class DatabaseClient implements IDatabaseClient {
             if (!set.next()) {
                 throw new NoSuchElementException();
             }
+            
             return set.getString(targetword);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,8 +135,8 @@ public class DatabaseClient implements IDatabaseClient {
 	 * @see com.quickveggies.dao.IDatabaseClient#saveEntryToSql(java.lang.String, java.lang.String[], java.lang.String[])
 	 */
     @Override
-	public int saveEntryToSql(String tableName, String[] colNames, String[] values) {
-        int generatedId = 0;
+	public Long saveEntryToSql(String tableName, String[] colNames, String[] values) {
+        Long generatedId = 0l;
         String sqlCommand = "insert into " + tableName + " (" + colNames[0];
         for (int i = 1; i < colNames.length; i++) {
             sqlCommand += "," + colNames[i];
@@ -149,11 +151,11 @@ public class DatabaseClient implements IDatabaseClient {
         	 Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS);
             statement.executeUpdate();
-            generatedId = getGeneratedKey(statement);
+            generatedId = (long) getGeneratedKey(statement);
             String baseMsg = "ADDED Entry for %s (Entry No: %d )";
             auditDao.auditEntry(baseMsg, tableName, values, generatedId);
             
-            
+            statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -187,7 +189,7 @@ public class DatabaseClient implements IDatabaseClient {
 	 * @see com.quickveggies.dao.IDatabaseClient#updateTableEntry(java.lang.String, int, java.lang.String[], java.lang.String[], boolean, java.lang.String)
 	 */
     @Override
-	public void updateTableEntry(String tableName, int lineId, String[] cols,
+	public void updateTableEntry(String tableName, Long lineId, String[] cols,
             String[] values, boolean skipFirst, String auditLogMsg) {
         String sqlCommand = "UPDATE " + tableName + " SET ";
         int valuesStartIndex = 0;
@@ -235,6 +237,7 @@ public class DatabaseClient implements IDatabaseClient {
                     setOldValues(oldValuesFinal);
                 }} );
             }
+            statement.close();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -246,7 +249,7 @@ public class DatabaseClient implements IDatabaseClient {
 	 * @see com.quickveggies.dao.IDatabaseClient#updateTableEntry(java.lang.String, int, java.lang.String[], java.lang.String[], boolean)
 	 */
     @Override
-	public void updateTableEntry(String tableName, int lineId, String[] cols,
+	public void updateTableEntry(String tableName, Long lineId, String[] cols,
             String[] values, boolean skipFirst) {
         updateTableEntry(tableName, lineId, cols, values, skipFirst, null);
     }
@@ -255,7 +258,7 @@ public class DatabaseClient implements IDatabaseClient {
 	 * @see com.quickveggies.dao.IDatabaseClient#updateTableEntry(java.lang.String, int, java.lang.String, java.lang.String, java.lang.String)
 	 */
     @Override
-	public void updateTableEntry(String tableName, int lineId, String col,
+	public void updateTableEntry(String tableName, Long lineId, String col,
             String value, String auditLogMsg) {
         String sqlCommand = "UPDATE " + tableName + " SET ";
         sqlCommand += col + "='" + value + "'";
@@ -267,13 +270,13 @@ public class DatabaseClient implements IDatabaseClient {
             String normalizeTabName = TABLE_MAP.get(tableName);
             if (auditLogMsg != null) {
                 if (!"".equals(auditLogMsg)) {
-                    auditDao.insertAuditRecord(new AuditLog(0,userDao.getCurrentUser(), null,
+                    auditDao.insertAuditRecord(new AuditLog(0l,userDao.getCurrentUser(), null,
                             auditLogMsg, tableName, lineId));
                 }
                 statement.close();
                 return;
             }
-            auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
+            auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null,
                     "UPDATED Entry for ".concat(normalizeTabName), tableName, lineId));
         }
         catch (SQLException e) {
@@ -322,8 +325,8 @@ public class DatabaseClient implements IDatabaseClient {
             }
             dataSource.getConnection().prepareStatement(deleteCommand).executeUpdate();
             if (writeAuditLog) {
-                auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
-                        "DELETED Entry for ".concat(TABLE_MAP.get(tablename)), null, 0));
+                auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null,
+                        "DELETED Entry for ".concat(TABLE_MAP.get(tablename)), null, 0l));
             }
             if (!resetIdColumn) {
                 return;
@@ -373,6 +376,7 @@ public class DatabaseClient implements IDatabaseClient {
 
         statement = dataSource.getConnection().prepareStatement("ALTER TABLE temp_" + tablename + " SWITCH TO " + tablename + ";");
         statement.executeUpdate();
+        statement.close();
     }
 
   
@@ -419,15 +423,7 @@ public class DatabaseClient implements IDatabaseClient {
     /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IDatabaseClient#getNextTransIdForFreshEntry()
 	 */
-    @Override
-	public int getNextTransIdForFreshEntry() throws SQLException {
-        ResultSet set = getResult("select max(id) from arrival ;");
-        if (!set.next()) {
-            // Looks like there are no rows, so it seems to be first entry
-            return 0;
-        }
-        return set.getInt(1);
-    }
+   
 
     int getGeneratedKey(PreparedStatement ps) throws SQLException {
         ResultSet genKeyRs = ps.getGeneratedKeys();

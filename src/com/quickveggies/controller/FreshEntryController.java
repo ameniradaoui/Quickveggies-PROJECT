@@ -27,6 +27,7 @@ import com.quickveggies.controller.FreshEntryTableData.GrowerEntryTableLine;
 import com.quickveggies.dao.BoxSizesDao;
 import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.ChargesDao;
+import com.quickveggies.dao.DSalesTableDao;
 import com.quickveggies.dao.DatabaseClient;
 
 import com.quickveggies.dao.SupplierDao;
@@ -99,6 +100,7 @@ public class FreshEntryController implements Initializable {
     private SupplierDao supplierDao;
     
     private DatabaseClient client;
+    private DSalesTableDao dsDao;
     
     private BoxSizesDao boxDao;
     
@@ -1217,9 +1219,10 @@ public class FreshEntryController implements Initializable {
 
     private java.util.TreeSet<String> updateGrowersList() {
         int rowsNum = client.getRowsNum("suppliers1");
+        long rows = rowsNum;
         java.util.TreeSet<String> result = new java.util.TreeSet<>();
         
-        for (int supp_id = 1; supp_id <= rowsNum; supp_id++) {
+        for (long supp_id = 1; supp_id <= rows; supp_id++) {
             try {
                 Supplier supplier = supplierDao.getSupplierById(supp_id);
                 if (supplier != null )
@@ -1358,11 +1361,11 @@ public class FreshEntryController implements Initializable {
             isValidNo = false;
             GeneralMethods.errorMsg("Invalid number, please enter a valid number");
         }
-        int nextGrNo = 0;
+        Long nextGrNo = 0l;
         if (intValue == 0) {
             
             try {
-                nextGrNo = client.getNextTransIdForFreshEntry() + 1;
+                nextGrNo = dsDao.getNextTransIdForFreshEntry() + 1;
                 grNo.setText(String.valueOf(nextGrNo));
                 /*
 				 * TODO: confirmed by client, grower/buyer has no link with gr

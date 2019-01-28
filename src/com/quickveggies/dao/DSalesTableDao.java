@@ -1,7 +1,9 @@
 package com.quickveggies.dao;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,12 +18,15 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.SpringTransactionAnnotationParser;
 
 import com.quickveggies.entities.ArrivalSelectionBar;
 import com.quickveggies.entities.ArrivalSelectionFilter;
+import com.quickveggies.entities.Company;
 import com.quickveggies.entities.DSalesTableLine;
 import com.quickveggies.impl.IDsalesTableDao;
 
@@ -89,41 +94,69 @@ public class DSalesTableDao implements IDsalesTableDao {
 		}
 
 	};
+	
+
 
 	private JdbcTemplate template;
 
 	@Override
-	public DSalesTableLine getSalesEntryLineFromSql(int id) throws SQLException, NoSuchElementException {
-		ResultSet set = getResult("select * from arrival where id= '" + id + "' ;");
-
-		String fruit, date, challan, supplier, totalQuantity, fullCase, halfCase, agent, truck, driver, gross, charges,
-				net, remarks, dealID, type, amanat;
-
-		if (set.next()) {
-			fruit = set.getString("fruit");
-			date = set.getString("date");
-			gross = set.getString("gross");
-			agent = set.getString("fwagent");
-			challan = set.getString("challan");
-			halfCase = set.getString("halfCase");
-			fullCase = set.getString("fullCase");
-			truck = set.getString("truck");
-			driver = set.getString("driver");
-			charges = set.getString("charges");
-			remarks = set.getString("remarks");
-			net = set.getString("net");
-			supplier = set.getString("supplier");
-			totalQuantity = set.getString("totalQuantity");
-			dealID = "" + set.getInt("dealID");
-			type = set.getString("type");
-			amanat = set.getString("amanat");
-			set.close();
-			return new DSalesTableLine(fruit, "" + id, date, challan, supplier, totalQuantity, fullCase, halfCase,
-					agent, truck, driver, gross, charges, net, remarks, dealID, type, amanat);
-		} else {
-			throw new NoSuchElementException();
+	public DSalesTableLine getSalesEntryLineFromSql(Long id) throws SQLException, NoSuchElementException {
+		initTemplate();
+		String sql = "select * from arrival where id = ?";
+		List<DSalesTableLine> list = template.query(sql, mapper , id);
+		if (list.isEmpty()){
+			return null;
 		}
+		else {
+			return list.get(0);
+		}
+		
+//	      final DSalesTableLine dSalesTableLine = new DSalesTableLine();
+//	      template.query(sql,new Object[] {id}, 
+//	            new RowCallbackHandler() {
+//	                 public void processRow(ResultSet rs) throws SQLException {
+//	                	
+//	                	 dSalesTableLine.setFruit(rs.getString("fruit"));
+//	                	 dSalesTableLine.setDate(rs.getString("date"));
+//	                	 dSalesTableLine.setGross(rs.getString("gross"));
+//	                	 dSalesTableLine.setAgent(rs.getString("fwagent"));
+//	                	 dSalesTableLine.setChallan(rs.getString("challan"));
+//	                	 dSalesTableLine.setHalfCase(rs.getString("halfCase"));
+//	                	 dSalesTableLine.setFullCase(rs.getString("fullCase"));
+//	                	 dSalesTableLine.setTruck(rs.getString("truck"));
+//	                	 dSalesTableLine.setDriver(rs.getString("driver"));
+//	                	 dSalesTableLine.setCharges(rs.getString("charges"));
+//	                	 dSalesTableLine.setRemarks(rs.getString("remarks"));
+//	                	 dSalesTableLine.setNet(rs.getString("net"));
+//	                	 dSalesTableLine.setSupplier(rs.getString("supplier"));
+//	                	 dSalesTableLine.setTotalQuantity(rs.getString("totalQuantity"));
+//	                	 dSalesTableLine.setDealID("" + rs.getInt("dealID"));
+//	                	 dSalesTableLine.setType(rs.getString("type"));
+//	                	 dSalesTableLine.setAmanat(rs.getString("amanat"));
+//	                }
+//		   });
+//	      return dSalesTableLine;
+		
 	}
+	
+	
+	 @Override
+		public Long getNextTransIdForFreshEntry() throws SQLException {
+		 
+		 initTemplate();
+			String sql = "select max(id) from arrival";
+			return template.query(sql, SingleColumnRowMapper.newInstance(Long.class)).get(0);
+			
+			
+			
+//	        ResultSet set = getResult("select max(id) from arrival ;");
+//	        if (!set.next()) {
+//	            // Looks like there are no rows, so it seems to be first entry
+//	            return 0;
+//	        }
+//	        set.close();
+//	        return set.getInt(1);
+	    }
 
 	public DSalesTableDao() {
 		super();
@@ -137,35 +170,11 @@ public class DSalesTableDao implements IDsalesTableDao {
 	 */
 	@Override
 	public List<DSalesTableLine> getSalesEntries() throws SQLException, NoSuchElementException {
-		ResultSet set = getResult("SELECT * FROM arrival ");
-
-		String fruit, date, challan, supplier, totalQuantity, fullCase, halfCase, agent, truck, driver, gross, charges,
-				net, remarks, dealID, type, amanat;
-		List<DSalesTableLine> values = new ArrayList<>();
-
-		while (set.next()) {
-			fruit = set.getString("fruit");
-			date = set.getString("date");
-			gross = set.getString("gross");
-			agent = set.getString("fwagent");
-			challan = set.getString("challan");
-			halfCase = set.getString("halfCase");
-			fullCase = set.getString("fullCase");
-			truck = set.getString("truck");
-			driver = set.getString("driver");
-			charges = set.getString("charges");
-			remarks = set.getString("remarks");
-			net = set.getString("net");
-			supplier = set.getString("supplier");
-			totalQuantity = set.getString("totalQuantity");
-			dealID = "" + set.getInt("dealID");
-			type = set.getString("type");
-			amanat = set.getString("amanat");
-			values.add(new DSalesTableLine(fruit, "" + set.getLong("id"), date, challan, supplier, totalQuantity,
-					fullCase, halfCase, agent, truck, driver, gross, charges, net, remarks, dealID, type, amanat));
-		}
-		set.close();
-		return values;
+		initTemplate();
+		return template.query(
+				"SELECT * FROM arrival;",
+				mapper);
+		
 	}
 
 	/*
@@ -174,13 +183,46 @@ public class DSalesTableDao implements IDsalesTableDao {
 	 * @see com.quickveggies.dao.IDsalesTableDao#getSalesEntryLineByDealId(int)
 	 */
 	@Override
-	public DSalesTableLine getSalesEntryLineByDealId(int dealid) throws SQLException, NoSuchElementException {
-		ResultSet set = getResult("select * from arrival where dealID='" + dealid + "';");
-		if (!set.next()) {
-			throw new NoSuchElementException();
+	public DSalesTableLine getSalesEntryLineByDealId(Long dealid) throws SQLException, NoSuchElementException {
+		
+		
+		initTemplate();
+		String sql = "select * from arrival where dealID= ?";
+		List<DSalesTableLine> list = template.query(sql, mapper , dealid);
+		if (list.isEmpty()){
+			return null;
+		}
+		else {
+			return list.get(0);
 		}
 		
-		return getSalesEntryLineFromSql(set.getInt("id"));
+//		String sql = "select * from arrival where dealID= ?";
+//	      final DSalesTableLine dSalesTableLine = new DSalesTableLine();
+//	      template.query(sql,new Object[] {dealid}, 
+//	            new RowCallbackHandler() {
+//	                 public void processRow(ResultSet rs) throws SQLException {
+//	                	
+//	                	 dSalesTableLine.setFruit(rs.getString("fruit"));
+//	                	 dSalesTableLine.setDate(rs.getString("date"));
+//	                	 dSalesTableLine.setGross(rs.getString("gross"));
+//	                	 dSalesTableLine.setAgent(rs.getString("fwagent"));
+//	                	 dSalesTableLine.setChallan(rs.getString("challan"));
+//	                	 dSalesTableLine.setHalfCase(rs.getString("halfCase"));
+//	                	 dSalesTableLine.setFullCase(rs.getString("fullCase"));
+//	                	 dSalesTableLine.setTruck(rs.getString("truck"));
+//	                	 dSalesTableLine.setDriver(rs.getString("driver"));
+//	                	 dSalesTableLine.setCharges(rs.getString("charges"));
+//	                	 dSalesTableLine.setRemarks(rs.getString("remarks"));
+//	                	 dSalesTableLine.setNet(rs.getString("net"));
+//	                	 dSalesTableLine.setSupplier(rs.getString("supplier"));
+//	                	 dSalesTableLine.setTotalQuantity(rs.getString("totalQuantity"));
+//	                	 dSalesTableLine.setDealID("" + rs.getInt("dealID"));
+//	                	 dSalesTableLine.setType(rs.getString("type"));
+//	                	 dSalesTableLine.setAmanat(rs.getString("amanat"));
+//	                }
+//		   });
+//	      return dSalesTableLine;
+		
 	}
 
 	/*
@@ -193,18 +235,10 @@ public class DSalesTableDao implements IDsalesTableDao {
 	@Override
 	public List<DSalesTableLine> getSalesEntryLineBySupplierName(String supplier)
 			throws SQLException, NoSuchElementException {
-		List<DSalesTableLine> lines = new ArrayList<>();
-		ResultSet set = getResult("select * from arrival where supplier='" + supplier + "';");
-		while (set.next()) {
-			lines.add(new DSalesTableLine(set.getString("fruit"), set.getString("id"), set.getString("date"),
-					set.getString("challan"), set.getString("supplier"), set.getString("totalQuantity"),
-					set.getString("fullCase"), set.getString("halfCase"), set.getString("fwagent"),
-					set.getString("truck"), set.getString("driver"), set.getString("gross"), set.getString("charges"),
-					set.getString("net"), set.getString("remarks"), set.getString("dealId"), set.getString("type"),
-					set.getString("amanat")));
-		}
-		set.close();
-		return lines;
+		initTemplate();
+		return template.query(
+				"select * from arrival where supplier = ? ;",
+				mapper , supplier);
 	}
 
 	public DataSource getDataSource() {
@@ -217,14 +251,10 @@ public class DSalesTableDao implements IDsalesTableDao {
 		template = new JdbcTemplate(dataSource);
 	}
 
-	public ResultSet getResult(String query) throws SQLException {
-		Statement statement = dataSource.getConnection().createStatement();
-		ResultSet resultSet = statement.executeQuery(query);
-		return resultSet;
-	}
-
+	
 	@Override
 	public List<DSalesTableLine> getFuitByTypeAndYear(ArrivalSelectionFilter filter) {
+		initTemplate();
 		return filter == null ? template.query("select * from arrival ", mapper)
 				: template.query("select * from arrival where fruit = ? and extract('year' from date)= ? ", mapper,
 						filter.getFruit(), filter.getYear());

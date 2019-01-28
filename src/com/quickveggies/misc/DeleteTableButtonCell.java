@@ -65,7 +65,7 @@ public class DeleteTableButtonCell<S, T> extends TableCell<S, T> {
             if (value != null) {
                 try {
                     if ("expenditures".equalsIgnoreCase(tablename)) {
-                        expenditureDao.deleteExpenditureEntry(Integer.valueOf(value), true);
+                        expenditureDao.deleteExpenditureEntry(Long.valueOf(value), true);
                     }
                     else if (multiDeleteTableNames == null) {
                         dbclient.deleteTableEntries(tablename, keyword, value, true);

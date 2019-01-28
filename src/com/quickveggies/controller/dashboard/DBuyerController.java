@@ -789,7 +789,7 @@ public class DBuyerController implements Initializable {
                 tl = new DBuyerTableLine(srcLine.getAll());
                 map.put(tl.getDealID() + srcLine.getBuyerTitle(), tl);
                 //Get ladaan/bijak deal
-                LadaanBijakSaleDeal ladBijDeal = lbd.getLadBijSaleDeal(Integer.valueOf(tl.getDealID()));
+                LadaanBijakSaleDeal ladBijDeal = lbd.getLadBijSaleDeal(Long.valueOf(tl.getDealID()));
                 ladaanDeals.put(Integer.valueOf(tl.getDealID()), ladBijDeal);
                 if (ladBijDeal != null) {
                     Integer  aggAmt = toInt(ladBijDeal.getAggregatedAmount());

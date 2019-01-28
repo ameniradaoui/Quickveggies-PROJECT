@@ -11,9 +11,9 @@ public interface IUserUtils {
 
 	String getCurrentUser();
 
-	User getUserById(int id) throws SQLException, NoSuchElementException;
+	User getUserById(Long id) throws SQLException, NoSuchElementException;
 
-	ResultSet getResult(String query) throws SQLException;
+	
 
 	//## changed by ss on 21-Dec-2017
 	User getUserByName(String name) throws SQLException, NoSuchElementException;
@@ -21,12 +21,14 @@ public interface IUserUtils {
 	User getUserForApproval() throws SQLException;
 	//## changed by ss on 21-Dec-2017
 
-	void saveUser(User user) throws SQLException;
+	Long saveUser(User user) throws SQLException;
 
 	List<User> geUser();
 
-	boolean deleteUser(int id);
+	
 
 	boolean deleteUser(String name);
+
+	boolean deleteUser(Long id);
 
 }

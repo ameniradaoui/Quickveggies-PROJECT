@@ -80,6 +80,11 @@ public class Utils {
 		return Integer.valueOf(Double.valueOf(str).intValue());
 	}
 	
+	public static Long toLong(String str) {
+		str = str.trim();
+		return Long.valueOf(Double.valueOf(str).intValue());
+	}
+	
 	/**
 	 * Converts to the given nmeric string to Double, may throw number format
 	 * exception

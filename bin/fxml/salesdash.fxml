@@ -81,7 +81,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="newTrans" layoutX="488.0" layoutY="58.0" mnemonicParsing="false" text="New Transaction" />
+      <Button fx:id="newTrans" layoutX="488.0" layoutY="100.0" mnemonicParsing="false" text="New Transaction" />
       <Pane layoutX="14.0" layoutY="130.0" prefHeight="61.0" prefWidth="80.0" style="-fx-background-color: #80ccff;">
          <children>
             <Label fx:id="rsEstimate1" layoutX="14.0" layoutY="6.0" text="Rs. 0" />

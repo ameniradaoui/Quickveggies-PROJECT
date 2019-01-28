@@ -46,7 +46,7 @@ public class UpdateEntryController implements Initializable {
    
     private DatabaseClient dbclient;
      
-    private int lineId;
+    private Long lineId;
     private String tableName=null;
     private String[] colNamesList=null;
     private String[] oldValuesList=null;
@@ -60,7 +60,7 @@ public class UpdateEntryController implements Initializable {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public UpdateEntryController(String tableLineType,String[] colNamesList,String lineId,String[] valuesList,String[] cellValuesFactoryList){
     	System.out.println("In updateEntryContoller()..");
-        this.lineId=Integer.parseInt(lineId);
+        this.lineId=Long.parseLong(lineId);
         this.colNamesList=colNamesList;
         this.oldValuesList=valuesList;
         this.cellValuesFactoryList=cellValuesFactoryList;
@@ -185,7 +185,7 @@ public class UpdateEntryController implements Initializable {
         });
     }
      
-    private String[] getValuesFromTableLine(TableView table,int lineId,String tableLineType){
+    private String[] getValuesFromTableLine(TableView table,Long lineId,String tableLineType){
         String[] result=null;
         Object line=table.getItems().get(0);
          
@@ -215,7 +215,7 @@ public class UpdateEntryController implements Initializable {
 		
 		DSalesTableLine salesline = null;
 		try {
-			salesline = dSalesDao.getSalesEntryLineByDealId(Integer.parseInt(dealId));
+			salesline = dSalesDao.getSalesEntryLineByDealId(Long.parseLong(dealId));
 		} catch (SQLException e) {
 			System.out.print("sqlexception in getSupplierCharges");
 		}

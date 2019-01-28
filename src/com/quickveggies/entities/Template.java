@@ -2,6 +2,10 @@ package com.quickveggies.entities;
 
 public class Template {
 
+	public Template() {
+		super();
+	}
+
 	private String accountName;
 	private int dateCol;
 	private int chqnoCol, descriptionCol, withdrawalCol, depositCol, balanceCol, transIdCol;

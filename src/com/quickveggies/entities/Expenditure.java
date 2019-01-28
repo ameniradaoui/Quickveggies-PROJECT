@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 public class Expenditure {
 
-	private int id;
+	private Long id;
 
 	private String payee;
 
@@ -18,11 +18,11 @@ public class Expenditure {
 	
 	private InputStream receipt;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -1,14 +1,14 @@
 package com.quickveggies.entities;
 
 public class DExpensesTableLine{
-	 private int id;
+	 private Long id;
 	 private String date;
 	 private String amount;
 	 private String comment;
 	 private String billto;
 	 private String type;
 	 
-	 public DExpensesTableLine(int id,String date,String amount,String comment,String billto,String type){
+	 public DExpensesTableLine(Long id,String date,String amount,String comment,String billto,String type){
 		 this.date=date;
 		 this.amount=amount;
 		 this.comment=comment;
@@ -24,7 +24,7 @@ public class DExpensesTableLine{
            comment=values[2];
            billto=values[3];
            type=values[4];
-           id=Integer.parseInt(values[5]);
+           id=Long.parseLong(values[5]);
 		 }
 	 
 	public String[] getAll(){
@@ -97,11 +97,11 @@ public class DExpensesTableLine{
 		this.type = type;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

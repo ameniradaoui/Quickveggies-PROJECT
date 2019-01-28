@@ -12,6 +12,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,17 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 import com.ai.util.dates.DateUtil;
 import com.quickveggies.entities.AuditLog;
+import com.quickveggies.entities.Company;
 import com.quickveggies.entities.Expenditure;
+import com.quickveggies.entities.ExpenseInfo;
 import com.quickveggies.impl.IAuditDao;
 import com.quickveggies.impl.IBuyerDao;
 import com.quickveggies.impl.IDsalesTableDao;
@@ -54,21 +61,103 @@ public class ExpenditureDao implements IExpenditureDao {
 	/* (non-Javadoc)
 	 * @see com.quickveggies.dao.IExpenditureDao#deleteExpenditureType(java.lang.String)
 	 */
+	 private static final String INSERT_EXPENDITURE_TYPE_QRY = "IF NOT EXISTS (SELECT * FROM expenditureType WHERE name = ?)  INSERT INTO expenditureType (name)  VALUES (?)";
+
+		private SimpleJdbcInsert insert;
+		private SimpleJdbcInsert insertExp;
+
+		private void initInsert() {
+			if (insert == null) {
+				createInsert();
+			
+
+			}
+		}
+		private void initInsertExp() {
+			if (insertExp == null) {
+				
+				createInsertExpenditurte();
+
+			}
+		}
+
+		private void createInsert() {
+			insert = new SimpleJdbcInsert(dataSource).withTableName("expenditureType").usingGeneratedKeyColumns("id");
+		}
+		private void createInsertExpenditurte() {
+			insert = new SimpleJdbcInsert(dataSource).withTableName("expenditure").usingGeneratedKeyColumns("id");
+		}
+		
+	
+		private static RowMapper<Expenditure> Mapper = new RowMapper<Expenditure>() {
+			@Override
+			public Expenditure mapRow(ResultSet data, int index) throws SQLException {
+				Expenditure item = new Expenditure();
+				item.setId(data.getLong("id"));
+				item.setAmount(data.getString("amount"));
+				item.setComment(data.getString("comment"));
+				item.setDate(data.getString("date"));
+				item.setPayee(data.getString("billto"));
+				Blob blob = data.getBlob("receipt");
+			        if (blob != null) {
+			        	item.setReceipt(blob.getBinaryStream());
+			        }
+				item.setType(data.getString("type"));
+				
+
+				return item;
+			}
+		};
+
+		public void setDataSource(DataSource dataSource) {
+			template = new JdbcTemplate(dataSource);
+			createInsert();
+			createInsertExpenditurte();
+
+		}
+
+		private JdbcTemplate template;
+
+		private void initTemplate() {
+			if (template == null) {
+				template = new JdbcTemplate(dataSource);
+			}
+
+		}
+
+	 
+	
+	
+	
+	
 	@Override
 	public void deleteExpenditureType(String name) {
-        final String sql = "DELETE FROM expenditureType WHERE name = ?";
-        try ( Connection connection = dataSource.getConnection();
-        		final PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, name);
-            ps.executeUpdate();
-            auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "DELETED expenditure type:".concat(name), null, 0));
-            connection.close();       
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-	  private static final String INSERT_EXPENDITURE_TYPE_QRY = "IF NOT EXISTS (SELECT * FROM expenditureType WHERE name = ?)  INSERT INTO expenditureType (name)  VALUES (?)";
+		initTemplate();
+		
+		String SQL = "DELETE FROM expenditureType WHERE name = ?";
 
+		try {
+			template.update(SQL, name);
+			auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null, "DELETED expenditure type:".concat(name), null, 0l));
+		} catch (RuntimeException runtimeException) {
+
+			System.err.println(runtimeException);
+			throw runtimeException;
+		}
+		
+//        final String sql = "DELETE FROM expenditureType WHERE name = ?";
+//        try ( Connection connection = dataSource.getConnection();
+//        		final PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setString(1, name);
+//            ps.executeUpdate();
+//            auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null, "DELETED expenditure type:".concat(name), null, 0l));
+//            ps.close();
+//            connection.close();       
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+    }
+	 
     public ExpenditureDao() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -77,37 +166,52 @@ public class ExpenditureDao implements IExpenditureDao {
 	/* (non-Javadoc)
 	 * @see com.quickveggies.dao.IExpenditureDao#addExpenditureType(java.lang.String)
 	 */
+    
 	@Override
 	public void addExpenditureType(String name) {
-        try ( Connection connection = dataSource.getConnection();
-        		final PreparedStatement ps = connection.prepareStatement(INSERT_EXPENDITURE_TYPE_QRY)) {
-            ps.setString(1, name);
-            ps.setString(2, name);
-            ps.executeUpdate();
-            auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null, "ADDED expenditure type:".concat(name), null, 0));
-            connection.close();       
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    	
+//   	 String INSERT_EXPENDITURE_TYPE_QRY = "IF NOT EXISTS (SELECT * FROM expenditureType WHERE name = ?)  "
+//   	 		+ "INSERT INTO expenditureType (name)  VALUES (?)";
+//
+//   	Long count=template.query("SELECT count(*) FROM expenditureType WHERE name = ?", SingleColumnRowMapper.newInstance(Long.class) , name).get(0);
+//	if(count.equals(0l)){
+//    	
+    	
+//        try ( Connection connection = dataSource.getConnection();
+//        		final PreparedStatement ps = connection.prepareStatement(INSERT_EXPENDITURE_TYPE_QRY)) {
+//            ps.setString(1, name);
+//            ps.setString(2, name);
+//            ps.executeUpdate();
+//            auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null, "ADDED expenditure type:".concat(name), null, 0l));
+//            ps.close();
+//            connection.close();       
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IExpenditureDao#getExpenditureTypeList()
 	 */
+ 
     @Override
 	public List<String> getExpenditureTypeList() {
-        final String sql = "SELECT * FROM expenditureType";
-        List<String> list = new ArrayList<>();
-        try {
-            ResultSet rs = userDao.getResult(sql);
-            while (rs.next()) {
-                list.add(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    	initTemplate();
+    	 String sql = "SELECT name FROM expenditureType";
+    	return template.query(sql,  SingleColumnRowMapper.newInstance(String.class));
         
-        return list;
+//        List<String> list = new ArrayList<>();
+//        try {
+//            ResultSet rs = getResult(sql);
+//            while (rs.next()) {
+//                list.add(rs.getString("name"));
+//            }
+//            rs.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        
+//        return list;
     }
     private static final String INSERT_EXPENDITURE_QRY = "INSERT INTO expenditures  ("
             + "amount ,date , comment , billto , type, receipt) VALUES (?, ?, ?, ?, ?, ?); ";
@@ -116,27 +220,46 @@ public class ExpenditureDao implements IExpenditureDao {
 	 * @see com.quickveggies.dao.IExpenditureDao#addExpenditure(com.quickveggies.entities.Expenditure)
 	 */
     @Override
-	public boolean addExpenditure(Expenditure xpr) {
-        String sql = INSERT_EXPENDITURE_QRY;
-        try ( Connection connection = dataSource.getConnection();
-        		PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, xpr.getAmount());
-            ps.setString(2, xpr.getDate());
-            ps.setString(3, xpr.getComment());
-            ps.setString(4, xpr.getPayee());
-            ps.setString(5, xpr.getType());
-            ps.setBlob(6, xpr.getReceipt());
-            ps.executeUpdate();
-            auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
-                    "Expenditure entry recorded in system",
-                    "expenditures", db.getGeneratedKey(ps)));
-            connection.close(); 
-            return true;
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return false;
+	public Long addExpenditure(Expenditure item) {
+    	
+        initInsertExp();
+		
+		Map<String, Object> args = new HashMap<String, Object>();
+		// args.put("id", item.getId());
+		args.put("amount", item.getAmount());
+		args.put("date", item.getDate());
+		args.put("comment", item.getComment());
+		args.put("billto", item.getPayee());
+		args.put("type", item.getType());
+		args.put("receipt", item.getReceipt());
+		
+		
+		Long id = insertExp.executeAndReturnKey(args).longValue();
+        return id;
+    	
+//        String sql = INSERT_EXPENDITURE_QRY;
+//        try ( Connection connection = dataSource.getConnection();
+//        		PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+//            ps.setString(1, xpr.getAmount());
+//            ps.setString(2, xpr.getDate());
+//            ps.setString(3, xpr.getComment());
+//            ps.setString(4, xpr.getPayee());
+//            ps.setString(5, xpr.getType());
+//            ps.setBlob(6, xpr.getReceipt());
+//            
+//            Long generated = (long) db.getGeneratedKey(ps);
+//            ps.executeUpdate();
+//            auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null,
+//                    "Expenditure entry recorded in system",
+//                    "expenditures",generated ));
+//            ps.close();
+//            connection.close(); 
+//            return true;
+//        }
+//        catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//        return false;
     }
 
     
@@ -144,71 +267,88 @@ public class ExpenditureDao implements IExpenditureDao {
     /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IExpenditureDao#getExpenditureList()
 	 */
+//    private ResultSet getResult(String query) throws SQLException {
+//		Statement statement = dataSource.getConnection().createStatement();
+//		ResultSet resultSet = statement.executeQuery(query);
+//		
+//		return resultSet;
+//	}
     @Override
 	public List<Expenditure> getExpenditureList() {
+    	initTemplate();
         String sql = "select * from expenditures;";
-        List<Expenditure> list = new ArrayList<>();
-        try {
-            ResultSet rs = userDao.getResult(sql);
-            while (rs.next()) {
-                Expenditure xpr = new Expenditure();
-                xpr.setAmount(rs.getString("amount"));
-                xpr.setComment(rs.getString("comment"));
-                xpr.setDate(rs.getString("date"));
-                xpr.setId(rs.getInt("id"));
-                xpr.setPayee(rs.getString("billto"));
-                Blob blob = rs.getBlob("receipt");
-                if (blob != null) {
-                    xpr.setReceipt(blob.getBinaryStream());
-                }
-                xpr.setType(rs.getString("type"));
-                list.add(xpr);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return list;
+         return template.query(sql, Mapper);
+        
+        
+//        List<Expenditure> list = new ArrayList<>();
+//        try {
+//            ResultSet rs = getResult(sql);
+//            while (rs.next()) {
+//                Expenditure xpr = new Expenditure();
+//                xpr.setAmount(rs.getString("amount"));
+//                xpr.setComment(rs.getString("comment"));
+//                xpr.setDate(rs.getString("date"));
+//                xpr.setId(rs.getLong("id"));
+//                xpr.setPayee(rs.getString("billto"));
+//                Blob blob = rs.getBlob("receipt");
+//                if (blob != null) {
+//                    xpr.setReceipt(blob.getBinaryStream());
+//                }
+//                xpr.setType(rs.getString("type"));
+//                list.add(xpr);
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return list;
     }
     
     /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IExpenditureDao#getExpenditureById(int)
 	 */
     @Override
-	public Expenditure getExpenditureById(int id) {
+	public Expenditure getExpenditureById(Long id) {
+    	initTemplate();
         String sql = "SELECT * FROM expenditures WHERE id=?;";
-        try ( Connection connection = dataSource.getConnection();
-        		PreparedStatement ps =connection.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Expenditure xpr = new Expenditure();
-                xpr.setAmount(rs.getString("amount"));
-                xpr.setComment(rs.getString("comment"));
-                xpr.setDate(rs.getString("date"));
-                xpr.setId(rs.getInt("id"));
-                xpr.setPayee(rs.getString("billto"));
-                Blob blob = rs.getBlob("receipt");
-                ps.close(); 
-                if (blob != null) {
-                    xpr.setReceipt(blob.getBinaryStream());
-                }
-                xpr.setType(rs.getString("type"));
-                connection.close();
-                return xpr;
-            }
+        
+        List<Expenditure> list = template.query(sql, Mapper , id);
+        if (list.isEmpty()){
+        	return null;
+        }else {
+        	return list.get(0);
         }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
+//        try ( Connection connection = dataSource.getConnection();
+//        		PreparedStatement ps =connection.prepareStatement(sql)) {
+//            ps.setLong(1, id);
+//            ResultSet rs = ps.executeQuery();
+//            if (rs.next()) {
+//                Expenditure xpr = new Expenditure();
+//                xpr.setAmount(rs.getString("amount"));
+//                xpr.setComment(rs.getString("comment"));
+//                xpr.setDate(rs.getString("date"));
+//                xpr.setId(rs.getLong("id"));
+//                xpr.setPayee(rs.getString("billto"));
+//                Blob blob = rs.getBlob("receipt");
+//                ps.close(); 
+//                if (blob != null) {
+//                    xpr.setReceipt(blob.getBinaryStream());
+//                }
+//                xpr.setType(rs.getString("type"));
+//                ps.close();
+//                connection.close();
+//                return xpr;
+//            }
+//        }
+//        catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return null;
     }
     public DataSource getDataSource() {
 		return dataSource;
 	}
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+	
 	private final static Map<String, String> TABLE_MAP = new LinkedHashMap<>();
 
     static {
@@ -230,42 +370,42 @@ public class ExpenditureDao implements IExpenditureDao {
 	 * @see com.quickveggies.dao.IExpenditureDao#deleteExpenditureEntry(int, boolean)
 	 */
     @Override
-	public void deleteExpenditureEntry(int id, boolean writeAuditLog) {
-        try {
-            String tableName = "expenditures";
-            String deleteCommand;
-            Expenditure expenditure = getExpenditureById(id);
-            if (expenditure == null) {
-                return;
-            }
-            deleteCommand = "delete from " + tableName + " where id=?;";
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(deleteCommand);
-            statement.setInt(1, id);
-            statement.execute();
-            if (writeAuditLog) {
-                auditDao.insertAuditRecord(new AuditLog(0, userDao.getCurrentUser(), null,
-                        "DELETED Entry for " + TABLE_MAP.get(tableName) + " ("
-                                + expenditure.getType() + ")", null, 0) {{
-                                    setName(expenditure.getPayee());
-                                    try {
-                                        String format = DateUtil.determineDateFormat(expenditure.getDate());
-                                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-                                        setDate(Date.from(LocalDate.parse(expenditure.getDate(), formatter)
-                                                .atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                                    }
-                                    catch (Exception x) {
-                                        setDate(null);
-                                        x.printStackTrace();
-                                    }
-                                    setAmount(Double.parseDouble(expenditure.getAmount()));
-                                }});
-                connection.close();
-            }
-        }
-        catch (SQLException e) {
-            System.out.print("sql exception in deleteTableEntries " + e.getMessage());
-        }
+	public void deleteExpenditureEntry(Long id, boolean writeAuditLog) {
+    	initTemplate();
+    	String tableName = "expenditures";
+        String SQL ="delete from expenditures where id=?" ; 
+		template.update(SQL, id);
+//            String tableName = "expenditures";
+//            String deleteCommand;
+         Expenditure expenditure = getExpenditureById(id);
+//            if (expenditure == null) {
+//                return;
+//            }
+//            deleteCommand = "delete from " + tableName + " where id=?;";
+//            Connection connection = dataSource.getConnection();
+//            PreparedStatement statement = connection.prepareStatement(deleteCommand);
+//            statement.setLong(1, id);
+//            statement.execute();
+		if (writeAuditLog) {
+		    auditDao.insertAuditRecord(new AuditLog(0l, userDao.getCurrentUser(), null,
+		            "DELETED Entry for " + TABLE_MAP.get(tableName) + " ("
+		                    + expenditure.getType() + ")", null, 0l) {{
+		                        setName(expenditure.getPayee());
+		                        try {
+		                            String format = DateUtil.determineDateFormat(expenditure.getDate());
+		                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		                            setDate(Date.from(LocalDate.parse(expenditure.getDate(), formatter)
+		                                    .atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		                        }
+		                        catch (Exception x) {
+		                            setDate(null);
+		                            x.printStackTrace();
+		                        }
+		                        setAmount(Double.parseDouble(expenditure.getAmount()));
+		                    }});
+//                statement.close();
+//                connection.close();
+		}
     }
 
 	

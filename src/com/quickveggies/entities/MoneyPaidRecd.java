@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 public class MoneyPaidRecd {
 
-    private int id;
+    private Long id;
     private String tag;
     private String title ;
     private String partyType ;
@@ -21,11 +21,11 @@ public class MoneyPaidRecd {
     public static final String MONEY_RECEIVED = "Money Received";
     public static final String MONEY_PAID = "Money Paid";
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

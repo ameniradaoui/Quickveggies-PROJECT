@@ -12,16 +12,20 @@ public interface ISupplierDao {
 
 	List<DSupplierTableLine> getSupplierDealEntries(String title) throws SQLException;
 
-	DSupplierTableLine getSupplierDealEntry(int id) throws SQLException;
 
-	int getRowsNum(String tablename);
+	//int getRowsNum(String tablename);
 
-	void saveSupplier(Supplier supplier) throws SQLException;
+	Long saveSupplier(Supplier supplier) throws SQLException;
 
-	Supplier getSupplierById(int id) throws SQLException, NoSuchElementException;
+
 
 	List<DSupplierTableLine> getListBySupplierType(String title);
 
 	List<Supplier> getListBySupplierTitle(String name);
+
+	DSupplierTableLine getSupplierDealEntry(Long id) throws SQLException;
+
+
+	Supplier getSupplierById(Long id) throws SQLException, NoSuchElementException;
 
 }

@@ -2,25 +2,29 @@ package com.quickveggies.entities;
 
 public class StorageBuyerDeal {
 	
-	  private Integer buyerDealLineId ;
-	  private Integer strorageDealLineId ;
+	  public StorageBuyerDeal() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	private Long buyerDealLineId ;
+	  private Long strorageDealLineId ;
 	  
-	  public StorageBuyerDeal(Integer buyerDealLineId, Integer strorageDealLineId) {
+	  public StorageBuyerDeal(Long buyerDealLineId, Long strorageDealLineId) {
 			this.strorageDealLineId = strorageDealLineId;
 			this.buyerDealLineId = buyerDealLineId;
 	  }
 	  
 	  
-	public Integer getStrorageDealLineId() {
+	public Long getStrorageDealLineId() {
 		return strorageDealLineId;
 	}
-	public void setStrorageDealLineId(Integer strorageDealLineId) {
+	public void setStrorageDealLineId(Long strorageDealLineId) {
 		this.strorageDealLineId = strorageDealLineId;
 	}
-	public Integer getBuyerDealLineId() {
+	public Long getBuyerDealLineId() {
 		return buyerDealLineId;
 	}
-	public void setBuyerDealLineId(Integer buyerDealLineId) {
+	public void setBuyerDealLineId(Long buyerDealLineId) {
 		this.buyerDealLineId = buyerDealLineId;
 	}
 

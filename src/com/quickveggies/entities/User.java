@@ -2,7 +2,7 @@ package com.quickveggies.entities;
 
 public class User 
 {
-    private int id;
+    private Long id;
     private String name;
     private String password;
     private String email;
@@ -22,7 +22,7 @@ public class User
         this.role = role;
     }
     
-    public User(int id,String name, String password, String email) {
+    public User(Long id,String name, String password, String email) {
     	this.id=id;
         this.name = name;
         this.password = password;
@@ -30,7 +30,7 @@ public class User
         //this.bool_status = bool_status;
     }
 
-    public User(int id, String name, String password, String email, int role) {
+    public User(Long id, String name, String password, String email, int role) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -60,7 +60,7 @@ public class User
 
 	
 
-	public User(int id, String name, String password, String email, int role, boolean bool_status, String usertype) {
+	public User(Long id, String name, String password, String email, int role, boolean bool_status, String usertype) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -103,11 +103,11 @@ public class User
         this.role = role;
     }
 
-    public int getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -3,7 +3,7 @@ package com.quickveggies.entities;
 import java.io.InputStream;
 
 public class Buyer{
-    private int id;
+    private Long id;
     private String title;
     private String firstName ;
     private String lastName ;
@@ -61,7 +61,7 @@ public class Buyer{
     public Buyer() {
     }
 
-    public Buyer(int id, String title, String firstName,
+    public Buyer(Long id, String title, String firstName,
                  String lastName, String company, String proprietor,
                  String mobile, String mobile2, String email,
                  String shopno, String city, String email2,
@@ -86,11 +86,11 @@ public class Buyer{
         this.buyerType=buyerType;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

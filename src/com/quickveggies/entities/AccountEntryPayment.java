@@ -6,12 +6,12 @@ package com.quickveggies.entities;
  */
 public class AccountEntryPayment {
     
-    private Integer id;
-    private Integer accountEntryId;
+    private Long id;
+    private Long accountEntryId;
     private String paymentTable;
-    private Integer paymentId;
+    private Long paymentId;
 
-    public AccountEntryPayment(Integer id, Integer accountEntryId, String paymentTable, Integer paymentId) {
+    public AccountEntryPayment(Long id, Long accountEntryId, String paymentTable, Long paymentId) {
         this.id = id;
         this.accountEntryId = accountEntryId;
         this.paymentTable = paymentTable;
@@ -21,19 +21,19 @@ public class AccountEntryPayment {
     public AccountEntryPayment() {
     }
     
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getAccountEntryId() {
+    public Long getAccountEntryId() {
         return accountEntryId;
     }
 
-    public void setAccountEntryId(Integer accountEntryId) {
+    public void setAccountEntryId(Long accountEntryId) {
         this.accountEntryId = accountEntryId;
     }
 
@@ -45,11 +45,11 @@ public class AccountEntryPayment {
         this.paymentTable = paymentTable;
     }
 
-    public Integer getPaymentId() {
+    public Long getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(Integer paymentId) {
+    public void setPaymentId(Long paymentId) {
         this.paymentId = paymentId;
     }
 }

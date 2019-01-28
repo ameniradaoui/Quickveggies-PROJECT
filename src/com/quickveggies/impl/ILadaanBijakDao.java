@@ -6,10 +6,12 @@ import com.quickveggies.entities.LadaanBijakSaleDeal;
 
 public interface ILadaanBijakDao {
 
-	LadaanBijakSaleDeal getLadBijSaleDeal(int dealId);
+	LadaanBijakSaleDeal getLadBijSaleDeal(Long dealId);
 
 	List<LadaanBijakSaleDeal> getLadBijSaleDealsForBuyer(String buyerTitle);
 
-	int getNonEditedLadaanEntries();
+	Long getNonEditedLadaanEntries();
+
+	
 
 }

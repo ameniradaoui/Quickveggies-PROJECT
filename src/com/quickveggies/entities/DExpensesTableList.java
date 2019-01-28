@@ -76,7 +76,7 @@ public class DExpensesTableList extends TransformationList<DExpensesTableLine, D
         private final ReadOnlyObjectWrapper<Integer> totalAmounted = new ReadOnlyObjectWrapper<>();
 
         public TotalLine(ObservableList<? extends DExpensesTableLine> items) {
-            super(-1, "", "0", "", "", "");
+            super(-1l, "", "0", "", "", "");
             // Bind totalAmounted to the sum of the totals of all the other line items:
             totalAmounted.bind(Bindings.createObjectBinding(() -> items.stream().collect(
                     Collectors.summingInt(DExpensesTableLine::getAmountInt)), items));

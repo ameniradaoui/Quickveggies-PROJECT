@@ -127,7 +127,7 @@ public class AddSupplierController implements Initializable {
             		return;
             	}
             	
-                Supplier supplier = new Supplier(0,"",firstName.getText(),lastName.getText(),
+                Supplier supplier = new Supplier(0l,"",firstName.getText(),lastName.getText(),
                         company.getText(),proprietor.getText(),mobile.getText(),mobile2.getText(),
                         email.getText(),village.getText(),po.getText(),tehsil.getText(), ac.getText(), bank.getText(), ifsc.getText());
                 if (imgFile  != null) {

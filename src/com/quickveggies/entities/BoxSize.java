@@ -2,7 +2,7 @@ package com.quickveggies.entities;
 
 public class BoxSize {
 
-	private int id;
+	private Long id;
 
 	private String name;
 	
@@ -12,7 +12,7 @@ public class BoxSize {
 		this.name = name;
 	}
 	
-	public BoxSize(int id, String name) {
+	public BoxSize(Long id, String name) {
 		this.name = name;
 		this.id = id;
 	}
@@ -26,11 +26,11 @@ public class BoxSize {
 		this.name = name;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

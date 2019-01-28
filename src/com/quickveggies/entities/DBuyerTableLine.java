@@ -322,7 +322,7 @@ public class DBuyerTableLine {
     }
 
     public boolean isLadaanEdited() {
-        LadaanBijakSaleDeal deal = ladaanBijakDao.getLadBijSaleDeal(Integer.valueOf(this.dealID));
+        LadaanBijakSaleDeal deal = ladaanBijakDao.getLadBijSaleDeal(Long.valueOf(this.dealID));
         if (deal == null) {
             return false;
         }

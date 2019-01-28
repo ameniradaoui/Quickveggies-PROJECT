@@ -101,7 +101,7 @@ public class DExpensTransController implements Initializable {
     
     private ExpenditureDao ed ;
 
-    private ObservableList<DExpensesTableLine> lines = FXCollections.observableArrayList(new DExpensesTableLine(0, "", "", "", "", ""));
+    private ObservableList<DExpensesTableLine> lines = FXCollections.observableArrayList(new DExpensesTableLine(0l, "", "", "", "", ""));
 
     @SuppressWarnings("unchecked")
     public void initialize(URL location, ResourceBundle resources) {

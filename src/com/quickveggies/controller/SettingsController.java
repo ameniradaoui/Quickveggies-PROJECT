@@ -172,7 +172,7 @@ public class SettingsController implements Initializable {
 								      User user =(User)table.getSelectionModel().getSelectedItem();
 								      System.out.println(user);
 								      
-								       Integer id = user.getId();
+								       Long id = user.getId();
 					                	userUtils.deleteUser(id);
 					                	userlines.remove(user);
 					                	
