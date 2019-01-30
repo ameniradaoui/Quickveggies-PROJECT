@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+
+
+<?import com.quickveggies.misc.AutoCompleteTextField?>
+
+<AnchorPane  fx:id="settingsPane"  prefHeight="850" prefWidth="850" xmlns="http://javafx.com/javafx/8.0.65"   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quickveggies.controller.JournalEntryController">
+ 
+  <children>
+      <Text layoutX="400" layoutY="25.0" text="Journal Entry">
+       <font>
+         <Font name="Arial Black" size="16.0" />
+       </font>  
+      </Text>
+     <Label layoutX="30" layoutY="40" text="Journal Date" />
+     <DatePicker fx:id="dtpDate" layoutX="30" layoutY="65" prefHeight="25.0" prefWidth="160.0" />
+   
+   
+
+      <TableView fx:id="table" layoutX="30" layoutY="130" prefHeight="500" prefWidth="800">
+     <columns>
+                  <TableColumn  fx:id="account"  prefWidth="143.0" text="ACCOUNT" />
+                  <TableColumn fx:id="debits" prefWidth="85.0" text="DEBITS" />
+                  <TableColumn fx:id="credits" prefWidth="360.0" text="CREDITS" /> 
+                  <TableColumn  fx:id="description"  prefWidth="143.0" text="DESCRIPTION" />
+                  <TableColumn fx:id="name" prefWidth="360.0" text="NAME" /> 
+                 
+                  
+     </columns>
+    </TableView>
+    <Button fx:id="addButton" layoutX="30" layoutY="650" mnemonicParsing="false" prefHeight="13" prefWidth="114.0" text="Add lines" />
+    <Button fx:id="clear" layoutX="150" layoutY="650" mnemonicParsing="false" prefHeight="13" prefWidth="114.0" text="Clear all lines" />
+    <Label layoutX="30" layoutY="700" text="Memo" />
+   <TextArea id="memotxt" layoutX="30" layoutY="720" prefHeight="100" prefWidth="200"  />
+   <Label layoutX="300" layoutY="700" text="Attachements" />
+   <Pane fx:id="imagePanel" layoutX="300" layoutY="720" prefHeight="100" prefWidth="167.0" style="-fx-border-color: black; -fx-border-width: 2px;">
+         <children>
+            <ImageView fx:id="imvExpense" fitHeight="155.0" fitWidth="173.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+    <Button fx:id="btnUploadImage" layoutX="350" layoutY="840" text="Show existing" style="-fx-text-fill: CornflowerBlue;"/>
+      <Button fx:id="SaveButton" layoutX="700" layoutY="800" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="SAVE" style="-fx-background-color: green;"/>
+   </children>
+</AnchorPane>

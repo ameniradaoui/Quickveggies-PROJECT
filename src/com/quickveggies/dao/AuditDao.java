@@ -172,7 +172,7 @@ public class AuditDao implements IAuditDao {
 	  /* (non-Javadoc)
 	 * @see com.quickveggies.dao.IAuditDao#insertAuditRecord(com.quickveggies.entities.AuditLog)
 	 */
-	public Long insertAuditRecord(AuditLog item) {
+	public void insertAuditRecord(AuditLog item) {
 		initInsert();
 		
 		Map<String, Object> args = new HashMap<String, Object>();
@@ -187,8 +187,7 @@ public class AuditDao implements IAuditDao {
 		args.put("date", item.getDate() == null ? null : new java.sql.Timestamp(item.getDate().getTime()));
 		args.put("amount", item.getAmount() == null ? 0.0 : item.getAmount());
 		
-		Long id = insert.executeAndReturnKey(args).longValue();
-        return id;
+	
 		
 		
 //		

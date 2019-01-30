@@ -8,6 +8,6 @@ public interface IAuditDao {
 
 	List<AuditLog> getAuditRecords();
 
-	Long insertAuditRecord(AuditLog log);
+	void insertAuditRecord(AuditLog log);
 
 }

@@ -7,6 +7,33 @@
 	<name>QuickVeggies</name>
 	<description>Accounting Software</description>
 
+	<properties>
+		<jasperreports.version>6.4.3</jasperreports.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>Jasper Reports</id>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Jasper Reports</id>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 		<dependency>
@@ -243,6 +270,29 @@
 			C:\Users\amani.radaoui\Documents\Quickveggies-PROJECT\lib\ai-custom-dates.jar
 			</systemPath>
 
+		</dependency>
+
+		<!-- DynamicReports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-functions</artifactId>
+			<version>${jasperreports.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 
 	</dependencies>

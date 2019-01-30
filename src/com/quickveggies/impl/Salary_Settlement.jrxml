@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Salary_Settlement" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="/onesquare.web/SquareSubscriptionApplication" uuid="73c60856-fc58-4a91-98e8-19e1a6c41a61">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="birthDate" class="java.lang.String"/>
+	<parameter name="profession" class="java.lang.String"/>
+	<parameter name="tagAddress" class="java.lang.String"/>
+	<parameter name="salaryBrut" class="java.lang.String"/>
+	<parameter name="salaryNet" class="java.lang.String"/>
+	<parameter name="tva" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="139" splitType="Stretch">
+			<textField>
+				<reportElement x="199" y="55" width="220" height="30" uuid="33aefd60-a560-4a9a-aa0a-2e908dc7ad9a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$R{salary.settlement.title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="99" width="100" height="30" uuid="c86025fb-65a8-40fa-b370-dcde0687fc52">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$R{salary.settlement.soussigne}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="160" y="99" width="117" height="30" uuid="77499707-71bb-4562-ba42-2cb1f348aa03"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="109" width="100" height="30" uuid="f0d32fbd-b8ec-486d-944b-6f9bf8a8fd94"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.birthdate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="99" width="119" height="30" uuid="1f4e0beb-97ef-4e6a-a2f1-81e1ce9bb98e"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.employe.qualite}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="127" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="267" y="19" width="140" height="30" uuid="fcbb53a7-d982-466a-b5e9-533a02a35237"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{birthDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="455" y="19" width="90" height="30" uuid="85328430-8527-40d6-b5d5-17315628c2ea"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{profession}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="30" width="200" height="30" uuid="49874990-9aeb-49ca-adbc-aad0f47e0e65"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.cadre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="48" width="100" height="30" uuid="808a6fe8-e793-48d8-a345-462c78b74064"/>
+				<textFieldExpression><![CDATA["………...…....…......"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="77" width="264" height="30" uuid="13b07bc2-fe9b-41da-bec8-e6bfc9597ae1"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.reconnait.recu.montant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="48" width="263" height="30" uuid="0e15331e-58a0-4282-bba5-d609482b9cba"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.type.contrat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="77" width="108" height="30" uuid="92233b1d-6b35-4c5b-a827-83d5feceab34"/>
+				<textFieldExpression><![CDATA["..................."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="38" y="77" width="100" height="30" uuid="ad1cec8c-daca-4cf5-babd-4c9610a40133"/>
+				<textFieldExpression><![CDATA["............................"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="322" y="76" width="100" height="30" uuid="b8b28528-65c1-49c0-8696-ab428ff022f5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{salaryNet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="30" width="80" height="30" uuid="065bbaf1-25ea-43f5-a994-17c52b853d5d"/>
+				<textFieldExpression><![CDATA["................"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="216" splitType="Stretch">
+			<textField>
+				<reportElement x="37" y="-21" width="219" height="30" uuid="794f5112-9916-4269-8d61-7bef15071863"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.somme.lettres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="249" y="-21" width="172" height="30" uuid="ed1b533a-85ec-4e80-9c67-2bfe129616fe"/>
+				<textFieldExpression><![CDATA["................................................"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="6" width="217" height="30" uuid="2341cb04-6d07-43a1-b8e9-029f29f748ee"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.droit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="30" width="44" height="30" uuid="b96a8168-205d-45bb-a4ae-e9387063b6cb"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.soit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="411" y="-21" width="133" height="30" uuid="a00af38c-19bf-47d8-a505-62f09e69f8fe"/>
+				<textFieldExpression><![CDATA["……................………...."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="60" width="51" height="30" uuid="ca796788-35b3-4fa4-95cb-ffd6b5e819cf"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="130" width="24" height="30" uuid="70df3afa-5622-449f-8813-ffd90ab01ee5"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="450" y="180" width="120" height="30" uuid="2bede332-386f-4349-9c83-1ee51f133aad"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="109" y="50" width="128" height="22" uuid="8170f019-d54c-4d83-ae37-23fdbb28380d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{salaryBrut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="49" width="100" height="23" uuid="7cc9528a-2824-46eb-83b1-5cac8153f8da"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.salaire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="144" width="125" height="30" uuid="64e99e4c-83f4-4d7b-8023-e3c591cbaddd"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.signature}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="80" width="124" height="30" uuid="09773e78-476e-47bb-bcc3-ed785ae6298d"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.cachet}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="63" y="76" width="113" height="30" uuid="c38f39fc-3f91-4e9a-bac7-94d3e2ba8a2d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="100" width="54" height="30" uuid="4aa5acf0-d576-49cb-b390-fa283e43a516"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.tva}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="80" splitType="Stretch">
+			<textField>
+				<reportElement x="33" y="27" width="502" height="30" uuid="94b346f9-2446-498c-aa83-e5a8653fcaac"/>
+				<textFieldExpression><![CDATA[$R{salary.settlement.copie.transmise}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="333" y="-6" width="100" height="30" uuid="4e6e8f42-25df-431e-84e1-c31c22fe961d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tagAddress}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="80" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="120" splitType="Stretch"/>
+	</summary>
+</jasperReport>
