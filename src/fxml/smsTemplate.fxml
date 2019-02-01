@@ -35,17 +35,11 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
-            </Label>     
-            <Label layoutX="350" layoutY="190" prefHeight="32.0" prefWidth="231.0" text="Configure SMS API" style="-fx-text-fill: CornflowerBlue;">
-               <font>
-                  <Font name="System Bold" size="10.0"  />
-               </font>
-            </Label>     
-            <Label layoutX="450" layoutY="190" prefHeight="32.0" prefWidth="231.0" text="Configure WHATSAPP API" style="-fx-text-fill: CornflowerBlue;">
-               <font>
-                  <Font name="System Bold" size="10.0" />
-               </font>
             </Label>  
+            <Button fx:id="btnsms" layoutX="220" layoutY="140" prefHeight="15" text="Configure SMS API" style="-fx-background-color: CornflowerBlue;"/>
+             <Button fx:id="btnemail" layoutX="340" layoutY="140" prefHeight="15" text="Configure EMAIL API" style="-fx-background-color: CornflowerBlue;"/>  
+              <Button fx:id="btnwhatsapp" layoutX="470" layoutY="140" prefHeight="15" text="Configure WHATSAPP API" style="-fx-background-color: CornflowerBlue;"/>       
+           
             
           <Button fx:id="btnBuyer" layoutX="14" layoutY="255"  text="Invoice Buyer" style="-fx-background-color: Gray;"/>  
           <Button fx:id="btnSupplier" layoutX="101" layoutY="255" text="Invoice Supplier" style="-fx-background-color: Gray;"/>  
