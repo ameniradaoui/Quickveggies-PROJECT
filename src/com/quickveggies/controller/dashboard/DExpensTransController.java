@@ -166,6 +166,7 @@ public class DExpensTransController implements Initializable {
 
         newExpense.setOnAction((ActionEvent event) -> {
         	showNewExpenseDialog();
+        	 tableTotal.refresh();
           
         });
         setupTotalAmountsTable(lines);
@@ -243,5 +244,7 @@ public class DExpensTransController implements Initializable {
                 }
             }
         });
+        
+       
     }
 }

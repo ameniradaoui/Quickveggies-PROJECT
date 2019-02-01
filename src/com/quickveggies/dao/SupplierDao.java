@@ -299,17 +299,17 @@ public class SupplierDao implements ISupplierDao {
 	 * Supplier)
 	 */
 	@Override
-	public Long saveSupplier(Supplier item) throws SQLException {
+	public void saveSupplier(Supplier item) throws SQLException {
 		initInsert();
 		String firstName = item.getFirstName();
-		int rows = template.query("SELECT COUNT(*) FROM suppliers1",SingleColumnRowMapper.newInstance(Integer.class)).get(0);
-		String title = String.valueOf(rows).concat(" ").concat(firstName);
-		try {// check if supplier exists
-			this.getSupplierByName(title);
-			GeneralMethods.errorMsg("Saving failed - title already exists in database");
-		
-		} catch (NoSuchElementException e) {
-		}
+	int rows = template.query("SELECT COUNT(*) FROM suppliers1",SingleColumnRowMapper.newInstance(Integer.class)).get(0);
+	String title = String.valueOf(rows).concat(" ").concat(firstName);
+//		try {// check if supplier exists
+//			this.getSupplierByName(title);
+//			GeneralMethods.errorMsg("Saving failed - title already exists in database");
+//		
+//		} catch (NoSuchElementException e) {
+//		}
 		Map<String, Object> args = new HashMap<String, Object>();
 		// args.put("id", item.getId());
 		
@@ -332,7 +332,7 @@ public class SupplierDao implements ISupplierDao {
 		Long id = insert.executeAndReturnKey(args).longValue();
 		ad.insertAuditRecord(new AuditLog(0l, userUtils.getCurrentUser(), null,
 				"ADDED new entry for supplier :".concat(title), "Suppliers1", id));
-		return id;
+		
 		
 //		String lastName = supplier.getLastName();
 //		String company = supplier.getCompany();
@@ -424,7 +424,7 @@ public class SupplierDao implements ISupplierDao {
 
 	public Supplier getSupplierByName(String name) throws SQLException, NoSuchElementException {
 		initTemplate();
-	
+	System.out.println(name);
 
 		return template.query("select * from suppliers1 where title=?", mapper2, name).get(0);
 

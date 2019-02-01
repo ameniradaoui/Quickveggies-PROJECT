@@ -22,7 +22,7 @@ public interface IBuyerDao {
 
 	List<ExpenseInfo> getBuyerExpenseInfoList();
 
-	Long saveBuyer(Buyer buyer) throws SQLException;
+	void saveBuyer(Buyer buyer) throws SQLException;
 
 	Buyer getBuyerByName(String name) throws SQLException, NoSuchElementException;
 

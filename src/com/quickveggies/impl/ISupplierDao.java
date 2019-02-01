@@ -15,7 +15,7 @@ public interface ISupplierDao {
 
 	//int getRowsNum(String tablename);
 
-	Long saveSupplier(Supplier supplier) throws SQLException;
+	void saveSupplier(Supplier supplier) throws SQLException;
 
 
 

@@ -268,7 +268,7 @@ public class FreshEntryController implements Initializable {
     	//show SAVE when everything is allotted.
     	grNo.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	           // System.out.println("Key Released: " + ke.getText());
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
 	            }
@@ -281,35 +281,35 @@ public class FreshEntryController implements Initializable {
     	 
     	fullCase.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
 	            }
 	           
 	        }});
-    	charges.setOnKeyReleased(new EventHandler<KeyEvent>() {
-	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
-	            
-	            if (ke.getText().isEmpty()){
-	            	saveButton.setVisible(false);
-	            }
-	           
-	        }});
-    	net.setOnKeyReleased(new EventHandler<KeyEvent>() {
-	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
-	            
-	            if (ke.getText().isEmpty()){
-	            	saveButton.setVisible(false);
-	            }
-	           
-	        }});
-	        
+//    	charges.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//	        public void handle(KeyEvent ke) {
+//	           // System.out.println("Key Released: " + ke.getText());
+//	            
+//	            if (ke.getText().isEmpty()){
+//	            	saveButton.setVisible(false);
+//	            }
+//	           
+//	        }});
+//    	net.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//	        public void handle(KeyEvent ke) {
+//	           // System.out.println("Key Released: " + ke.getText());
+//	            
+//	            if (ke.getText().isEmpty()){
+//	            	saveButton.setVisible(false);
+//	            }
+//	           
+//	        }});
+//	        
     	halfCase.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -318,7 +318,7 @@ public class FreshEntryController implements Initializable {
 	    });
     	remarks.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	          //  System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -329,19 +329,19 @@ public class FreshEntryController implements Initializable {
 	           
 	        }
 	    });
-    	gross.setOnKeyReleased(new EventHandler<KeyEvent>() {
-	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
-	            
-	            if (ke.getText().isEmpty()){
-	            	saveButton.setVisible(false);
-	            }
-	            
-	        }
-	    });
+//    	gross.setOnKeyReleased(new EventHandler<KeyEvent>() {
+//	        public void handle(KeyEvent ke) {
+//	           // System.out.println("Key Released: " + ke.getText());
+//	            
+//	            if (ke.getText().isEmpty()){
+//	            	saveButton.setVisible(false);
+//	            }
+//	            
+//	        }
+//	    });
     	totalQty2.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -352,7 +352,7 @@ public class FreshEntryController implements Initializable {
     	
     	expenses.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -362,7 +362,7 @@ public class FreshEntryController implements Initializable {
 	    });
     	grower.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -372,7 +372,7 @@ public class FreshEntryController implements Initializable {
 	    });
     	truckNo.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	           // System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -381,7 +381,7 @@ public class FreshEntryController implements Initializable {
 	    });
     	driverNoField.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -391,7 +391,7 @@ public class FreshEntryController implements Initializable {
 	    });
     	chlNo.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	            //System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);
@@ -401,7 +401,7 @@ public class FreshEntryController implements Initializable {
 	    });
     	fwAgent.setOnKeyReleased(new EventHandler<KeyEvent>() {
 	        public void handle(KeyEvent ke) {
-	            System.out.println("Key Released: " + ke.getText());
+	          //  System.out.println("Key Released: " + ke.getText());
 	            
 	            if (ke.getText().isEmpty()){
 	            	saveButton.setVisible(false);

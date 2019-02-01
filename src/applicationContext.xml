@@ -15,7 +15,7 @@
      <bean id="dynamicdataSource" class="com.zaxxer.hikari.HikariDataSource" scope="singleton"
             destroy-method="close">
             <property name="dataSourceClassName" value="org.postgresql.ds.PGSimpleDataSource" />
-            <property name="maximumPoolSize" value="100" />
+            <property name="maximumPoolSize" value="50" />
             <property name="maxLifetime" value="5000" />
             <property name="idleTimeout" value="10000" />
             <property name="connectionTimeout" value="3000" />

@@ -1,8 +1,11 @@
 package com.quickveggies.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.quickveggies.entities.Expenditure;
+import com.quickveggies.entities.ExpenditureType;
+import com.quickveggies.entities.ExpenditureTypeName;
 
 public interface IExpenditureDao {
 
@@ -12,7 +15,7 @@ public interface IExpenditureDao {
 
 	List<String> getExpenditureTypeList();
 
-	Long addExpenditure(Expenditure xpr);
+	Long addExpenditure(Expenditure xpr) throws IOException;
 
 	List<Expenditure> getExpenditureList();
 
@@ -21,5 +24,7 @@ public interface IExpenditureDao {
 	
 
 	void deleteExpenditureEntry(Long id, boolean writeAuditLog);
+
+	List<ExpenditureTypeName> getSelectionFiler();
 
 }

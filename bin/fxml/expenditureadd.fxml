@@ -11,7 +11,7 @@
 <?import com.quickveggies.misc.AutoCompleteTextField?>
 <?import com.quickveggies.misc.SearchPartyButton?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="600.0" stylesheets="@css/center_table_style.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="600.0" stylesheets="@css/center_table_style.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quickveggies.controller.ExpenditureAddController"> 
    <children>
       <Label id="label-header-on-light" layoutX="200.0" layoutY="20.0" text="Add Expense" />
       
@@ -32,7 +32,7 @@
        
       <Label id="label-text-on-light" layoutX="49.0" layoutY="123.0" text="Expense type:" />
       <!-- AutoCompleteTextField -->
-      <AutoCompleteTextField id="label-text-on-light" fx:id="searchExpenseType" layoutX="50.0" layoutY="153.0" />
+      <ComboBox id="label-text-on-light" fx:id="searchExpenseType" layoutX="50.0" layoutY="153.0" />
       
             <!-- 
       <Label layoutX="50.0" layoutY="210.0" text="Recently used:" id="label-text-on-light"/>

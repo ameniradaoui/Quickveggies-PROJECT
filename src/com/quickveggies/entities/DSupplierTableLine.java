@@ -132,7 +132,7 @@ public class DSupplierTableLine {
         properties.setProperty("Cases", getCases());
         properties.setProperty("Fruit", getFruit());
         properties.setProperty("Net", getNet());
-        properties.setProperty("Orchard", getOrchard());
+        //properties.setProperty("Orchard", getOrchard());
         properties.setProperty("Proprietor", getProprietor());
         properties.setProperty("QualityType", getQualityType());
         properties.setProperty("SaleNo", getSaleNo());
@@ -170,7 +170,6 @@ public class DSupplierTableLine {
         cases = properties.getProperty("Cases", null);
         fruit = properties.getProperty("Fruit", null);
         net = properties.getProperty("Net", null);
-        orchard = properties.getProperty("Orchard", null);
         proprietor = properties.getProperty("Proprietor", null);
         qualityType = properties.getProperty("QualityType", null);
         saleNo = properties.getProperty("SaleNo", null);

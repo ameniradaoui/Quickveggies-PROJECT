@@ -138,7 +138,21 @@ public class SettingsController implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 
-				new Main().replaceSceneContent("/fxml/register.fxml");
+				
+				try {
+					 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerAdmin.fxml"));
+	                 Parent root1;
+					 root1 = (Parent) fxmlLoader.load();
+					 Stage stage = new Stage();
+	                 stage.setScene(new Scene(root1));  
+	                 stage.show();
+	                 
+	               
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 
 		});

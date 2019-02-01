@@ -179,6 +179,7 @@ public class CompanyDao implements ICompanyDao {
 
 	private void addOrUpdateCompanyInfo(Company item, boolean isNew) {
 		initTemplate();
+		initInsert();
 		String sql = "";
 //		if (isNew) {
 //			sql = INSERT_COMPANY_QRY;
@@ -212,7 +213,7 @@ public class CompanyDao implements ICompanyDao {
 			args.put("name", item.getName());
 		}
 		
-		Long genId = insert.executeAndReturnKey(args).longValue();}
+
 		
 		else {
 			if (item.getLogo() != null) {
@@ -223,7 +224,7 @@ public class CompanyDao implements ICompanyDao {
 				sql = UPDATE_NOLOGO_COMPANY_QRY;
 				template.update(sql,  item.getName() ,item.getAddress() ,item.getWebsite(),item.getPhone() ,  item.getEmail() ,  item.getIndustryType() ,  item.getPassword(), item.getName());
 			}
-		}
+		}}
 		
 //		try (Connection connection = dataSource.getConnection();
 //				PreparedStatement ps = connection.prepareStatement(sql)) {

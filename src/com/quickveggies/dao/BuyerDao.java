@@ -170,7 +170,7 @@ public class BuyerDao implements IBuyerDao {
 	 */
 	@Override
 	public void deleteBuyerExpenseInfo(String name) {
-		
+		initTemplate();
 		String SQL = "DELETE FROM buyerExpenseInfo  WHERE name = ?";
 
 		try {
@@ -380,8 +380,8 @@ public class BuyerDao implements IBuyerDao {
 	 * com.quickveggies.dao.IBuyerDao#saveBuyer(com.quickveggies.entities.Buyer)
 	 */
 	@Override
-	public Long saveBuyer(Buyer item) throws SQLException {
-		
+	public void saveBuyer(Buyer item) throws SQLException {
+		initInsert();
 		
 		Map<String, Object> args = new HashMap<String, Object>();
 		// args.put("id", item.getId());
@@ -404,12 +404,13 @@ public class BuyerDao implements IBuyerDao {
 		args.put("photo", item.getImageStream());
 		
 		Long id = getRowsNum("buyers1");
+		//Long genId = (long) getGeneratedKey(statement);
 		Long genId = insert.executeAndReturnKey(args).longValue();
 		String title = String.valueOf(id).concat(" ").concat(item.getFirstName());
 		auditDao.insertAuditRecord(
 			new AuditLog(0l, userUtils.getCurrentUser(), null, "ADDED new buyer:".concat(title), "buyers1", genId));
 	
-		return genId;
+		
 		
 //		
 //		String firstName = buyer.getFirstName();

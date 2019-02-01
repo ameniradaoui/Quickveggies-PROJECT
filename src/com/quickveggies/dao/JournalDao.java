@@ -4,6 +4,7 @@ import static com.quickveggies.entities.Buyer.COLD_STORE_BUYER_TITLE;
 import static com.quickveggies.entities.Buyer.GODOWN_BUYER_TITLE;
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -147,8 +148,12 @@ public class JournalDao implements IJournalImp {
 		args.put("description", item.getDescription() );
 		args.put("name", item.getName());
 		args.put("memo", item.getMemo());
-		byte[] bytes = IOUtils.toByteArray(item.getAttachement());
-		args.put("attachements", bytes);
+//		Blob blob = item.getBlob("logo");
+//		if (blob != null) {
+//			args.put("attachements", blob);
+//		}
+	byte[] bytes = IOUtils.toByteArray(item.getAttachement());
+	args.put("attachements", bytes);
 		
 		Long id = insert.executeAndReturnKey(args).longValue();
         return id;

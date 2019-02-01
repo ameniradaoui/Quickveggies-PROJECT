@@ -11,18 +11,19 @@
 <?import com.quickveggies.misc.AutoCompleteTextField?>
 <?import com.quickveggies.misc.SearchPartyButton?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="600.0" stylesheets="@css/center_table_style.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="600.0" stylesheets="@css/center_table_style.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quickveggies.controller.ExpenditureAddController">
    <children>
       <Label id="label-header-on-light" layoutX="200.0" layoutY="20.0" text="Add Expense" />
       
       <Label id="label-text-on-light" layoutX="45.0" layoutY="55.0" text="Expense Amount" />
       <TextField id="label-text-on-light" fx:id="amountField" layoutX="50.0" layoutY="84.0" />
       
-      <Label id="label-text-on-light" layoutX="251.0" layoutY="400.0" text="Comment" />
-      <TextField id="label-text-on-light" fx:id="commentField" layoutX="349.0" layoutY="394.0" prefHeight="32.0" prefWidth="230.0" />
+      <Label id="label-text-on-light" layoutX="350.0" layoutY="192.0" text="Comment" />
+      <TextField id="label-text-on-light" fx:id="commentField" layoutX="350.0" layoutY="225" prefHeight="32.0" prefWidth="230.0" />
       
       <Label id="label-text-on-light" layoutX="352.0" layoutY="55.0" text="Date" />
       <DatePicker fx:id="dateField" layoutX="352.0" layoutY="81.0" prefHeight="32.0" prefWidth="230.0" />
+     
       
       <Label id="label-text-on-light" layoutX="350.0" layoutY="123.0" text="Bill To" />
       <!-- AutoCompleteTextField -->
@@ -32,7 +33,7 @@
        
       <Label id="label-text-on-light" layoutX="49.0" layoutY="123.0" text="Expense type:" />
       <!-- AutoCompleteTextField -->
-      <AutoCompleteTextField id="label-text-on-light" fx:id="searchExpenseType" layoutX="50.0" layoutY="153.0" />
+      <ComboBox id="label-text-on-light" fx:id="expenseTypefilter" layoutX="50.0" layoutY="153.0" prefHeight="32.0" prefWidth="230.0"/>
       
             <!-- 
       <Label layoutX="50.0" layoutY="210.0" text="Recently used:" id="label-text-on-light"/>
@@ -51,7 +52,7 @@
          </children>
       </Pane>
       <Button fx:id="btnUploadImage" layoutX="49.0" layoutY="400.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="114.0" text="Upload Image" />
-      <Label id="label-text-on-light" layoutX="350.0" layoutY="192.0" prefHeight="20.0" prefWidth="174.0" text="Select Payment Type" />
+     <!--   <Label id="label-text-on-light" layoutX="350.0" layoutY="192.0" prefHeight="20.0" prefWidth="174.0" text="Select Payment Type" />
       <ComboBox fx:id="cboPaymentType" layoutX="350.0" layoutY="214.0" prefHeight="32.0" prefWidth="230.0" />
       <Pane fx:id="paneBankDetails" disable="true" layoutX="251.0" layoutY="268.0" prefHeight="122.0" prefWidth="328.0">
          <children>
@@ -62,6 +63,6 @@
             <TextField id="label-text-on-light" fx:id="txtChequeNo" layoutX="113.0" layoutY="3.0" />
             <DatePicker fx:id="dpDepositDate" layoutX="113.0" layoutY="39.0" prefHeight="32.0" prefWidth="201.0" />
          </children>
-      </Pane>
+      </Pane> -->
    </children>
 </Pane>

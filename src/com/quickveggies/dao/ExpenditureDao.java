@@ -1,5 +1,6 @@
 package com.quickveggies.dao;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,9 +31,13 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 import com.ai.util.dates.DateUtil;
+import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.AuditLog;
+import com.quickveggies.entities.BuyerSelectionFilter;
 import com.quickveggies.entities.Company;
 import com.quickveggies.entities.Expenditure;
+import com.quickveggies.entities.ExpenditureType;
+import com.quickveggies.entities.ExpenditureTypeName;
 import com.quickveggies.entities.ExpenseInfo;
 import com.quickveggies.impl.IAuditDao;
 import com.quickveggies.impl.IBuyerDao;
@@ -81,14 +87,38 @@ public class ExpenditureDao implements IExpenditureDao {
 			}
 		}
 
+		
+		private static RowMapper<ExpenditureTypeName> selectionFilerMapper = new RowMapper<ExpenditureTypeName>() {
+
+			@Override
+			public ExpenditureTypeName mapRow(ResultSet rs, int rowNum) throws SQLException {
+				ExpenditureTypeName ret = new ExpenditureTypeName();
+				ret.setName(rs.getString(1));
+				
+				return ret;
+			}
+
+		};
 		private void createInsert() {
 			insert = new SimpleJdbcInsert(dataSource).withTableName("expenditureType").usingGeneratedKeyColumns("id");
 		}
 		private void createInsertExpenditurte() {
-			insert = new SimpleJdbcInsert(dataSource).withTableName("expenditure").usingGeneratedKeyColumns("id");
+			insertExp = new SimpleJdbcInsert(dataSource).withTableName("expenditures").usingGeneratedKeyColumns("id");
 		}
 		
 	
+		private static RowMapper<ExpenditureType> MapperType = new RowMapper<ExpenditureType>() {
+			@Override
+			public ExpenditureType mapRow(ResultSet data, int index) throws SQLException {
+				ExpenditureType item = new ExpenditureType();
+				item.setId(data.getLong("id"));
+				item.setName(data.getString("name"));
+				
+
+				return item;
+			}
+		};
+		
 		private static RowMapper<Expenditure> Mapper = new RowMapper<Expenditure>() {
 			@Override
 			public Expenditure mapRow(ResultSet data, int index) throws SQLException {
@@ -124,9 +154,16 @@ public class ExpenditureDao implements IExpenditureDao {
 			}
 
 		}
-
+		
+		
 	 
-	
+		@Override
+		public List<ExpenditureTypeName> getSelectionFiler() {
+			initTemplate();
+			return template.query(
+					"select DISTINCT name from expenditureType ",
+					selectionFilerMapper);
+		}
 	
 	
 	
@@ -220,9 +257,9 @@ public class ExpenditureDao implements IExpenditureDao {
 	 * @see com.quickveggies.dao.IExpenditureDao#addExpenditure(com.quickveggies.entities.Expenditure)
 	 */
     @Override
-	public Long addExpenditure(Expenditure item) {
+	public Long addExpenditure(Expenditure item)  {
     	
-        initInsertExp();
+    	initInsertExp();
 		
 		Map<String, Object> args = new HashMap<String, Object>();
 		// args.put("id", item.getId());
@@ -231,12 +268,17 @@ public class ExpenditureDao implements IExpenditureDao {
 		args.put("comment", item.getComment());
 		args.put("billto", item.getPayee());
 		args.put("type", item.getType());
+		//byte[] bytes = IOUtils.toByteArray(item.getReceipt());
 		args.put("receipt", item.getReceipt());
+//		Blob blob = item.getBlob("receipt");
+//        if (blob != null) {
+//        	item.setReceipt(blob.getBinaryStream());
+//        }	
 		
 		
 		Long id = insertExp.executeAndReturnKey(args).longValue();
-        return id;
-    	
+     
+    	return id;
 //        String sql = INSERT_EXPENDITURE_QRY;
 //        try ( Connection connection = dataSource.getConnection();
 //        		PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -372,6 +414,8 @@ public class ExpenditureDao implements IExpenditureDao {
     @Override
 	public void deleteExpenditureEntry(Long id, boolean writeAuditLog) {
     	initTemplate();
+    	System.out.println(id);
+    	System.out.println(writeAuditLog);
     	String tableName = "expenditures";
         String SQL ="delete from expenditures where id=?" ; 
 		template.update(SQL, id);

@@ -149,7 +149,7 @@ public class ChargesDao implements IChargesDao {
 	public List<Charge> getDealCharges(int dealID) {
        initTemplate();
        
-       return template.query("select * from charges where id in (select chargeID from dealCharges where dealID = ?", Mapper , dealID);
+       return template.query("select * from charges where id in (select chargeID from dealCharges where dealID = ?)", Mapper , dealID);
 //        String dealChargeQuery = "select * from charges where id in (select chargeID from dealCharges where dealID = ?);";
 //        try ( Connection connection = dataSource.getConnection();
 //        		PreparedStatement ps = connection.prepareStatement(dealChargeQuery)) {

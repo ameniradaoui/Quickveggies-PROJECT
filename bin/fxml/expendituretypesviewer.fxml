@@ -24,7 +24,7 @@
                                  <children>
                                     <HBox minHeight="33.0" prefHeight="33.0" prefWidth="453.0">
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="33.0" prefWidth="178.0" text=".  Expenditure Type:     " textOverrun="CLIP">
+                                          <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="33.0" prefWidth="178.0" text="Expenditure Type:" textOverrun="CLIP">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font>

@@ -20,7 +20,7 @@ public class Main extends Application {
     private static final int DASHBOARD_HEIGHT = 660;
     private static File file = new File("output.txt");
     private static final String SMSTemplate = "Dear ${PartyName} your purchases for date ${Date} is valued ${TotalAmt} ."
-            + "Pay within 3 days and avail a flat 1% cashback.";
+            + "Pay within 3 days and avail a flat 1% cashback."  +     ""    + "Regards"  + "SuperSalesArgo.";
 
     private QVCustomOutputStream qOs;
     private static Stage stage;

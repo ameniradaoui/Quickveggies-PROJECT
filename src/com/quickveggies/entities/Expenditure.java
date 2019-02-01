@@ -28,6 +28,21 @@ public class Expenditure {
 
 
 
+	public Expenditure() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Expenditure(String payee, String type, String amount, String date, String comment, InputStream receipt) {
+		super();
+		this.payee = payee;
+		this.type = type;
+		this.amount = amount;
+		this.date = date;
+		this.comment = comment;
+		this.receipt = receipt;
+	}
+
 	public String getPayee() {
 		return payee;
 	}
@@ -75,6 +90,8 @@ public class Expenditure {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+	
 
 
 }
