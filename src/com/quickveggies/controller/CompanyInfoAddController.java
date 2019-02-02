@@ -34,6 +34,9 @@ import javafx.stage.Stage;
 
 public class CompanyInfoAddController implements Initializable {
 
+	
+	
+	private Long generatedKey = null;
 	@FXML
 	private TextField txtCompanyName;
 
@@ -80,6 +83,13 @@ public class CompanyInfoAddController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		cd = BeanUtils.getBean(CompanyDao.class);
+		txtAddress.setId("txtinput");
+		txtEmail.setId("txtinput");
+		txtIndustryType.setId("txtinput");
+		txtCompanyName.setId("txtinput");
+		pwdNew.setId("txtinput");
+		txtPhone.setId("txtinput");
+		txtWebsite.setId("txtinput");
 		
 		txtPhone.setMaxLength(15);
 		btnUpload.setOnAction(new EventHandler<ActionEvent>() {
@@ -93,14 +103,25 @@ public class CompanyInfoAddController implements Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
+				
 				if (!arePasswordsValid()) return;
-				saveCompanyInfo(true);
+				//saveCompanyInfo(true);
+				try {
+					saveCompany();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					System.out.println("error on save");
+				}
 				btnSave.getScene().getWindow().hide();
 			}
 		});
+		
+		
 	}
 	
 	private boolean arePasswordsValid() {
+		
 		String EMPTY_STR = "";
     	String newP = pwdNew.getText() == null ? EMPTY_STR : pwdNew.getText().trim();
     	String confP = pwdConfirm.getText() == null ? EMPTY_STR : pwdConfirm.getText().trim();
@@ -113,9 +134,34 @@ public class CompanyInfoAddController implements Initializable {
 		}
 		return true;
 	}
+	 private void saveCompany() throws Exception {
+	
+		 generatedKey = null;
+	    	Company c = new Company();
+	    	c.setAddress(txtAddress.getText());
+	    	c.setEmail(txtEmail.getText());
+	    	c.setIndustryType(txtIndustryType.getText());
+	    	if (imgFile != null && imgFile.exists()) {
+				
+				try {
+					c.setLogo(new FileInputStream(imgFile));
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
+				}
+	
+}
+	    	c.setName(txtCompanyName.getText());
+	    	c.setPassword(pwdNew.getText());
+	    	c.setPhone(txtPhone.getText());
+	    	c.setWebsite(txtWebsite.getText());
+	    	generatedKey = cd.insertCompany(c);
+	    	
+	    }
 
 	
     private void saveCompanyInfo(boolean isNew) {
+    	
     	Company c = new Company();
     	c.setAddress(txtAddress.getText());
     	c.setEmail(txtEmail.getText());
@@ -136,6 +182,7 @@ public class CompanyInfoAddController implements Initializable {
     	} else {
     		cd.updateCompany(c);
     	}
+    	
     }
     
     private void uploadImage() {

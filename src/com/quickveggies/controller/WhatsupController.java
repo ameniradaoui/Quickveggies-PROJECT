@@ -28,7 +28,7 @@ import com.quickveggies.dao.UserUtils;
 import com.quickveggies.entities.GLCode;
 import com.quickveggies.entities.Journal;
 import com.quickveggies.entities.MoneyPaidRecd;
-import com.quickveggies.entities.Options;
+import com.quickveggies.entities.OptionsUtils;
 import com.quickveggies.entities.User;
 import com.quickveggies.misc.EditingCell;
 
@@ -87,48 +87,35 @@ public class WhatsupController implements Initializable {
 	private TextField clientSecret;
 	@FXML
 	private TextField gateway;
-	
+
 	@FXML
-	private Button create;	
-	
-	Map<String, String> map=new HashMap<>();
+	private Button create;
 
+	Map<String, String> map = new HashMap<>();
 
-	
-	
-	
 	private OptionsDao optionsDao;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		
+
 		optionsDao = BeanUtils.getBean(OptionsDao.class);
 		create.setOnAction((ActionEvent event) -> {
-	           
-			
-				saveMprObject();
-			
-		
-				create.getScene().getWindow().hide();
-    });
 
-		 
-		 
+			saveMprObject();
+
+			create.getScene().getWindow().hide();
+		});
+
 	}
 
-
-
 	private void saveMprObject() {
-		
-		map.put(Options.INSTANCE_ID, instanceId.getText());
-		map.put(Options.CLIENT_ID, clientId.getText());
-		map.put(Options.CLIENT_SECRET, clientSecret.getText());
-		map.put(Options.WA_GATEWAY_URL, gateway.getText());
-		
+
+		map.put(OptionsUtils.INSTANCE_ID, instanceId.getText());
+		map.put(OptionsUtils.CLIENT_ID, clientId.getText());
+		map.put(OptionsUtils.CLIENT_SECRET, clientSecret.getText());
+		map.put(OptionsUtils.WA_GATEWAY_URL, gateway.getText());
+
 		optionsDao.setTagOptions(map);
-		
-		
-		
+
 	}
 }

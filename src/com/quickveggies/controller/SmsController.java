@@ -28,7 +28,7 @@ import com.quickveggies.dao.UserUtils;
 import com.quickveggies.entities.GLCode;
 import com.quickveggies.entities.Journal;
 import com.quickveggies.entities.MoneyPaidRecd;
-import com.quickveggies.entities.Options;
+import com.quickveggies.entities.OptionsUtils;
 import com.quickveggies.entities.User;
 import com.quickveggies.misc.EditingCell;
 
@@ -124,11 +124,11 @@ public class SmsController implements Initializable {
 
 	private void saveMprObject() {
 		
-		map.put(Options.SMS_CLIENT_ID, clientId.getText());
-		map.put(Options.SMS_CLIENT_SECRET, clientSecret.getText());
-		map.put(Options.SMS_OAUTH_URL, authUrl.getText());
-		map.put(Options.SMS_PHONE_NUMBER, phonenumber.getText());
-		map.put(Options.SMS_REQUEST_URL, requestUrl.getText());
+		map.put(OptionsUtils.SMS_CLIENT_ID, clientId.getText());
+		map.put(OptionsUtils.SMS_CLIENT_SECRET, clientSecret.getText());
+		map.put(OptionsUtils.SMS_OAUTH_URL, authUrl.getText());
+		map.put(OptionsUtils.SMS_PHONE_NUMBER, phonenumber.getText());
+		map.put(OptionsUtils.SMS_REQUEST_URL, requestUrl.getText());
 		optionsDao.setTagOptions(map);
 		
 		

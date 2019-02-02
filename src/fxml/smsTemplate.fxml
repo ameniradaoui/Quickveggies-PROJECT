@@ -21,21 +21,12 @@
             </Label>  
    
        <TextArea fx:id="taSMSTemplate" layoutX="14" layoutY="280" prefHeight="200.0" prefWidth="305" />
-         <Label layoutX="29" layoutY="190" prefHeight="32.0" prefWidth="231.0" text="SMS">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-              <Label layoutX="100" layoutY="190" prefHeight="32.0" prefWidth="231.0" text="EMAIL">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-              <Label layoutX="190" layoutY="190" prefHeight="32.0" prefWidth="231.0" text="WHATSAPP">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>  
+        <Button fx:id="sms" layoutX="29" layoutY="190" prefHeight="15" text="SMS " style="-fx-background-color: AliceBlue"/>
+        <Button fx:id="email" layoutX="100" layoutY="190" prefHeight="15" text="EMAIL" style="-fx-background-color: AliceBlue"/>  
+      <Button fx:id="whatsup" layoutX="190" layoutY="190" prefHeight="15" text="WHATSAPP" style="-fx-background-color: AliceBlue"/>       
+           
+       
+        
             <Button fx:id="btnsms" layoutX="220" layoutY="140" prefHeight="15" text="Configure SMS API" style="-fx-background-color: CornflowerBlue;"/>
              <Button fx:id="btnemail" layoutX="340" layoutY="140" prefHeight="15" text="Configure EMAIL API" style="-fx-background-color: CornflowerBlue;"/>  
               <Button fx:id="btnwhatsapp" layoutX="470" layoutY="140" prefHeight="15" text="Configure WHATSAPP API" style="-fx-background-color: CornflowerBlue;"/>       
@@ -44,9 +35,9 @@
           <Button fx:id="btnBuyer" layoutX="14" layoutY="255"  text="Invoice Buyer" style="-fx-background-color: Gray;"/>  
           <Button fx:id="btnSupplier" layoutX="101" layoutY="255" text="Invoice Supplier" style="-fx-background-color: Gray;"/>  
           <Button fx:id="btnReminder" layoutX="202" layoutY="255" text="Payment Reminder" style="-fx-background-color: Gray;"/>  
-          <TableView fx:id="table" layoutX="350" layoutY="255" prefHeight="225" prefWidth="200">
+          <TableView fx:id="table" layoutX="350" layoutY="255" prefHeight="225" prefWidth="200" style="-fx-background-color: Gray;">
              <columns>
-                  <TableColumn  fx:id=""  prefWidth="143.0" text="Dynamic Fields Tags" style="-fx-background-color: Gray;"/>
+                  <TableColumn  fx:id="company"  prefWidth="200" text="Dynamic Fields Tags" />
                  
              
               </columns>

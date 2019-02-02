@@ -12,4 +12,22 @@ public interface OptionsInterface {
 
 	void setTagOptions(Map<String, String> options);
 
+
+
+
+
+	Map<String, Object> getConfigSms();
+
+
+
+
+
+	Map<String, Object> getConfigEmail();
+
+
+
+
+
+	Map<String, Object> getConfigWhatsapp();
+
 }

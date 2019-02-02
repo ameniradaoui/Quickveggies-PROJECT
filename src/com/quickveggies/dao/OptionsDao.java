@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.quickveggies.entities.Journal;
+import com.quickveggies.entities.OptionsUtils;
 import com.quickveggies.impl.OptionsInterface;
 
 
@@ -38,7 +39,7 @@ public class OptionsDao implements OptionsInterface  {
 	
 	
 
-	private ResultSetExtractor<Map<String, Object>> tag_options_mapper = new ResultSetExtractor<Map<String, Object>>() {
+	private ResultSetExtractor<Map<String, Object>> options_mapper = new ResultSetExtractor<Map<String, Object>>() {
 
 		@Override
 		public Map<String, Object> extractData(ResultSet res) throws SQLException, DataAccessException {
@@ -57,7 +58,7 @@ public class OptionsDao implements OptionsInterface  {
 	public Map<String, Object> Options() {
 
 		initTemplate();
-		return template.query("select * from  options ", tag_options_mapper);
+		return template.query("select * from  options ", options_mapper);
 
 		}
 
@@ -65,11 +66,39 @@ public class OptionsDao implements OptionsInterface  {
 	public void setTagOptions( Map<String, String> options) {
 
 		initTemplate();
-		template.update("delete from options ");
+		
 
 		for (String key : options.keySet()) {
+			template.update("delete from options where key = ?" , key);
 			template.update("INSERT INTO options VALUES (?, ?);", key, options.get(key));
 
 		}
+	}
+	
+	@Override
+	public Map<String, Object> getConfigSms(){
+		
+	initTemplate();
+	return template.query("Select * from options where key =? or key= ? or key =? or key=? or key=?" , options_mapper , OptionsUtils.SMS_CLIENT_ID , 
+			OptionsUtils.SMS_CLIENT_SECRET , OptionsUtils.SMS_OAUTH_URL , OptionsUtils.SMS_PHONE_NUMBER , OptionsUtils.SMS_REQUEST_URL);
+	
+	}
+	
+	@Override
+	public Map<String, Object> getConfigEmail(){
+		
+	initTemplate();
+	return template.query("Select * from options where key =? or key= ? or key =? or key=?" , options_mapper , OptionsUtils.SMTP_HOST , 
+			OptionsUtils.SMTP_LOGIN , OptionsUtils.SMTP_PASSWORD , OptionsUtils.SMTP_PORT);
+	
+	}
+	
+	@Override
+	public Map<String, Object> getConfigWhatsapp(){
+		
+	initTemplate();
+	return template.query("Select * from options where key =? or key= ? or key =? or key=? " , options_mapper , OptionsUtils.CLIENT_ID , 
+			OptionsUtils.CLIENT_SECRET , OptionsUtils.INSTANCE_ID , OptionsUtils.WA_GATEWAY_URL );
+	
 	}
 }

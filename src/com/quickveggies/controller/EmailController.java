@@ -28,7 +28,7 @@ import com.quickveggies.dao.UserUtils;
 import com.quickveggies.entities.GLCode;
 import com.quickveggies.entities.Journal;
 import com.quickveggies.entities.MoneyPaidRecd;
-import com.quickveggies.entities.Options;
+import com.quickveggies.entities.OptionsUtils;
 import com.quickveggies.entities.User;
 import com.quickveggies.misc.EditingCell;
 
@@ -121,10 +121,10 @@ public class EmailController implements Initializable {
 
 	private void saveMprObject() {
 		
-		map.put(Options.SMTP_HOST, smtphost.getText());
-		map.put(Options.SMTP_PORT, smtpPort.getText());
-		map.put(Options.SMTP_LOGIN, smtpLogin.getText());
-		map.put(Options.SMTP_PASSWORD, smtpPassword.getText());
+		map.put(OptionsUtils.SMTP_HOST, smtphost.getText());
+		map.put(OptionsUtils.SMTP_PORT, smtpPort.getText());
+		map.put(OptionsUtils.SMTP_LOGIN, smtpLogin.getText());
+		map.put(OptionsUtils.SMTP_PASSWORD, smtpPassword.getText());
 		
 		optionsDao.setTagOptions(map);
 		

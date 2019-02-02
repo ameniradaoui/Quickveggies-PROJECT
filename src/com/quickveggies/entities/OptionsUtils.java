@@ -1,6 +1,6 @@
 package com.quickveggies.entities;
 
-public class Options {
+public class OptionsUtils {
 	
 	public static final String SMTP_HOST = "SMTP_HOST";
 	public static final String SMTP_PORT = "SMTP_PORT";

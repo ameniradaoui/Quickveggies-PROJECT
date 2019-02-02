@@ -1,5 +1,6 @@
 package com.quickveggies.dao;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,8 +25,12 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 import com.quickveggies.entities.AuditLog;
+import com.quickveggies.entities.BuyerSelectionFilter;
 import com.quickveggies.entities.Charge;
 import com.quickveggies.entities.Company;
+import com.quickveggies.entities.CompanyNameSelection;
+import com.quickveggies.entities.Journal;
+import com.quickveggies.entities.User;
 import com.quickveggies.impl.IAuditDao;
 import com.quickveggies.impl.IBuyerDao;
 import com.quickveggies.impl.ICompanyDao;
@@ -92,6 +98,18 @@ public class CompanyDao implements ICompanyDao {
 			return item;
 		}
 	};
+	
+	private static RowMapper<CompanyNameSelection> selectionFilerMapper = new RowMapper<CompanyNameSelection>() {
+
+		@Override
+		public CompanyNameSelection mapRow(ResultSet rs, int rowNum) throws SQLException {
+			CompanyNameSelection ret = new CompanyNameSelection();
+			ret.setName(rs.getString(1));
+			
+			return ret;
+		}
+
+	};
 
 	public void setDataSource(DataSource dataSource) {
 		template = new JdbcTemplate(dataSource);
@@ -118,6 +136,7 @@ public class CompanyDao implements ICompanyDao {
 	@Override
 	public Long addCompany(Company company) {
 
+		initInsert();
 		initTemplate();
 		Long result = template.query("Select count(*) from companyInfo", SingleColumnRowMapper.newInstance(Long.class))
 				.get(0);
@@ -190,7 +209,7 @@ public class CompanyDao implements ICompanyDao {
 //				sql = UPDATE_NOLOGO_COMPANY_QRY;
 //			}
 //		}
-		
+		Long id = null;
 		if (isNew){
 		Map<String, Object> args = new HashMap<String, Object>();
 		// args.put("id", item.getId());
@@ -203,6 +222,7 @@ public class CompanyDao implements ICompanyDao {
 		args.put("password", item.getPassword());
 		args.put("logo", item.getLogo());
 		
+
 		
 		if (item.getLogo() != null || isNew) {
 			args.put("name", item.getName());
@@ -213,6 +233,8 @@ public class CompanyDao implements ICompanyDao {
 			args.put("name", item.getName());
 		}
 		
+		
+        
 
 		
 		else {
@@ -224,7 +246,10 @@ public class CompanyDao implements ICompanyDao {
 				sql = UPDATE_NOLOGO_COMPANY_QRY;
 				template.update(sql,  item.getName() ,item.getAddress() ,item.getWebsite(),item.getPhone() ,  item.getEmail() ,  item.getIndustryType() ,  item.getPassword(), item.getName());
 			}
-		}}
+		}
+		
+		
+		}
 		
 //		try (Connection connection = dataSource.getConnection();
 //				PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -250,7 +275,31 @@ public class CompanyDao implements ICompanyDao {
 //			ex.printStackTrace();
 //		}
 		
+	
 	}
+
+	
+	 @Override
+		public Long insertCompany(Company item) throws IOException   {
+			initInsert();
+			
+			Map<String, Object> args = new HashMap<String, Object>();
+			// args.put("id", item.getId());
+			args.put("name", item.getName());
+			args.put("address", item.getAddress());
+			args.put("website", item.getWebsite());
+			args.put("phone", item.getPhone());
+			args.put("email", item.getEmail());
+			args.put("industrytype", item.getIndustryType());
+			args.put("password", item.getPassword());
+			
+			byte[] bytes = IOUtils.toByteArray(item.getLogo());
+			args.put("logo", bytes);
+			Long id = insert.executeAndReturnKey(args).longValue();
+	        return id;
+			
+
+		    }
 
 	public DataSource getDataSource() {
 		return dataSource;
@@ -261,6 +310,15 @@ public class CompanyDao implements ICompanyDao {
 	 * 
 	 * @see com.quickveggies.dao.ICompanyDao#getCompany()
 	 */
+	
+	 @Override
+		public List<CompanyNameSelection> getAllCompany() {
+	    	
+	    	
+	    	initTemplate();
+	    	return template.query("Select name from companyInfo", selectionFilerMapper);}
+	 
+	 
 	@Override
 	public Company getCompany() {
 

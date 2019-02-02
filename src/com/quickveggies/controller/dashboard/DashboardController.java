@@ -10,6 +10,7 @@ import com.quickveggies.CosmeticStyles;
 import com.quickveggies.GeneralMethods;
 import com.quickveggies.Main;
 import com.quickveggies.controller.AbstractFreshEntryController;
+import com.quickveggies.controller.AddAccountController;
 import com.quickveggies.controller.AuditLogController;
 import com.quickveggies.controller.FreshEntryController;
 import com.quickveggies.controller.LoginController;
@@ -608,19 +609,32 @@ public class DashboardController extends AbstractFreshEntryController implements
 			@Override
 			public void handle(ActionEvent event) {
 
+				Button refresh;
+				final Stage addAccount = new Stage();
+				addAccount.centerOnScreen();
+				addAccount.setTitle("Add new bank account");
+				addAccount.initModality(Modality.APPLICATION_MODAL);
+				
 				try {
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/addAccount.fxml"));
-					Parent root1;
-					root1 = (Parent) fxmlLoader.load();
-					Stage stage = new Stage();
-					stage.setScene(new Scene(root1));
-					stage.show();
-
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/bankadd.fxml"));
+					AddAccountController controller = new AddAccountController(null);
+					loader.setController(controller);
+					Parent parent = loader.load();
+					Scene scene = new Scene(parent);
+					scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+						public void handle(KeyEvent event) {
+							if (event.getCode() == KeyCode.ESCAPE) {
+								addAccount.close();
+							}
+						}
+					});
+					addAccount.setScene(scene);
+					addAccount.show();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
+			
 			}
 		});
 
