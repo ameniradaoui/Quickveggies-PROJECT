@@ -99,6 +99,20 @@ public class WhatsupController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		optionsDao = BeanUtils.getBean(OptionsDao.class);
+		
+		
+       Map<String, String> whatsappMap = new HashMap<>();
+
+		
+
+       whatsappMap = optionsDao.getConfigWhatsapp();
+		System.out.println(whatsappMap);
+		clientId.setText(whatsappMap.entrySet().stream().findFirst().get().getValue() );
+		System.out.println("clientidd" + whatsappMap.entrySet().stream().findFirst().get().getValue());
+		instanceId.setText((String) whatsappMap.values().toArray()[1]);
+		clientSecret.setText((String) whatsappMap.values().toArray()[2]);
+		//System.out.println((String) smsMap.values().toArray()[1]);
+		gateway.setText((String) whatsappMap.values().toArray()[3]);
 		create.setOnAction((ActionEvent event) -> {
 
 			saveMprObject();

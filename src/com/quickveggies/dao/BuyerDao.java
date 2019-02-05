@@ -19,7 +19,9 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -32,6 +34,7 @@ import com.quickveggies.entities.AccountEntryPayment;
 import com.quickveggies.entities.ArrivalSelectionFilter;
 import com.quickveggies.entities.AuditLog;
 import com.quickveggies.entities.Buyer;
+import com.quickveggies.entities.BuyerSelection;
 import com.quickveggies.entities.BuyerSelectionFilter;
 import com.quickveggies.entities.DBuyerTableLine;
 import com.quickveggies.entities.DSalesTableLine;
@@ -89,6 +92,19 @@ public class BuyerDao implements IBuyerDao {
 		}
 
 	};
+	
+	private static RowMapper<BuyerSelection> selectionMapper = new RowMapper<BuyerSelection>() {
+
+		@Override
+		public BuyerSelection mapRow(ResultSet rs, int rowNum) throws SQLException {
+			BuyerSelection ret = new BuyerSelection();
+			ret.setEmail(rs.getString(1));
+			ret.setFirstname(rs.getString(1));
+			
+			return ret;
+		}
+
+	};
 
 
 	private  RowMapper<Buyer> mapper2 = new RowMapper<Buyer>() {
@@ -132,6 +148,19 @@ public class BuyerDao implements IBuyerDao {
 		}
 	};
 	
+	private ResultSetExtractor<Map<String, String>> buyer_mapper = new ResultSetExtractor<Map<String, String>>() {
+
+		@Override
+		public Map<String, String> extractData(ResultSet res) throws SQLException, DataAccessException {
+			Map<String, String> ret = new HashMap<String, String>();
+			while (res.next()) {
+				ret.put(res.getString(1), res.getString(2));
+
+			}
+			return ret;
+		}
+
+	};
 	
 
 	private static RowMapper<DBuyerTableLine> mapper = new RowMapper<DBuyerTableLine>() {
@@ -647,10 +676,42 @@ public class BuyerDao implements IBuyerDao {
 	 * 
 	 * @see com.quickveggies.dao.IBuyerDao#getRowsNum(java.lang.String)
 	 */
+	
+	@Override
+	public Map<String, String> getEmailMapper() {
+	
+		
+	initTemplate();
+		
+			return template.query("SELECT email , firstname from buyers1",buyer_mapper );
+		
+
+	}
+	@Override
+	public List<String> getSMS() {
+	
+		
+	initTemplate();
+		
+			return template.query("SELECT mobile from buyers1", SingleColumnRowMapper.newInstance(String.class));
+		
+
+	}
+	
+	@Override
+	public List<String> getEmails() {
+	
+		
+	initTemplate();
+		
+			return template.query("SELECT email from buyers1", SingleColumnRowMapper.newInstance(String.class));
+		
+
+	}
 	@Override
 	public Long getRowsNum(String tablename) {
 		
-	
+		initTemplate();
 		
 			return template.query("SELECT COUNT(*) FROM " + tablename, SingleColumnRowMapper.newInstance(Long.class)).get(0);
 		

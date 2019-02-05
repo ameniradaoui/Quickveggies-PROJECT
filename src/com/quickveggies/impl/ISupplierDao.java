@@ -2,6 +2,7 @@ package com.quickveggies.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import com.quickveggies.entities.DBuyerTableLine;
@@ -27,5 +28,14 @@ public interface ISupplierDao {
 
 
 	Supplier getSupplierById(Long id) throws SQLException, NoSuchElementException;
+
+
+	List<String> getEmails();
+
+
+	List<String> getSMS();
+
+
+	Map<String, String> getEmailMapper();
 
 }

@@ -18,7 +18,9 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -186,6 +188,29 @@ public class SupplierDao implements ISupplierDao {
 //		set.close();
      	return lines;
 	}
+	
+	@Override
+	public List<String> getEmails() {
+	
+		
+	initTemplate();
+		
+			return template.query("SELECT email from  suppliers1", SingleColumnRowMapper.newInstance(String.class));
+		
+
+	}
+	
+	@Override
+	public List<String> getSMS() {
+	
+		
+	initTemplate();
+		
+			return template.query("SELECT mobile from  suppliers1", SingleColumnRowMapper.newInstance(String.class));
+		
+
+	}
+
 
 	public SupplierDao() {
 		super();
@@ -421,7 +446,32 @@ public class SupplierDao implements ISupplierDao {
 //		ResultSet resultSet = statement.executeQuery(query);
 //		return resultSet;
 //	}
+	private ResultSetExtractor<Map<String, String>> supplier_mapper = new ResultSetExtractor<Map<String, String>>() {
 
+		@Override
+		public Map<String, String> extractData(ResultSet res) throws SQLException, DataAccessException {
+			Map<String, String> ret = new HashMap<String, String>();
+			while (res.next()) {
+				ret.put(res.getString(1), res.getString(2));
+
+			}
+			return ret;
+		}
+
+	};
+	
+
+	
+	@Override
+	public Map<String, String> getEmailMapper() {
+	
+		
+	initTemplate();
+		
+			return template.query("SELECT email , firstname from suppliers1",supplier_mapper );
+		
+
+	}
 	public Supplier getSupplierByName(String name) throws SQLException, NoSuchElementException {
 		initTemplate();
 	System.out.println(name);

@@ -3,16 +3,26 @@ package com.quickveggies.controller;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import com.quickveggies.BeanUtils;
 import com.quickveggies.UserGlobalParameters;
+import com.quickveggies.dao.BuyerDao;
 import com.quickveggies.dao.CompanyDao;
 import com.quickveggies.dao.OptionsDao;
+import com.quickveggies.dao.SupplierDao;
 import com.quickveggies.dao.UserUtils;
 import com.quickveggies.entities.Company;
 import com.quickveggies.entities.CompanyNameSelection;
+import com.quickveggies.entities.EmailUtils;
+import com.quickveggies.entities.JavaEmail;
+import com.quickveggies.entities.JavaSMS;
+import com.quickveggies.entities.JavaWHATSAPP;
 import com.quickveggies.entities.User;
 
 import javafx.collections.FXCollections;
@@ -75,13 +85,14 @@ public class SMSTemplateController implements Initializable {
 
 	@FXML
 	private TextArea taSMSTemplate;
-	private static final String SMSTemplate = "Dear ${PartyName} your purchases for date ${Date} is valued ${TotalAmt} ."
+	private static final String SMSTemplate = "Dear %s your purchases for date {Date} is valued {TotalAmt} ."
 			+ "Pay within 3 days and avail a flat 1% cashback." + "               Regards"
 			+ "                                                        SuperSalesArgo.";
+	// String content ="";
 
-	private static final String EmailTemplate = "Dear ${PartyName} " + "" + ""
-			+ "                                                     We would like to remind you that your purchases for date ${Date} is valued ${TotalAmt} ."
-			+ "Pay within 3 days and avail a flat 1% cashback."
+	private static final String EmailTemplate = "Dear %s " + "" + ""
+			+ "                                                     We would like to remind you that your purchases for date {Date} is valued {TotalAmt} ."
+			+ "Pay within 3 days and avail a flat 1 percent cashback."
 			+ "                                   With best regards                                 " + " "
 			+ "                      The Team.";
 
@@ -91,13 +102,20 @@ public class SMSTemplateController implements Initializable {
 	DropShadow shadow = new DropShadow();
 
 	private CompanyDao companyDao;
+	private BuyerDao bd;
+	private SupplierDao sp;
 	private String choice;
+	JavaEmail javaEmail = new JavaEmail();
+	JavaSMS javaSMS = new JavaSMS();
+	JavaWHATSAPP javawhatsapp = new JavaWHATSAPP();
 	private ObservableList<CompanyNameSelection> companylines = FXCollections.observableArrayList();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		companyDao = BeanUtils.getBean(CompanyDao.class);
 		optionsDao = BeanUtils.getBean(OptionsDao.class);
+		bd = BeanUtils.getBean(BuyerDao.class);
+		sp = BeanUtils.getBean(SupplierDao.class);
 
 		companylines.clear();
 		List<CompanyNameSelection> comp = companyDao.getAllCompany();
@@ -145,9 +163,10 @@ public class SMSTemplateController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				email.setStyle("-fx-background-color: Red");
+
 				taSMSTemplate.setText(EmailTemplate);
 				choice = "EMAIL";
-				System.out.println(optionsDao.getConfigEmail());
+				// System.out.println(optionsDao.getConfigEmail());
 			}
 		});
 		email.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
@@ -177,6 +196,40 @@ public class SMSTemplateController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				btnBuyer.setEffect(shadow);
+				List<String> addr = bd.getEmails();
+				List<String> mobile = bd.getSMS();
+
+				Map<String, String> mapemail = new HashMap<>();
+
+				mapemail = bd.getEmailMapper();
+
+				if (choice.equals("EMAIL")) {
+
+					//for (String key : mapemail.keySet()) {
+					//	System.out.println("Key:" + key + " Value:" + mapemail.get(key));
+						javaEmail.setMailServerProperties(mapemail, taSMSTemplate.getText());
+
+					//}
+				}
+
+				// Set<String> addresses = new HashSet<>();
+				// addresses.add(addr);
+				System.out.println(addr);
+
+				if (choice.equals("SMS")) {
+					javaSMS.setSmsServerProperties(mobile, taSMSTemplate.getText());
+
+				}
+				if (choice.equals("WHATSAPP")) {
+					try {
+						javawhatsapp.sendMessage(mobile, taSMSTemplate.getText());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
+
 			}
 		});
 
@@ -190,7 +243,40 @@ public class SMSTemplateController implements Initializable {
 			@Override
 			public void handle(MouseEvent e) {
 				btnSupplier.setEffect(shadow);
-				System.out.println(taSMSTemplate.getText() + " " + choice);
+				// System.out.println(taSMSTemplate.getText() + " " + choice);
+				List<String> addr = sp.getEmails();
+				List<String> mobile = sp.getSMS();
+				System.out.println(addr);
+
+				
+				
+				Map<String, String> mapemail = new HashMap<>();
+
+				mapemail = sp.getEmailMapper();
+
+				if (choice.equals("EMAIL")) {
+
+					//for (String key : mapemail.keySet()) {
+					//	System.out.println("Key:" + key + " Value:" + mapemail.get(key));
+						javaEmail.setMailServerProperties(mapemail, taSMSTemplate.getText());
+
+					//}
+				}
+
+				else if (choice.equals("SMS")) {
+					javaSMS.setSmsServerProperties(mobile, taSMSTemplate.getText());
+
+				}
+
+				else if (choice.equals("WHATSAPP")) {
+					try {
+						javawhatsapp.sendMessage(mobile, taSMSTemplate.getText());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
 			}
 		});
 

@@ -2,7 +2,9 @@ package com.quickveggies.impl;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.Vector;
 
 import com.quickveggies.entities.Buyer;
@@ -47,6 +49,12 @@ public interface IBuyerDao {
 	List<Buyer> getListByBuyerTitle(String name);
 
 	DBuyerTableLine getBuyerDealEntry(Long id) throws SQLException, NoSuchElementException;
+
+	List<String> getEmails();
+
+	List<String> getSMS();
+
+	Map<String, String> getEmailMapper();
 
 	
 

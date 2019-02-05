@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,8 +80,6 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 
 public class SmsController implements Initializable {
 
-	
-
 	@FXML
 	private TextField clientId;
 	@FXML
@@ -92,47 +91,58 @@ public class SmsController implements Initializable {
 	@FXML
 	private TextField authUrl;
 	@FXML
-	private Button create;	
-	
-	Map<String, String> map=new HashMap<>();
+	private Button create;
 
+	Map<String, String> map = new HashMap<>();
 
 	private ObservableList<Journal> data = FXCollections.observableArrayList();
-	
-	
+
 	private OptionsDao optionsDao;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		
-		optionsDao = BeanUtils.getBean(OptionsDao.class);
-		create.setOnAction((ActionEvent event) -> {
-	           
-			
-				saveMprObject();
-			
-		
-				create.getScene().getWindow().hide();
-    });
 
-		 
-		 
+		optionsDao = BeanUtils.getBean(OptionsDao.class);
+
+		Map<String, String> smsMap = new HashMap<>();
+
+		smsMap = optionsDao.getConfigSms();
+		System.out.println(smsMap);
+		clientId.setText(smsMap.entrySet().stream().findFirst().get().getValue() );
+		System.out.println("clientidd" + smsMap.entrySet().stream().findFirst().get().getValue());
+		authUrl.setText((String) smsMap.values().toArray()[1]);
+		clientSecret.setText((String) smsMap.values().toArray()[2]);
+		//System.out.println((String) smsMap.values().toArray()[1]);
+		phonenumber.setText((String) smsMap.values().toArray()[3]);
+		requestUrl.setText((String) smsMap.values().toArray()[4]);
+		
+		
+//		 for (String key:smsMap.keySet()){
+//             System.out.println("Key:" + key +" Value:" + smsMap.get(key));// Get Key and value and count
+//            
+//        }
+		
+		
+		
+		
+		create.setOnAction((ActionEvent event) -> {
+
+			saveMprObject();
+
+			create.getScene().getWindow().hide();
+		});
+
 	}
 
-
-
 	private void saveMprObject() {
-		
+
 		map.put(OptionsUtils.SMS_CLIENT_ID, clientId.getText());
 		map.put(OptionsUtils.SMS_CLIENT_SECRET, clientSecret.getText());
 		map.put(OptionsUtils.SMS_OAUTH_URL, authUrl.getText());
 		map.put(OptionsUtils.SMS_PHONE_NUMBER, phonenumber.getText());
 		map.put(OptionsUtils.SMS_REQUEST_URL, requestUrl.getText());
 		optionsDao.setTagOptions(map);
-		
-		
-		
+
 	}
 
 }

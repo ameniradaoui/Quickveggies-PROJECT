@@ -39,11 +39,11 @@ public class OptionsDao implements OptionsInterface  {
 	
 	
 
-	private ResultSetExtractor<Map<String, Object>> options_mapper = new ResultSetExtractor<Map<String, Object>>() {
+	private ResultSetExtractor<Map<String, String>> options_mapper = new ResultSetExtractor<Map<String, String>>() {
 
 		@Override
-		public Map<String, Object> extractData(ResultSet res) throws SQLException, DataAccessException {
-			Map<String, Object> ret = new HashMap<String, Object>();
+		public Map<String, String> extractData(ResultSet res) throws SQLException, DataAccessException {
+			Map<String, String> ret = new HashMap<String, String>();
 			while (res.next()) {
 				ret.put(res.getString(1), res.getString(2));
 
@@ -55,7 +55,7 @@ public class OptionsDao implements OptionsInterface  {
 	
 	
 	@Override
-	public Map<String, Object> Options() {
+	public Map<String, String> Options() {
 
 		initTemplate();
 		return template.query("select * from  options ", options_mapper);
@@ -76,7 +76,7 @@ public class OptionsDao implements OptionsInterface  {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigSms(){
+	public Map<String, String> getConfigSms(){
 		
 	initTemplate();
 	return template.query("Select * from options where key =? or key= ? or key =? or key=? or key=?" , options_mapper , OptionsUtils.SMS_CLIENT_ID , 
@@ -85,7 +85,7 @@ public class OptionsDao implements OptionsInterface  {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigEmail(){
+	public Map<String, String> getConfigEmail(){
 		
 	initTemplate();
 	return template.query("Select * from options where key =? or key= ? or key =? or key=?" , options_mapper , OptionsUtils.SMTP_HOST , 
@@ -94,7 +94,7 @@ public class OptionsDao implements OptionsInterface  {
 	}
 	
 	@Override
-	public Map<String, Object> getConfigWhatsapp(){
+	public Map<String, String> getConfigWhatsapp(){
 		
 	initTemplate();
 	return template.query("Select * from options where key =? or key= ? or key =? or key=? " , options_mapper , OptionsUtils.CLIENT_ID , 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.mail.Session;
 
@@ -104,6 +105,22 @@ public class EmailController implements Initializable {
 		
 		
 		optionsDao = BeanUtils.getBean(OptionsDao.class);
+		
+		
+		Map<String, String> emailMap = new HashMap<>();
+
+		
+
+		emailMap = optionsDao.getConfigEmail();
+		System.out.println(emailMap);
+		smtpPort.setText(emailMap.entrySet().stream().findFirst().get().getValue() );
+		System.out.println("clientidd" + emailMap.entrySet().stream().findFirst().get().getValue());
+		smtphost.setText((String) emailMap.values().toArray()[1]);
+		smtpPassword.setText((String) emailMap.values().toArray()[2]);
+		//System.out.println((String) smsMap.values().toArray()[1]);
+		smtpLogin.setText((String) emailMap.values().toArray()[3]);
+		
+		
 		create.setOnAction((ActionEvent event) -> {
 	           
 			

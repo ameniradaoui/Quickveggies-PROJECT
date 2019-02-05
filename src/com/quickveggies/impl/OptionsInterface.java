@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface OptionsInterface {
 
-	Map<String, Object> Options();
+	Map<String, String> Options();
 
 
 	
@@ -16,18 +16,18 @@ public interface OptionsInterface {
 
 
 
-	Map<String, Object> getConfigSms();
+	Map<String, String> getConfigSms();
 
 
 
 
 
-	Map<String, Object> getConfigEmail();
+	Map<String, String> getConfigEmail();
 
 
 
 
 
-	Map<String, Object> getConfigWhatsapp();
+	Map<String, String> getConfigWhatsapp();
 
 }
